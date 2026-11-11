@@ -1,0 +1,491 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Startup</title>
+<meta name="description" content="Startup - Your brand in one click. Launch your fashion or leather-goods brand in the GCC, from business plan to finished product.">
+<meta name="theme-color" content="#0E1B2C">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Startup">
+<style>:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;600;700&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+/* Layout: investor-dashboard — dark navy command band on top, white working sheets below, emerald = growth */
+:root{
+  --bg:#F3F5F8; --surface:#FFFFFF; --ink:#0E1B2C; --muted:#5B6878; --line:#DCE2EA;
+  --band:#0E1B2C; --band-ink:#FFFFFF; --band-muted:#9FB0C4; --band-line:#22344B;
+  --accent:#0E9F6E; --accent-ink:#FFFFFF; --accent-soft:#E2F5EE; --warn:#B45309; --warn-soft:#FDF2E3;
+  --display:"Montserrat","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --body:"Inter","IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,Menlo,monospace;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#08111D; --surface:#101C2C; --ink:#E8EEF5; --muted:#93A3B6; --line:#1F2F44;
+  --band:#0B1626; --band-ink:#FFFFFF; --band-muted:#8EA1B7; --band-line:#1F3048;
+  --accent:#2BC48A; --accent-ink:#06120C; --accent-soft:#0F2A22; --warn:#F2A54A; --warn-soft:#2A1E0F; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#08111D; --surface:#101C2C; --ink:#E8EEF5; --muted:#93A3B6; --line:#1F2F44;
+  --band:#0B1626; --band-ink:#FFFFFF; --band-muted:#8EA1B7; --band-line:#1F3048;
+  --accent:#2BC48A; --accent-ink:#06120C; --accent-soft:#0F2A22; --warn:#F2A54A; --warn-soft:#2A1E0F; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.55}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--band)}
+.in{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+h1,h2,h3{font-family:var(--display);margin:0;text-wrap:balance;letter-spacing:-.01em}
+h1{font-size:clamp(2.1rem,6vw,3.4rem);line-height:1.08;font-weight:800}
+h2{font-size:clamp(1.5rem,4vw,2rem);line-height:1.15;font-weight:700}
+h3{font-size:1rem;font-weight:700}
+p{margin:0}
+.eyebrow{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--accent)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums}
+[dir="rtl"] .eyebrow{letter-spacing:0}
+
+/* top band */
+.band{background:var(--band);color:var(--band-ink)}
+.nav{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-block:16px;border-bottom:1px solid var(--band-line)}
+.logo{display:flex;align-items:center;gap:10px;font-family:var(--display);font-weight:800;font-size:1.15rem}
+.mark{width:30px;height:30px;border-radius:8px;background:var(--accent);display:grid;place-items:center}
+.mark svg{width:18px;height:18px}
+.lang{display:flex;border:1px solid var(--band-line);border-radius:8px;overflow:hidden}
+.lang button{font:600 .8rem var(--body);background:transparent;color:var(--band-muted);border:0;padding:7px 12px;cursor:pointer}
+.lang button[aria-pressed="true"]{background:var(--band-ink);color:var(--band)}
+.hero{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;padding-block:44px 52px;align-items:center}
+@media (max-width:820px){.hero{grid-template-columns:1fr;gap:28px;padding-block:32px 40px}}
+.hero-copy{display:flex;flex-direction:column;gap:18px;min-width:0}
+.slogan{font-family:var(--display);font-weight:700;color:var(--accent);font-size:1.05rem}
+.lead{color:var(--band-muted);font-size:1.05rem;max-width:34em}
+.kpis{display:flex;flex-wrap:wrap;gap:24px;padding-top:6px}
+.kpi b{display:block;font-family:var(--display);font-size:1.5rem;font-weight:800}
+.kpi span{font-size:.8rem;color:var(--band-muted)}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px}
+.btn{font:600 .95rem var(--body);padding:12px 18px;border-radius:8px;border:1px solid transparent;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;gap:8px}
+.btn.primary{background:var(--accent);color:var(--accent-ink)}
+.btn.ghost{border-color:var(--band-line);color:var(--band-ink);background:transparent}
+.btn.line{border-color:var(--line);color:var(--ink);background:var(--surface)}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+
+/* dashboard card in hero */
+.dash{background:var(--surface);color:var(--ink);border-radius:14px;padding:20px;display:flex;flex-direction:column;gap:16px;box-shadow:0 20px 50px -20px rgba(0,0,0,.45);min-width:0}
+.dash-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.tag{font-size:.7rem;font-weight:600;padding:4px 8px;border-radius:999px;background:var(--accent-soft);color:var(--accent);white-space:nowrap}
+.dash small{color:var(--muted);font-size:.8rem}
+.prog{display:flex;align-items:center;gap:16px}
+.ring{width:84px;height:84px;flex:none}
+.ring circle{fill:none;stroke-width:9}
+.ring .trk{stroke:var(--line)} .ring .val{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset .5s ease}
+.ring text{fill:var(--ink);font:700 18px var(--display)}
+.mini{display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1;min-width:0}
+.mini div{background:var(--bg);border-radius:8px;padding:10px}
+.mini b{display:block;font-size:1rem}
+.mini span{font-size:.72rem;color:var(--muted)}
+.bars{display:grid;grid-template-columns:repeat(11,1fr);gap:4px;align-items:end;height:46px}
+.bars i{display:block;border-radius:3px 3px 0 0;background:var(--line)}
+.bars i.on{background:var(--accent)}
+.next{display:flex;justify-content:space-between;gap:10px;border-top:1px solid var(--line);padding-top:12px;font-size:.88rem}
+.next b{font-weight:600}
+
+/* sections */
+main{display:flex;flex-direction:column;gap:64px;padding-block:56px 64px}
+section{display:flex;flex-direction:column;gap:22px}
+.sec-head{display:flex;flex-direction:column;gap:8px;max-width:40em}
+.sec-head p{color:var(--muted)}
+.sheet{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px}
+
+/* milestones */
+.phases{display:flex;flex-wrap:wrap;gap:8px}
+.phase{font-size:.78rem;font-weight:600;padding:6px 10px;border-radius:999px;border:1px solid var(--line);background:var(--surface);color:var(--muted)}
+.ms{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
+@media (max-width:360px){.ms{grid-template-columns:1fr}}
+.ms li{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:10px;min-width:0}
+.ms li.done{border-color:var(--accent)}
+.ms-top{display:flex;align-items:center;gap:12px}
+.chk{width:30px;height:30px;flex:none;border-radius:8px;border:1.5px solid var(--line);background:var(--bg);display:grid;place-items:center;cursor:pointer;font:700 .8rem var(--mono);color:var(--muted);padding:0}
+.done .chk{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.ms-top h3{flex:1;min-width:0}
+.ms p{color:var(--muted);font-size:.9rem}
+.ms-meta{display:flex;flex-wrap:wrap;gap:8px;font-size:.75rem;align-items:center}
+.ms-meta .pill{padding:3px 8px;border-radius:6px;background:var(--bg);color:var(--muted);font-weight:500}
+.ms-meta .pro{background:var(--band);color:var(--band-ink)}
+.ms-meta .free{background:var(--accent-soft);color:var(--accent)}
+.ms ul{margin:0;padding-inline-start:18px;font-size:.85rem;color:var(--ink);display:flex;flex-direction:column;gap:2px}
+
+/* estimator */
+.est{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
+@media (max-width:820px){.est{grid-template-columns:1fr}}
+.fields{display:flex;flex-direction:column;gap:14px}
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+@media (max-width:460px){.g2{grid-template-columns:1fr}}
+label{display:flex;flex-direction:column;gap:6px;font-size:.82rem;font-weight:600;min-width:0}
+input,select,textarea{font:400 .98rem var(--body);color:var(--ink);background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:10px 12px;width:100%}
+textarea{min-height:90px;resize:vertical}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;min-width:0}
+legend{font-size:.82rem;font-weight:600;margin-bottom:6px;padding:0}
+.seg{display:flex;flex-wrap:wrap;gap:8px}
+.opt{flex-direction:row;align-items:center;gap:8px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;font-weight:500;cursor:pointer;background:var(--bg)}
+.opt input{width:auto;margin:0;accent-color:var(--accent)}
+.report{display:flex;flex-direction:column;gap:14px}
+.total{background:var(--band);color:var(--band-ink);border-radius:10px;padding:16px;display:flex;flex-direction:column;gap:4px}
+.total span{font-size:.8rem;color:var(--band-muted)}
+.total b{font-family:var(--display);font-size:clamp(1.4rem,4vw,1.9rem);font-weight:800}
+.stack{display:flex;height:12px;border-radius:6px;overflow:hidden;background:var(--line)}
+.stack i{display:block;height:100%}
+.legend{display:flex;flex-direction:column;gap:8px}
+.lr{display:grid;grid-template-columns:12px 1fr auto;gap:10px;align-items:center;font-size:.88rem}
+.lr i{width:10px;height:10px;border-radius:3px}
+.lr .num{font-size:.85rem}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kv div{background:var(--bg);border-radius:8px;padding:10px}
+.kv span{display:block;font-size:.72rem;color:var(--muted)}
+.kv b{font-size:1rem}
+.note{font-size:.8rem;color:var(--muted)}
+.warn{font-size:.85rem;background:var(--warn-soft);color:var(--warn);padding:10px 12px;border-radius:8px}
+
+/* pricing */
+.plans{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px}
+.plan{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:20px;display:flex;flex-direction:column;gap:12px}
+.plan.hl{border:2px solid var(--accent)}
+.plan .price{font-family:var(--display);font-weight:800;font-size:2rem}
+.plan .price small{font:500 .85rem var(--body);color:var(--muted)}
+.plan ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.9rem}
+.plan li{display:flex;gap:8px}
+.plan li::before{content:"✓";color:var(--accent);font-weight:700}
+
+.out{white-space:pre-wrap;font-family:var(--mono);font-size:.82rem;background:var(--bg);border:1px solid var(--line);border-radius:8px;padding:14px;overflow-x:auto}
+footer{border-top:1px solid var(--line);padding-block:20px;font-size:.85rem;color:var(--muted)}
+footer .in{display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+
+
+<div class="band">
+  <div class="in">
+    <nav class="nav">
+      <div class="logo"><span class="mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 17l6-6 4 4 6-8"/><path d="M15 7h5v5"/></svg></span>Startup</div>
+      <div style="display:flex;gap:8px;align-items:center"><button type="button" id="install" class="btn primary" style="padding:7px 12px;font-size:.8rem" hidden>Install</button>
+      <div class="lang" role="group" aria-label="Language">
+        <button type="button" id="l-en" aria-pressed="true">EN</button>
+        <button type="button" id="l-ar" aria-pressed="false">العربية</button>
+      </div></div>
+    </nav>
+    <div class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow" data-t="eyebrow"></p>
+        <h1 data-t="h1"></h1>
+        <p class="slogan">Your brand in one click</p>
+        <p class="lead" data-t="lead"></p>
+        <div class="cta-row">
+          <a class="btn primary" href="#estimate" data-t="ctaEst"></a>
+          <a class="btn ghost" href="#start" data-t="ctaStart"></a>
+        </div>
+        <div class="kpis">
+          <div class="kpi"><b class="num">11</b><span data-t="k1"></span></div>
+          <div class="kpi"><b>TR · IT</b><span data-t="k2"></span></div>
+          <div class="kpi"><b>GCC</b><span data-t="k3"></span></div>
+        </div>
+      </div>
+      <div class="dash" aria-live="polite">
+        <div class="dash-top">
+          <div><h3 data-t="dTitle"></h3><small data-t="dSub"></small></div>
+          <span class="tag" data-t="dTag"></span>
+        </div>
+        <div class="prog">
+          <svg class="ring" viewBox="0 0 84 84" aria-hidden="true"><circle class="trk" cx="42" cy="42" r="36"/><circle class="val" id="ring" cx="42" cy="42" r="36" stroke-dasharray="226.2" stroke-dashoffset="226.2" transform="rotate(-90 42 42)"/><text id="ringTxt" x="42" y="48" text-anchor="middle">0%</text></svg>
+          <div class="mini">
+            <div><b class="num" id="dDone">0/11</b><span data-t="dDone"></span></div>
+            <div><b class="num" id="dWeeks">26</b><span data-t="dWeeks"></span></div>
+            <div><b class="num" id="dBudget">–</b><span data-t="dBudget"></span></div>
+            <div><b class="num" id="dUnit">–</b><span data-t="dUnit"></span></div>
+          </div>
+        </div>
+        <div class="bars" id="bars" aria-hidden="true"></div>
+        <div class="next"><span data-t="dNext"></span><b id="dNext"></b></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<main class="in">
+  <section id="roadmap">
+    <div class="sec-head">
+      <p class="eyebrow" data-t="rEye"></p>
+      <h2 data-t="rH"></h2>
+      <p data-t="rP"></p>
+    </div>
+    <div class="phases" id="phases"></div>
+    <ol class="ms" id="ms"></ol>
+  </section>
+
+  <section id="estimate">
+    <div class="sec-head">
+      <p class="eyebrow" data-t="eEye"></p>
+      <h2 data-t="eH"></h2>
+      <p data-t="eP"></p>
+    </div>
+    <div class="est">
+      <form class="sheet fields" id="est" novalidate>
+        <div class="g2">
+          <label for="product"><span data-t="fProduct"></span><select id="product"></select></label>
+          <label for="qty"><span data-t="fQty"></span><input id="qty" type="number" min="1" step="1" value="150" inputmode="numeric"></label>
+        </div>
+        <div class="g2">
+          <label for="country"><span data-t="fCountry"></span><select id="country"></select></label>
+          <label for="pack"><span data-t="fPack"></span><select id="pack"></select></label>
+        </div>
+        <fieldset>
+          <legend data-t="fOrigin"></legend>
+          <div class="seg">
+            <label class="opt"><input type="radio" name="origin" id="o-tr" value="TR" checked><span data-t="tr"></span></label>
+            <label class="opt"><input type="radio" name="origin" id="o-it" value="IT"><span data-t="it"></span></label>
+          </div>
+        </fieldset>
+        <fieldset>
+          <legend data-t="fBrand"></legend>
+          <div class="seg">
+            <label class="opt"><input type="checkbox" id="b-label" checked><span data-t="bLabel"></span></label>
+            <label class="opt"><input type="checkbox" id="b-tag" checked><span data-t="bTag"></span></label>
+            <label class="opt"><input type="checkbox" id="b-logo"><span data-t="bLogo"></span></label>
+          </div>
+        </fieldset>
+      </form>
+      <div class="sheet report">
+        <div class="total"><span id="tLabel"></span><b class="num" id="tVal"></b></div>
+        <div class="stack" id="stack" aria-hidden="true"></div>
+        <div class="legend" id="legend"></div>
+        <div class="kv">
+          <div><span data-t="perPiece"></span><b class="num" id="perPiece"></b></div>
+          <div><span data-t="retail"></span><b class="num" id="retail"></b></div>
+        </div>
+        <p class="warn" id="warn" hidden></p>
+        <p class="note" data-t="eNote"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="plans">
+    <div class="sec-head">
+      <p class="eyebrow" data-t="pEye"></p>
+      <h2 data-t="pH"></h2>
+    </div>
+    <div class="plans">
+      <div class="plan">
+        <h3 data-t="p1"></h3>
+        <div class="price">0 <small>QAR</small></div>
+        <ul id="p1l"></ul>
+      </div>
+      <div class="plan hl">
+        <h3 data-t="p2"></h3>
+        <div class="price">19 <small>QAR</small></div>
+        <ul id="p2l"></ul>
+      </div>
+      <div class="plan">
+        <h3 data-t="p3"></h3>
+        <div class="price"><small data-t="p3price"></small></div>
+        <ul id="p3l"></ul>
+      </div>
+    </div>
+  </section>
+
+  <section id="start">
+    <div class="sec-head">
+      <p class="eyebrow" data-t="sEye"></p>
+      <h2 data-t="sH"></h2>
+    </div>
+    <form class="sheet fields" id="req">
+      <div class="g2">
+        <label for="f-name"><span data-t="fName"></span><input id="f-name" autocomplete="name"></label>
+        <label for="f-contact"><span data-t="fContact"></span><input id="f-contact" autocomplete="email"></label>
+      </div>
+      <label for="f-brand"><span data-t="fBrandName"></span><input id="f-brand"></label>
+      <label for="f-idea"><span data-t="fIdea"></span><textarea id="f-idea"></textarea></label>
+      <p class="warn" id="f-err" hidden></p>
+      <div class="cta-row">
+        <button class="btn primary" type="submit" data-t="fSubmit"></button>
+        <button class="btn line" type="button" disabled data-t="fPay"></button>
+      </div>
+      <div id="f-out" hidden style="display:flex;flex-direction:column;gap:10px">
+        <p class="note" data-t="fReady"></p>
+        <div class="out" id="f-text"></div>
+        <div class="cta-row"><button class="btn line" type="button" id="f-copy" data-t="fCopy"></button></div>
+      </div>
+    </form>
+  </section>
+</main>
+
+<footer><div class="in"><span>Startup · Your brand in one click</span><span data-t="foot"></span></div></footer>
+
+<script>
+const T={
+en:{eyebrow:"Fashion & leather goods · GCC",h1:"Launch your fashion brand. From business plan to finished product.",
+lead:"Startup runs your full project study: market test, legal setup, branding, factories in Turkey and Italy, prototype, costs, logistics and launch. Every step has a milestone, a budget and a deadline.",
+ctaEst:"Estimate my budget",ctaStart:"Start my project",k1:"milestones to launch",k2:"partner factories",k3:"6 countries covered",
+dTitle:"Your launch dashboard",dSub:"Example project · tick milestones below",dTag:"On track",dDone:"milestones done",dWeeks:"weeks to launch",dBudget:"total budget",dUnit:"cost per piece",dNext:"Next milestone",
+rEye:"The roadmap",rH:"11 milestones from idea to sales",rP:"Each milestone comes with a checklist, a duration and an indicative cost. Tick what you have finished to track your progress.",
+eEye:"Budget estimator",eH:"What will your first collection cost?",eP:"Pick your product and quantity. The estimate updates instantly in your country's currency.",
+fProduct:"Product",fQty:"Quantity (pieces)",fCountry:"Your country",fPack:"Packaging",fOrigin:"Factory",tr:"Turkey",it:"Italy",fBrand:"Branding on the product",bLabel:"Woven label",bTag:"Hang tag",bLogo:"Embroidered / embossed logo",
+perPiece:"Landed cost per piece",retail:"Suggested retail price",totalFor:"Total investment for",pcs:"pcs",
+eNote:"Indicative ranges before VAT, based on typical factory prices. The paid study replaces them with real quotes.",
+warnMoq:"Most factories need 50 to 100 pieces per design. Below that, expect higher prices or a small workshop.",
+cProd:"Production",cBrand:"Branding",cPack:"Packaging",cShip:"Shipping & customs",cSample:"Samples & prototype",
+pEye:"Plans",pH:"Start free, unlock the full study when you are ready",p1:"Explore",p2:"Project study",p3:"Full launch",p3price:"On quote",
+p1l:["Budget estimator","11-milestone roadmap","Progress dashboard"],p2l:["Detailed cost study","Matched factories in Turkey or Italy","Milestone plan with dates","Retail price and margin"],p3l:["Factory contact and samples","Production follow-up and QC","Shipping to your GCC country","Launch plan"],
+sEye:"Start",sH:"Tell us about your brand",fName:"Your name",fContact:"WhatsApp or email",fBrandName:"Brand name (if you have one)",fIdea:"Your idea",
+fSubmit:"Prepare my request",fPay:"Pay 19 QAR · soon",fReady:"Your request is ready. Copy it and send it to the Startup team. Your estimate is included.",fCopy:"Copy my request",copied:"Copied",selected:"Selected, copy it",
+errReq:"Add your name, a WhatsApp number or email, and your idea.",foot:"Doha · serving the GCC",week:"wk",weeks:"weeks",free:"Free",pro:"Study",done:"Launch ready",
+phases:["Plan","Build","Produce","Launch"],
+products:{tshirt:"T-shirt",hoodie:"Hoodie",dress:"Dress",abaya:"Abaya",scarf:"Scarf / shayla",bag:"Leather bag",wallet:"Leather wallet"},
+packs:{poly:"Branded poly bag",box:"Printed box",premium:"Premium gift box"},
+countries:{QA:"Qatar",AE:"UAE",SA:"Saudi Arabia",KW:"Kuwait",BH:"Bahrain",OM:"Oman"},
+ms:[
+["Project study","Define the product, your target customer, competitors and starting budget.",["Product and target customer","3 competitors analysed","Starting budget"]],
+["Market test","Check that people will buy before you invest.",["Instagram survey","Pre-orders or waiting list","Risks and obstacles"]],
+["Legal setup","Protect your name and open your business.",["Brand name availability","Trademark registration","Commercial registration (CR)"]],
+["Branding","Build an identity people remember.",["Logo and colours","Labels and tags design","Brand guidelines"]],
+["Factories","Find the right factory in Turkey or Italy.",["3 factory quotes","Minimum order (MOQ)","Payment terms"]],
+["Prototype & samples","Validate the design before mass production.",["Tech pack","First sample","Fit and fabric approval"]],
+["Packaging","Design the unboxing experience.",["Box or bag","Tissue, cards, stickers","Packaging supplier"]],
+["Costs & pricing","Know your real margin.",["Landed cost per piece","Retail price","Target margin"]],
+["Production & quality","Follow the order and check every batch.",["Production schedule","Quality inspection","Final payment"]],
+["Logistics & customs","Bring the goods to your country.",["Shipping mode","Customs clearance (5% GCC duty)","Storage"]],
+["Launch & sales","Open your shop and get your first customers.",["Instagram and website","Online store","Launch campaign"]]]},
+ar:{eyebrow:"الأزياء والمنتجات الجلدية · دول الخليج",h1:"أطلقي علامتك التجارية. من دراسة المشروع إلى المنتج النهائي.",
+lead:"يقوم Startup بدراسة مشروعك كاملة: اختبار السوق، الإجراءات القانونية، الهوية التجارية، المصانع في تركيا وإيطاليا، النموذج الأولي، التكاليف، الشحن والإطلاق. لكل مرحلة هدف وميزانية وموعد.",
+ctaEst:"احسبي ميزانيتي",ctaStart:"ابدئي مشروعي",k1:"مرحلة حتى الإطلاق",k2:"مصانع شريكة",k3:"6 دول مشمولة",
+dTitle:"لوحة متابعة الإطلاق",dSub:"مشروع مثال · ضعي علامة على المراحل أدناه",dTag:"على المسار",dDone:"مراحل منجزة",dWeeks:"أسبوعًا حتى الإطلاق",dBudget:"الميزانية الإجمالية",dUnit:"تكلفة القطعة",dNext:"المرحلة التالية",
+rEye:"خارطة الطريق",rH:"11 مرحلة من الفكرة إلى البيع",rP:"لكل مرحلة قائمة مهام ومدة وتكلفة تقديرية. ضعي علامة على ما أنجزتِه لمتابعة تقدمك.",
+eEye:"حاسبة الميزانية",eH:"كم ستكلف مجموعتك الأولى؟",eP:"اختاري المنتج والكمية، ويتحدث التقدير فورًا بعملة بلدك.",
+fProduct:"المنتج",fQty:"الكمية (قطعة)",fCountry:"بلدك",fPack:"التغليف",fOrigin:"المصنع",tr:"تركيا",it:"إيطاليا",fBrand:"العلامة على المنتج",bLabel:"ملصق منسوج",bTag:"بطاقة معلقة",bLogo:"شعار مطرز / محفور",
+perPiece:"تكلفة القطعة واصلة",retail:"سعر البيع المقترح",totalFor:"إجمالي الاستثمار لـ",pcs:"قطعة",
+eNote:"نطاقات تقديرية قبل الضريبة حسب أسعار المصانع المعتادة. الدراسة المدفوعة تستبدلها بعروض أسعار حقيقية.",
+warnMoq:"معظم المصانع تطلب 50 إلى 100 قطعة لكل تصميم. أقل من ذلك يعني أسعارًا أعلى أو ورشة صغيرة.",
+cProd:"الإنتاج",cBrand:"العلامة",cPack:"التغليف",cShip:"الشحن والجمارك",cSample:"العينات والنموذج",
+pEye:"الباقات",pH:"ابدئي مجانًا، وافتحي الدراسة الكاملة عندما تكونين جاهزة",p1:"استكشاف",p2:"دراسة المشروع",p3:"إطلاق كامل",p3price:"حسب العرض",
+p1l:["حاسبة الميزانية","خارطة 11 مرحلة","لوحة متابعة التقدم"],p2l:["دراسة تكاليف مفصلة","مصانع مناسبة في تركيا أو إيطاليا","خطة مراحل بالتواريخ","سعر البيع والهامش"],p3l:["التواصل مع المصنع والعينات","متابعة الإنتاج والجودة","الشحن إلى بلدك الخليجي","خطة الإطلاق"],
+sEye:"ابدئي",sH:"أخبرينا عن علامتك",fName:"اسمك",fContact:"واتساب أو بريد إلكتروني",fBrandName:"اسم العلامة (إن وجد)",fIdea:"فكرتك",
+fSubmit:"جهّزي طلبي",fPay:"ادفعي 19 ريال · قريبًا",fReady:"طلبك جاهز. انسخيه وأرسليه لفريق Startup. التقدير مرفق.",fCopy:"انسخي طلبي",copied:"تم النسخ",selected:"تم التحديد، انسخيه",
+errReq:"أضيفي اسمك ورقم واتساب أو بريدًا إلكترونيًا وفكرتك.",foot:"الدوحة · نخدم دول الخليج",week:"أسبوع",weeks:"أسابيع",free:"مجاني",pro:"الدراسة",done:"جاهز للإطلاق",
+phases:["التخطيط","البناء","الإنتاج","الإطلاق"],
+products:{tshirt:"تيشيرت",hoodie:"هودي",dress:"فستان",abaya:"عباية",scarf:"شيلة / وشاح",bag:"حقيبة جلدية",wallet:"محفظة جلدية"},
+packs:{poly:"كيس بشعار",box:"علبة مطبوعة",premium:"علبة هدايا فاخرة"},
+countries:{QA:"قطر",AE:"الإمارات",SA:"السعودية",KW:"الكويت",BH:"البحرين",OM:"عُمان"},
+ms:[
+["دراسة المشروع","حددي المنتج والعميلة المستهدفة والمنافسين والميزانية الأولية.",["المنتج والعميلة المستهدفة","تحليل 3 منافسين","الميزانية الأولية"]],
+["اختبار السوق","تأكدي أن الناس سيشترون قبل أن تستثمري.",["استبيان على إنستغرام","طلبات مسبقة أو قائمة انتظار","المخاطر والعقبات"]],
+["الإجراءات القانونية","احمي اسمك وافتحي نشاطك.",["توفر اسم العلامة","تسجيل العلامة التجارية","السجل التجاري"]],
+["الهوية التجارية","ابني هوية لا تُنسى.",["الشعار والألوان","تصميم الملصقات والبطاقات","دليل الهوية"]],
+["المصانع","اختاري المصنع المناسب في تركيا أو إيطاليا.",["3 عروض أسعار","الحد الأدنى للطلب","شروط الدفع"]],
+["النموذج والعينات","اعتمدي التصميم قبل الإنتاج الكبير.",["الملف الفني","العينة الأولى","اعتماد المقاس والقماش"]],
+["التغليف","صممي تجربة فتح العلبة.",["علبة أو كيس","ورق وبطاقات وملصقات","مورد التغليف"]],
+["التكاليف والتسعير","اعرفي هامش ربحك الحقيقي.",["تكلفة القطعة واصلة","سعر البيع","الهامش المستهدف"]],
+["الإنتاج والجودة","تابعي الطلب وافحصي كل دفعة.",["جدول الإنتاج","فحص الجودة","الدفعة النهائية"]],
+["الشحن والجمارك","أوصلي البضاعة إلى بلدك.",["طريقة الشحن","التخليص الجمركي (5% رسوم الخليج)","التخزين"]],
+["الإطلاق والبيع","افتحي متجرك واحصلي على أول العملاء.",["إنستغرام والموقع","متجر إلكتروني","حملة الإطلاق"]]]}};
+
+const MS=[{w:1,c:[0,0],f:1,ph:0},{w:2,c:[300,1500],f:1,ph:0},{w:2,c:[2500,6000],f:0,ph:0},{w:2,c:[1500,5000],f:0,ph:1},{w:2,c:[0,0],f:0,ph:1},{w:3,c:[0,0],f:0,ph:1},{w:2,c:[0,0],f:0,ph:1},{w:1,c:[0,0],f:0,ph:2},{w:6,c:[0,0],f:0,ph:2},{w:3,c:[0,0],f:0,ph:2},{w:2,c:[2000,8000],f:0,ph:3}];
+const BASE={tshirt:[15,30],hoodie:[40,80],dress:[60,140],abaya:[70,180],scarf:[15,40],bag:[120,300],wallet:[35,90]};
+const ORIGIN={TR:[1,1],IT:[1.8,2.5]};const SHIP={TR:[5,9],IT:[7,13]};
+const PACK={poly:[1,2],box:[6,15],premium:[18,35]};
+const CUR={QA:["QAR",1],AE:["AED",1.009],SA:["SAR",1.03],KW:["KWD",.0843],BH:["BHD",.1033],OM:["OMR",.1058]};
+const $=id=>document.getElementById(id);
+let L="en",done=new Set([0,1,2]),est={};
+try{const s=JSON.parse(localStorage.getItem("startup-done")||"null");if(Array.isArray(s))done=new Set(s)}catch(_){}
+try{const l=localStorage.getItem("startup-lang");if(l==="ar")L="ar"}catch(_){}
+
+function money(v,c){const [code,r]=CUR[c];const x=v*r;const d=r<.2?0:0;const n=x>=1000?Math.round(x/10)*10:Math.round(x);return n.toLocaleString("en-US")+" "+code}
+function rng(a,c){return money(a[0],c)+" – "+money(a[1],c).replace(/ [A-Z]+$/,"")+" "+CUR[c][0]}
+
+function fillSelect(id,obj,keep){const s=$(id),v=s.value||keep;s.innerHTML="";for(const k in obj){const o=document.createElement("option");o.value=k;o.textContent=obj[k];s.appendChild(o)}s.value=v}
+
+function renderStatic(){
+  const t=T[L];document.documentElement.lang=L;document.documentElement.dir=L==="ar"?"rtl":"ltr";
+  document.querySelectorAll("[data-t]").forEach(el=>{const v=t[el.dataset.t];if(typeof v==="string")el.textContent=v});
+  $("l-en").setAttribute("aria-pressed",L==="en");$("l-ar").setAttribute("aria-pressed",L==="ar");
+  fillSelect("product",t.products,"abaya");fillSelect("pack",t.packs,"box");fillSelect("country",t.countries,"QA");
+  ["p1l","p2l","p3l"].forEach(k=>{$(k).innerHTML=t[k].map(x=>"<li>"+x+"</li>").join("")});
+  $("f-idea").placeholder=L==="ar"?"مثال: مجموعة عبايات كتان بلون البيج والزيتي للصيف":"e.g. a linen abaya line in beige and olive for summer";
+}
+
+function renderMS(){
+  const t=T[L],ol=$("ms");ol.innerHTML="";
+  $("phases").innerHTML=t.phases.map((p,i)=>{const n=MS.filter(m=>m.ph===i).length;return `<span class="phase">${p} · ${n}</span>`}).join("");
+  MS.forEach((m,i)=>{
+    const [h,d,list]=t.ms[i];const li=document.createElement("li");if(done.has(i))li.className="done";
+    li.innerHTML=`<div class="ms-top"><button type="button" class="chk" aria-pressed="${done.has(i)}" aria-label="${h}">${done.has(i)?"✓":String(i+1).padStart(2,"0")}</button><h3>${h}</h3></div>
+    <p>${d}</p><ul>${list.map(x=>"<li>"+x+"</li>").join("")}</ul>
+    <div class="ms-meta"><span class="pill ${m.f?"free":"pro"}">${m.f?t.free:t.pro}</span><span class="pill">${t.phases[m.ph]}</span><span class="pill num">${m.w} ${t.week}</span></div>`;
+    li.querySelector(".chk").addEventListener("click",()=>{done.has(i)?done.delete(i):done.add(i);try{localStorage.setItem("startup-done",JSON.stringify([...done]))}catch(_){}renderMS();renderDash()});
+    ol.appendChild(li);
+  });
+}
+
+function calc(){
+  const p=$("product").value,q=Math.max(1,parseInt($("qty").value,10)||1),c=$("country").value;
+  const o=document.querySelector('input[name="origin"]:checked').value;
+  const qf=q<100?1.25:q<300?1:.85;
+  const prod=[BASE[p][0]*ORIGIN[o][0]*qf,BASE[p][1]*ORIGIN[o][1]*qf];
+  const br=[0,0];if($("b-label").checked){br[0]+=1.5;br[1]+=3}if($("b-tag").checked){br[0]+=1;br[1]+=2}if($("b-logo").checked){br[0]+=4;br[1]+=10}
+  const pk=PACK[$("pack").value];
+  const ship=[SHIP[o][0]+prod[0]*.05,SHIP[o][1]+prod[1]*.05];
+  const sample=o==="IT"?[2500,6000]:[1500,4000];
+  const unit=[prod[0]+br[0]+pk[0]+ship[0],prod[1]+br[1]+pk[1]+ship[1]];
+  const parts=[["cProd",[prod[0]*q,prod[1]*q],"var(--band)"],["cBrand",[br[0]*q,br[1]*q],"#6C7FD8"],["cPack",[pk[0]*q,pk[1]*q],"#C08A3E"],["cShip",[ship[0]*q,ship[1]*q],"#5BA3C9"],["cSample",sample,"var(--accent)"]];
+  const tot=[0,0];parts.forEach(x=>{tot[0]+=x[1][0];tot[1]+=x[1][1]});
+  const t=T[L];
+  $("tLabel").textContent=`${t.totalFor} ${q.toLocaleString("en-US")} ${t.pcs}`;
+  $("tVal").textContent=rng(tot,c);
+  const mid=parts.map(x=>(x[1][0]+x[1][1])/2),ms=mid.reduce((a,b)=>a+b,0);
+  $("stack").innerHTML=parts.map((x,i)=>`<i style="width:${(mid[i]/ms*100).toFixed(1)}%;background:${x[2]}"></i>`).join("");
+  $("legend").innerHTML=parts.map(x=>`<div class="lr"><i style="background:${x[2]}"></i><span>${t[x[0]]}</span><span class="num">${rng(x[1],c)}</span></div>`).join("");
+  $("perPiece").textContent=rng(unit,c);
+  $("retail").textContent=rng([unit[0]*2.5,unit[1]*3],c);
+  const w=$("warn");if(q<50){w.textContent=t.warnMoq;w.hidden=false}else w.hidden=true;
+  est={p,q,c,o,tot,unit};renderDash();
+}
+
+function renderDash(){
+  const t=T[L],n=done.size,pct=Math.round(n/11*100);
+  $("ring").setAttribute("stroke-dashoffset",(226.2*(1-n/11)).toFixed(1));$("ringTxt").textContent=pct+"%";
+  $("dDone").textContent=n+"/11";
+  $("dWeeks").textContent=MS.reduce((a,m,i)=>a+(done.has(i)?0:m.w),0);
+  if(est.tot){const mid=x=>(x[0]+x[1])/2;$("dBudget").textContent=money(mid(est.tot),est.c);$("dUnit").textContent=money(mid(est.unit),est.c)}
+  $("bars").innerHTML=MS.map((m,i)=>`<i class="${done.has(i)?"on":""}" style="height:${30+m.w*11}%"></i>`).join("");
+  const nx=MS.findIndex((m,i)=>!done.has(i));$("dNext").textContent=nx<0?t.done:t.ms[nx][0];
+  $("dTag").textContent=nx<0?t.done:t.dTag;
+}
+
+function setLang(l){L=l;try{localStorage.setItem("startup-lang",l)}catch(_){}renderStatic();renderMS();calc()}
+$("l-en").addEventListener("click",()=>setLang("en"));$("l-ar").addEventListener("click",()=>setLang("ar"));
+$("est").addEventListener("input",calc);$("est").addEventListener("change",calc);$("est").addEventListener("submit",e=>e.preventDefault());
+
+$("req").addEventListener("submit",e=>{
+  e.preventDefault();const t=T[L];
+  const name=$("f-name").value.trim(),c=$("f-contact").value.trim(),idea=$("f-idea").value.trim(),err=$("f-err");
+  if(!name||!c||!idea){err.textContent=t.errReq;err.hidden=false;return}err.hidden=true;
+  const brand=$("f-brand").value.trim(),en=T.en;
+  $("f-text").textContent=`STARTUP – new project request\nName: ${name}\nContact: ${c}${brand?"\nBrand: "+brand:""}\nIdea: ${idea}\n\nEstimate: ${en.products[est.p]} × ${est.q} pcs · ${est.o==="TR"?"Turkey":"Italy"} · ${en.countries[est.c]}\nTotal: ${rng(est.tot,est.c)}\nPer piece: ${rng(est.unit,est.c)}\nMilestones done: ${done.size}/11`;
+  $("f-out").hidden=false;
+});
+$("f-copy").addEventListener("click",()=>{
+  const b=$("f-copy"),t=T[L];
+  const sel=()=>{const r=document.createRange();r.selectNodeContents($("f-text"));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent=t.selected};
+  try{navigator.clipboard.writeText($("f-text").textContent).then(()=>{b.textContent=t.copied},sel)}catch(_){sel()}
+});
+renderStatic();renderMS();calc();
+</script>
+
+<script>
+if("serviceWorker" in navigator){addEventListener("load",()=>navigator.serviceWorker.register("sw.js").catch(()=>{}))}
+let deferred;addEventListener("beforeinstallprompt",e=>{e.preventDefault();deferred=e;const b=document.getElementById("install");b.hidden=false;b.textContent=document.documentElement.lang==="ar"?"تثبيت":"Install"});
+document.getElementById("install").addEventListener("click",async()=>{if(!deferred)return;deferred.prompt();await deferred.userChoice;deferred=null;document.getElementById("install").hidden=true});
+addEventListener("appinstalled",()=>{document.getElementById("install").hidden=true});
+</script>
+</body>
+</html>
