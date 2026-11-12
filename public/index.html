@@ -424,6 +424,46 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
 .path li.now .go{opacity:1;width:32px;height:32px;padding:7px;border-radius:50%;background:var(--ink);color:var(--y)}
 .path li.ok .n{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 
+/* ===== Brand kit ===== */
+.bk-name{display:flex;gap:8px}.bk-name input{flex:1;min-width:0}
+.sugg{display:flex;flex-wrap:wrap;gap:8px}
+.swatches{display:flex;gap:10px;flex-wrap:wrap}
+.swatches label{position:relative;cursor:pointer}
+.swatches input{position:absolute;opacity:0;width:1px;height:1px}
+.swatches span{display:block;width:40px;height:40px;border-radius:50%;border:3px solid var(--bg);box-shadow:0 0 0 1.5px var(--line)}
+.swatches input:checked+span{box-shadow:0 0 0 2.5px var(--ink)}
+.swatches input:focus-visible+span{outline:2px solid var(--ink);outline-offset:3px}
+.mock{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.mock figure{margin:0;background:var(--soft);border-radius:var(--r-lg);padding:12px;display:flex;flex-direction:column;gap:8px;align-items:center}
+.mock figure.wide{grid-column:1/-1}
+.mock svg{width:100%;height:auto;display:block}
+.mock figcaption{font-size:.76rem;color:var(--muted)}
+/* ===== Season & profit ===== */
+.season{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border-radius:var(--r-md);background:var(--soft);font-size:.88rem}
+.season.ok{background:var(--ok-soft);color:var(--ok)}
+.season.late{background:var(--y-soft);color:var(--ink)}
+.season b{display:block}
+.profit{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.profit div{background:var(--inv);color:var(--inv-ink);border-radius:var(--r-md);padding:14px;min-width:0}
+.profit span{display:block;font-size:.74rem;color:var(--inv-muted)}
+.profit b{font:700 1.1rem var(--display);color:var(--y)}
+/* ===== About ===== */
+.about-hero{background:var(--inv);color:var(--inv-ink);border-radius:var(--r-xl,24px);padding:24px 20px;display:flex;flex-direction:column;gap:10px}
+.about-hero h2{color:var(--inv-ink)}
+.about-hero p{color:var(--inv-muted)}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:6px}
+.stats div{background:var(--inv-soft);border-radius:var(--r-md);padding:12px 10px;min-width:0}
+.stats b{display:block;font:700 1.2rem "Poppins",var(--display);color:var(--y)}
+.stats span{font-size:.72rem;color:var(--inv-muted);line-height:1.3;display:block}
+.contact-btns{display:flex;flex-direction:column;gap:10px}
+.btn.wa{background:#25D366;color:#0A0A0A}
+.who{display:flex;align-items:center;gap:14px;padding:16px;border-radius:var(--r-lg);border:1px solid var(--line);background:var(--surface);text-decoration:none;color:var(--ink)}
+.who .ic{width:44px;height:44px;border-radius:50%;background:var(--y);color:var(--y-ink);display:grid;place-items:center;flex:none;font:700 1rem "Poppins",sans-serif}
+.who .tx{flex:1;min-width:0}.who b{display:block;font:600 1rem var(--display)}.who span{font-size:.84rem;color:var(--muted)}
+.wa-fab{position:fixed;z-index:24;inset-inline-end:max(16px,env(safe-area-inset-right,0px));bottom:calc(var(--tab-h) + 24px + env(safe-area-inset-bottom,0px));width:52px;height:52px;border-radius:50%;background:#25D366;color:#0A0A0A;display:grid;place-items:center;box-shadow:0 8px 24px rgba(0,0,0,.2);text-decoration:none}
+.wa-fab svg{width:26px;height:26px}
+body.no-tabs .wa-fab{display:none}
+
 /* ===== Tablet / desktop ===== */
 @media (min-width:760px){
   .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
@@ -506,6 +546,7 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
       </div>
     </div>
     <div id="homeSaved"></div>
+    <a class="who tap" href="#about"><span class="ic" dir="ltr">S.</span><span class="tx"><b data-t="whoH"></b><span data-t="whoS"></span></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a>
   </section>
 
   <!-- ROADMAP -->
@@ -546,6 +587,7 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
             <label><input type="radio" name="origin" value="IT"><span data-t="it"></span></label>
           </div>
         </fieldset>
+        <label for="season"><span data-t="fSeason"></span><select id="season"></select></label>
         <div class="g2">
           <label for="country"><span data-t="fCountry"></span><select id="country"></select></label>
           <label for="pack"><span data-t="fPack"></span><select id="pack"></select></label>
@@ -569,6 +611,9 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
           <div><span data-t="perPiece"></span><b class="num" id="perPiece"></b></div>
           <div><span data-t="retail"></span><b class="num" id="retail"></b></div>
         </div>
+        <div class="season" id="seasonBox" hidden></div>
+        <label for="sell" class="lbl"><span data-t="fSell"></span><input id="sell" type="number" inputmode="decimal" min="0" step="1"></label>
+        <div class="profit"><div><span data-t="profitPc"></span><b class="num" id="profitPc"></b></div><div><span data-t="profitTot"></span><b class="num" id="profitTot"></b></div></div>
         <p class="warn" id="warn" hidden></p>
         <div class="btns" style="display:grid;grid-template-columns:1fr 1fr">
           <button class="btn g" type="button" id="saveEst" data-t="save"></button>
@@ -609,6 +654,7 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
     </div>
     <div class="card trust"><p class="eyebrow" data-t="tEye"></p><ul id="trust"></ul></div>
     <div class="card faq"><p class="eyebrow" data-t="fqEye" style="margin-bottom:4px"></p><div id="faq"></div></div>
+    <a class="who tap" href="#about"><span class="ic">?</span><span class="tx"><b data-t="qH"></b><span data-t="qS"></span></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a>
   </section>
 
   <!-- REQUEST -->
@@ -653,6 +699,42 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
     </div>
   </section>
 
+  <!-- BRAND KIT -->
+  <section class="view" id="v-brand" hidden>
+    <div class="head">
+      <p class="eyebrow" data-t="bkEye"></p>
+      <h2 data-t="bkH"></h2>
+    </div>
+    <div class="card fields">
+      <label for="bk-name"><span data-t="bkName"></span>
+        <span class="bk-name"><input id="bk-name" maxlength="18" autocomplete="off"><button type="button" class="btn g sm" id="bkSug" data-t="bkSug"></button></span></label>
+      <div class="sugg" id="sugg"></div>
+      <fieldset><legend data-t="bkStyle"></legend><div class="seg" id="bkStyle"></div></fieldset>
+      <fieldset><legend data-t="bkColor"></legend><div class="swatches" id="bkColor"></div></fieldset>
+    </div>
+    <div class="mock" id="mock" aria-live="polite"></div>
+    <div class="btns" style="display:grid;grid-template-columns:1fr 1fr">
+      <button class="btn k" type="button" id="bkSave" data-t="bkSave"></button>
+      <a class="btn y" href="#plans" data-t="bkNext"></a>
+    </div>
+    <p class="note" data-t="bkNote" style="text-align:center"></p>
+  </section>
+
+  <!-- ABOUT & CONTACT -->
+  <section class="view" id="v-about" hidden>
+    <div class="about-hero">
+      <p class="eyebrow" data-t="abEye" style="color:var(--inv-muted)"></p>
+      <h2 data-t="abH"></h2>
+      <p data-t="abP"></p>
+      <div class="stats" id="abStats"></div>
+    </div>
+    <div class="card trust"><p class="eyebrow" data-t="abHow"></p><ul id="abVals"></ul></div>
+    <div class="card" style="display:flex;flex-direction:column;gap:14px">
+      <div><p class="eyebrow" data-t="ctEye"></p><h3 data-t="ctH" style="margin-top:6px"></h3><p class="muted" data-t="ctP" style="margin-top:4px"></p></div>
+      <div class="contact-btns" id="ctBtns"></div>
+    </div>
+  </section>
+
   <!-- PROFILE -->
   <section class="view" id="v-profile" hidden>
     <div class="pf-head">
@@ -678,6 +760,7 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
     <ul class="list">
       <li><a class="row" href="#roadmap"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8 6h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h7"/></svg></span><span class="rt"><span data-t="tRoad"></span><small id="pfProg"></small></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a></li>
       <li><a class="row" href="#budget"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></span><span class="rt"><span data-t="savedH"></span><small id="pfSaved"></small></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a></li>
+      <li><a class="row" href="#about"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></span><span class="rt" data-t="abNav"></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a></li>
       <li><a class="row" href="#plans"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.8z"/></svg></span><span class="rt" data-t="tPlans"></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a></li>
     </ul>
     <p class="list-label" data-t="dataL"></p>
@@ -688,7 +771,7 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
     <p class="note" data-t="localNote" style="text-align:center"></p>
   </section>
 
-  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v2.0</span></footer>
+  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v2.1</span></footer>
 </main>
 
 <nav class="tabs" id="tabs" aria-label="Main">
@@ -700,19 +783,33 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
 </nav>
 
 <button type="button" class="peek" id="peek" hidden><span><span id="peekL"></span><b class="num" id="peekV"></b></span><i data-t="seeDetails"></i></button>
+<a class="wa-fab" id="waFab" target="_blank" rel="noopener" hidden aria-label="WhatsApp"><svg class="i" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></a>
 <div id="overlay"></div>
 <div id="toastHost" aria-live="polite" role="status"></div>
 
 <script>
 /* ===== Config ===== */
 const CONTACT_WA="";            // e.g. "97455555555" — WhatsApp number that receives requests (digits only)
+const CONTACT_EMAIL="";         // e.g. "hello@yourdomain.com"
+const CONTACT_IG="";            // Instagram handle without @
 const STUDY_PRICE=19;
 
 /* ===== Copy (EN / AR) ===== */
 const T={
 en:{h1a:"Your brand in ",h1b:"one click",h1c:".",
-lead:"Your budget in 30 seconds, matched factories in Turkey and Italy, and an 11-step plan to your first sale.",
-hi:"Hello",hiName:"Hello, {n}",path:[["Calculate my budget","30 seconds"],["Get my study","19 QAR"],["Launch my brand","11 easy steps"]],doneS:"Done",seeDash:"See dashboard",
+lead:"",
+hi:"Hello",hiName:"Hello, {n}",path:[["Calculate my budget","30 seconds"],["Create my brand look","Name, logo, label"],["Get my study","19 QAR"],["Launch my brand","11 easy steps"]],doneS:"Done",seeDash:"See dashboard",
+whoH:"Who we are",whoS:"Meet the team and talk to us",abNav:"About us & contact",qH:"Still have a question?",qS:"Talk to us, we answer fast",
+abEye:"About Startup",abH:"We turn your idea into a real brand.",abP:"Startup is a Doha team with more than 15 years in fashion business, operations and factory sourcing. We work with factories in Turkey and Italy and follow your order until it reaches your door in the GCC.",
+abStats:[["15+","years of experience"],["TR · IT","partner factories"],["6","GCC countries"]],
+abHow:"How we work",abVals:[["Real prices","Quotes from factories we know, not internet averages."],["One person follows you","From the first idea to the finished product."],["Arabic & English","We speak your language, on WhatsApp."]],
+ctEye:"Contact us",ctH:"Talk to us",ctP:"Ask anything about your project. We reply within 48 hours.",ctWa:"WhatsApp us",ctMail:"Send an email",ctIg:"Instagram",ctForm:"Send us your project",
+bkEye:"Brand look",bkH:"See your brand in one minute",bkName:"Brand name",bkSug:"Ideas",bkStyle:"Style",bkColor:"Colour",bkSave:"Save my brand",bkNext:"Next: my study",bkSaved:"Brand saved",
+bkNote:"A first preview. Our designer makes the final logo and labels in the study.",bkPh:"Your brand",bkStyles:{classic:"Classic",modern:"Modern",bold:"Bold",soft:"Soft"},
+mLogo:"Logo",mLabel:"Woven label",mTag:"Hang tag",mBag:"Shopping bag",
+fSeason:"Launch for",seasons:{any:"No date, when ready",ramadan:"Ramadan",eidFitr:"Eid al-Fitr",eidAdha:"Eid al-Adha",summer:"Summer",saudiDay:"Saudi National Day",uaeDay:"UAE National Day",qatarDay:"Qatar National Day"},
+seasonOk:"Ready around {d}",seasonOkS:"In time for {s} ({e}).",seasonLate:"Too short for {s} ({e})",seasonLateS:"Ready around {d}. Ask us for an express plan, or aim for the next season.",seasonAny:"Ready around {d}",seasonAnyS:"About {w} weeks from today.",approx:"approx.",
+fSell:"Your selling price per piece",profitPc:"Your profit per piece",profitTot:"Profit on the collection",
 dTitle:"Your launch dashboard",dSub0:"Start with milestone 1",dSubN:"{d} of 11 milestones done",dTag:"On track",dTagNew:"New",dDone:"milestones done",dWeeks:"weeks to launch",dBudget:"estimated budget",dUnit:"cost per piece",dNext:"Next milestone",
 seeDetails:"Details",qa1:"Estimate my budget",qa1s:"30 seconds",qa2:"Get my study",qa2s:"19 QAR",
 k1:"milestones to launch",k2:"partner factories",k3:"6 countries covered",
@@ -729,7 +826,7 @@ warnMoq:"Most factories need 50 to 100 pieces per design. Below that, expect hig
 cProd:"Production",cBrand:"Branding",cPack:"Packaging",cShip:"Shipping & customs",cSample:"Samples & prototype",
 pEye:"Plans",pH:"Start free. Unlock the full study when you are ready.",p1:"Explore",p2:"Project study",p3:"Full launch",p3price:"On quote",pop:"Most chosen",
 p1Btn:"Use for free",p2Btn:"Get my study",p3Btn:"Ask for a quote",
-p1l:["Budget estimator","11-milestone roadmap","Progress dashboard"],p2l:["Detailed cost study","Matched factories in Turkey or Italy","Milestone plan with dates","Retail price and margin"],p3l:["Factory contact and samples","Production follow-up and QC","Shipping to your GCC country","Launch plan"],
+p1l:["Budget estimator","11-milestone roadmap","Progress dashboard"],p2l:["Detailed cost study","Matched factories in Turkey or Italy","Milestone plan with dates","Retail price and margin"],p3l:["Factory contact and samples","Production follow-up and QC","Shipping to your GCC country","Launch plan","Product photos & Instagram launch kit"],
 tEye:"Why Startup",trust:[["Real factory prices","Quotes from factories we work with, not internet averages."],["Built for the GCC","Costs in your currency, 5% GCC duty and shipping included."],["You decide","Read your study first, then choose to continue or stop."]],
 fqEye:"Questions",faq:[["What do I get for 19 QAR?","A written study of your project: real costs per piece, matched factories, a dated milestone plan and your retail price and margin."],["How long does it take?","We confirm your request on WhatsApp within 48 hours and deliver the study within 5 working days."],["Do I have to continue after the study?","No. The study is yours. You choose whether to launch with us, alone, or not at all."],["What is the minimum quantity?","Most factories start at 50 to 100 pieces per design. The study tells you the exact minimum for your product."]],
 sheetH:"Project study",sheetP:"Your study is based on this estimate:",sumPlan:"Plan",sumProd:"Product",sumFact:"Factory",sumBud:"Estimated budget",sumTot:"To pay",payNote:"Online payment opens soon. Send your request now: we confirm on WhatsApp and send you a secure payment link.",payCard:"Card",payApple:"Apple Pay",soon:"soon",continue:"Continue",close:"Close",
@@ -754,9 +851,10 @@ o3t:"11 clear milestones",o3p:"From market test to launch day. Tick each step an
 o4t:"Let's set up your space",o4p:"Two questions so your estimates start in the right place.",
 next:"Next",start:"Get started",skipOnb:"Skip",createSpace:"Create my space",chooseLang:"Choose your language",
 phases:["Plan","Build","Produce","Launch"],
-products:{tshirt:"T-shirt",hoodie:"Hoodie",dress:"Dress",abaya:"Abaya",scarf:"Scarf / shayla",bag:"Leather bag",wallet:"Leather wallet"},
+products:{abaya:"Abaya",jalabiya:"Jalabiya",kaftan:"Kaftan",evening:"Evening dress",dress:"Dress",tshirt:"T-shirt",hoodie:"Hoodie",scarf:"Scarf / shayla",bag:"Leather bag",wallet:"Leather wallet"},
 packs:{poly:"Branded poly bag",box:"Printed box",premium:"Premium gift box"},
 countries:{QA:"Qatar",AE:"UAE",SA:"Saudi Arabia",KW:"Kuwait",BH:"Bahrain",OM:"Oman"},
+legalIn:"Where to register in {c}",legal:{QA:"Ministry of Commerce and Industry: commercial registration and trademark.",AE:"Department of Economic Development or a free zone for the licence; Ministry of Economy for the trademark.",SA:"Ministry of Commerce for the commercial registration; SAIP for the trademark.",KW:"Ministry of Commerce and Industry: commercial registration and trademark.",BH:"Sijilat (Ministry of Industry and Commerce): registration and trademark.",OM:"Ministry of Commerce, Industry and Investment Promotion: registration and trademark."},
 ms:[
 ["Project study","Define the product, your target customer, competitors and starting budget.",["Product and target customer","3 competitors analysed","Starting budget"]],
 ["Market test","Check that people will buy before you invest.",["Instagram survey","Pre-orders or waiting list","Risks and obstacles"]],
@@ -770,8 +868,19 @@ ms:[
 ["Logistics & customs","Bring the goods to your country.",["Shipping mode","Customs clearance (5% GCC duty)","Storage"]],
 ["Launch & sales","Open your shop and get your first customers.",["Instagram and website","Online store","Launch campaign"]]]},
 ar:{h1a:"علامتك في ",h1b:"ضغطة واحدة",h1c:".",
-lead:"ميزانيتك في 30 ثانية، مصانع مناسبة في تركيا وإيطاليا، وخطة من 11 مرحلة حتى أول عملية بيع.",
-hi:"مرحبًا",hiName:"مرحبًا {n}",path:[["احسبي ميزانيتي","30 ثانية"],["احصلي على دراستي","19 ريال"],["أطلقي علامتك","11 خطوة سهلة"]],doneS:"تم",seeDash:"شوفي اللوحة",
+lead:"",
+hi:"مرحبًا",hiName:"مرحبًا {n}",path:[["احسبي ميزانيتي","30 ثانية"],["صمّمي شكل علامتك","الاسم، الشعار، الليبل"],["احصلي على دراستي","19 ريال"],["أطلقي علامتك","11 خطوة سهلة"]],doneS:"تم",seeDash:"شوفي اللوحة",
+whoH:"من نحن",whoS:"تعرّفي علينا وتواصلي معنا",abNav:"من نحن وتواصل معنا",qH:"عندك سؤال؟",qS:"كلّمينا، نرد بسرعة",
+abEye:"عن Startup",abH:"نحوّل فكرتك إلى علامة حقيقية.",abP:"Startup فريق من الدوحة بخبرة أكثر من 15 سنة في تجارة الأزياء والعمليات والتعامل مع المصانع. نشتغل مع مصانع في تركيا وإيطاليا ونتابع طلبيتك حتى توصل لباب بيتك في الخليج.",
+abStats:[["+15","سنة خبرة"],["TR · IT","مصانع شريكة"],["6","دول خليجية"]],
+abHow:"كيف نشتغل",abVals:[["أسعار حقيقية","عروض من مصانع نعرفها، وليس أسعارًا من الإنترنت."],["شخص واحد يتابعك","من أول فكرة حتى المنتج النهائي."],["عربي وإنجليزي","نتكلم لغتك، على الواتساب."]],
+ctEye:"تواصلي معنا",ctH:"كلّمينا",ctP:"اسألي أي شي عن مشروعك. نرد خلال 48 ساعة.",ctWa:"راسلينا على واتساب",ctMail:"أرسلي إيميل",ctIg:"إنستغرام",ctForm:"أرسلي لنا مشروعك",
+bkEye:"شكل العلامة",bkH:"شوفي علامتك في دقيقة",bkName:"اسم العلامة",bkSug:"أفكار",bkStyle:"الستايل",bkColor:"اللون",bkSave:"احفظي علامتي",bkNext:"التالي: دراستي",bkSaved:"تم حفظ العلامة",
+bkNote:"هذي معاينة أولى. المصمم عندنا يجهّز الشعار والليبلات النهائية في الدراسة.",bkPh:"علامتك",bkStyles:{classic:"كلاسيك",modern:"عصري",bold:"قوي",soft:"ناعم"},
+mLogo:"الشعار",mLabel:"ليبل منسوج",mTag:"بطاقة السعر",mBag:"كيس التسوق",
+fSeason:"الإطلاق في",seasons:{any:"بدون موعد، لما يجهز",ramadan:"رمضان",eidFitr:"عيد الفطر",eidAdha:"عيد الأضحى",summer:"الصيف",saudiDay:"اليوم الوطني السعودي",uaeDay:"اليوم الوطني الإماراتي",qatarDay:"اليوم الوطني القطري"},
+seasonOk:"جاهز تقريبًا في {d}",seasonOkS:"في الوقت قبل {s} ({e}).",seasonLate:"الوقت قصير على {s} ({e})",seasonLateS:"جاهز تقريبًا في {d}. اطلبي منا خطة سريعة، أو خلّيها للموسم الجاي.",seasonAny:"جاهز تقريبًا في {d}",seasonAnyS:"حوالي {w} أسبوع من اليوم.",approx:"تقريبًا",
+fSell:"سعر البيع للقطعة",profitPc:"ربحك في القطعة",profitTot:"ربح المجموعة كاملة",
 dTitle:"لوحة متابعة الإطلاق",dSub0:"ابدئي بالمرحلة الأولى",dSubN:"{d} من 11 مرحلة منجزة",dTag:"على المسار",dTagNew:"جديد",dDone:"مراحل منجزة",dWeeks:"أسبوعًا حتى الإطلاق",dBudget:"الميزانية التقديرية",dUnit:"تكلفة القطعة",dNext:"المرحلة التالية",
 seeDetails:"التفاصيل",qa1:"احسبي ميزانيتي",qa1s:"30 ثانية",qa2:"احصلي على دراستي",qa2s:"19 ريال",
 k1:"مرحلة حتى الإطلاق",k2:"مصانع شريكة",k3:"6 دول مشمولة",
@@ -788,7 +897,7 @@ warnMoq:"معظم المصانع تطلب 50 إلى 100 قطعة لكل تصمي
 cProd:"الإنتاج",cBrand:"العلامة",cPack:"التغليف",cShip:"الشحن والجمارك",cSample:"العينات والنموذج",
 pEye:"الباقات",pH:"ابدئي مجانًا، وافتحي الدراسة الكاملة عندما تكونين جاهزة.",p1:"استكشاف",p2:"دراسة المشروع",p3:"إطلاق كامل",p3price:"حسب العرض",pop:"الأكثر طلبًا",
 p1Btn:"استخدمي مجانًا",p2Btn:"احصلي على دراستي",p3Btn:"اطلبي عرض سعر",
-p1l:["حاسبة الميزانية","خارطة 11 مرحلة","لوحة متابعة التقدم"],p2l:["دراسة تكاليف مفصلة","مصانع مناسبة في تركيا أو إيطاليا","خطة مراحل بالتواريخ","سعر البيع والهامش"],p3l:["التواصل مع المصنع والعينات","متابعة الإنتاج والجودة","الشحن إلى بلدك الخليجي","خطة الإطلاق"],
+p1l:["حاسبة الميزانية","خارطة 11 مرحلة","لوحة متابعة التقدم"],p2l:["دراسة تكاليف مفصلة","مصانع مناسبة في تركيا أو إيطاليا","خطة مراحل بالتواريخ","سعر البيع والهامش"],p3l:["التواصل مع المصنع والعينات","متابعة الإنتاج والجودة","الشحن إلى بلدك الخليجي","خطة الإطلاق","تصوير المنتج وباكاج إطلاق إنستغرام"],
 tEye:"لماذا Startup",trust:[["أسعار مصانع حقيقية","عروض من مصانع نتعامل معها، لا متوسطات من الإنترنت."],["مصمم للخليج","التكاليف بعملتك، مع الرسوم الجمركية الخليجية 5% والشحن."],["القرار لكِ","اقرئي دراستك أولًا، ثم قرري المتابعة أو التوقف."]],
 fqEye:"أسئلة",faq:[["ماذا أحصل مقابل 19 ريال؟","دراسة مكتوبة لمشروعك: التكاليف الحقيقية للقطعة، مصانع مناسبة، خطة مراحل بالتواريخ، وسعر البيع والهامش."],["كم تستغرق؟","نؤكد طلبك على واتساب خلال 48 ساعة ونسلّم الدراسة خلال 5 أيام عمل."],["هل يجب أن أكمل بعد الدراسة؟","لا. الدراسة لكِ، وتختارين الإطلاق معنا أو وحدك أو عدم الإطلاق."],["ما هو الحد الأدنى للكمية؟","تبدأ معظم المصانع من 50 إلى 100 قطعة لكل تصميم، والدراسة تحدد الحد الأدنى لمنتجك."]],
 sheetH:"دراسة المشروع",sheetP:"تُبنى دراستك على هذا التقدير:",sumPlan:"الباقة",sumProd:"المنتج",sumFact:"المصنع",sumBud:"الميزانية التقديرية",sumTot:"المبلغ",payNote:"الدفع الإلكتروني يفتح قريبًا. أرسلي طلبك الآن: نؤكد على واتساب ونرسل لك رابط دفع آمن.",payCard:"بطاقة",payApple:"Apple Pay",soon:"قريبًا",continue:"متابعة",close:"إغلاق",
@@ -813,9 +922,10 @@ o3t:"11 مرحلة واضحة",o3p:"من اختبار السوق إلى يوم �
 o4t:"لنجهز مساحتك",o4p:"سؤالان لتبدأ تقديراتك من المكان الصحيح.",
 next:"التالي",start:"ابدئي",skipOnb:"تخطي",createSpace:"أنشئي مساحتي",chooseLang:"اختاري لغتك",
 phases:["التخطيط","البناء","الإنتاج","الإطلاق"],
-products:{tshirt:"تيشيرت",hoodie:"هودي",dress:"فستان",abaya:"عباية",scarf:"شيلة / وشاح",bag:"حقيبة جلدية",wallet:"محفظة جلدية"},
+products:{abaya:"عباية",jalabiya:"جلابية",kaftan:"قفطان",evening:"فستان سهرة",dress:"فستان",tshirt:"تيشيرت",hoodie:"هودي",scarf:"شيلة / وشاح",bag:"حقيبة جلدية",wallet:"محفظة جلدية"},
 packs:{poly:"كيس بشعار",box:"علبة مطبوعة",premium:"علبة هدايا فاخرة"},
 countries:{QA:"قطر",AE:"الإمارات",SA:"السعودية",KW:"الكويت",BH:"البحرين",OM:"عُمان"},
+legalIn:"وين تسجّلي في {c}",legal:{QA:"وزارة التجارة والصناعة: السجل التجاري وتسجيل العلامة.",AE:"دائرة التنمية الاقتصادية أو منطقة حرة للرخصة، ووزارة الاقتصاد لتسجيل العلامة.",SA:"وزارة التجارة للسجل التجاري، والهيئة السعودية للملكية الفكرية للعلامة.",KW:"وزارة التجارة والصناعة: السجل التجاري وتسجيل العلامة.",BH:"سجلات (وزارة الصناعة والتجارة): السجل وتسجيل العلامة.",OM:"وزارة التجارة والصناعة وترويج الاستثمار: السجل وتسجيل العلامة."},
 ms:[
 ["دراسة المشروع","حددي المنتج والعميلة المستهدفة والمنافسين والميزانية الأولية.",["المنتج والعميلة المستهدفة","تحليل 3 منافسين","الميزانية الأولية"]],
 ["اختبار السوق","تأكدي أن الناس سيشترون قبل أن تستثمري.",["استبيان على إنستغرام","طلبات مسبقة أو قائمة انتظار","المخاطر والعقبات"]],
@@ -831,12 +941,17 @@ ms:[
 
 /* ===== Data ===== */
 const MS=[{w:1,f:1,ph:0},{w:2,f:1,ph:0},{w:2,f:0,ph:0},{w:2,f:0,ph:1},{w:2,f:0,ph:1},{w:3,f:0,ph:1},{w:2,f:0,ph:1},{w:1,f:0,ph:2},{w:6,f:0,ph:2},{w:3,f:0,ph:2},{w:2,f:0,ph:3}];
-const BASE={tshirt:[15,30],hoodie:[40,80],dress:[60,140],abaya:[70,180],scarf:[15,40],bag:[120,300],wallet:[35,90]};
+const BASE={tshirt:[15,30],hoodie:[40,80],dress:[60,140],abaya:[70,180],jalabiya:[55,150],kaftan:[50,140],evening:[110,320],scarf:[15,40],bag:[120,300],wallet:[35,90]};
+const SEASONS={ramadan:["2027-02-08","2028-01-28"],eidFitr:["2027-03-10","2028-02-27"],eidAdha:["2027-05-16","2028-05-05"],summer:["2027-06-15","2028-06-15"],saudiDay:["2027-09-23","2028-09-23"],uaeDay:["2026-12-02","2027-12-02"],qatarDay:["2026-12-18","2027-12-18"]};
+const BK_COLORS=["#0A0A0A","#B8913E","#5E6B34","#7A1F3D","#1F2F55","#C9A98A"];
+const BK_STYLE={classic:{f:"Georgia,'Times New Roman',serif",w:400,up:true,ls:6,it:false},modern:{f:"Poppins,system-ui,sans-serif",w:600,up:false,ls:0,it:false},bold:{f:"Poppins,system-ui,sans-serif",w:700,up:true,ls:2,it:false},soft:{f:"Georgia,'Times New Roman',serif",w:400,up:false,ls:1,it:true}};
+const BK_NAMES=["Noor","Layan","Dana","Rawa","Sama","Lulu","Mira","Zayna","Amal","Reem","Hala","Yara","Tala","Leen","Jude","Sarab","Dima","Ward"];
+const BK_AFFIX={classic:["Maison {n}","{n} Atelier","House of {n}"],modern:["{n} Studio","{n}.","Studio {n}"],bold:["{n} & Co","{n} Club","{n} Wear"],soft:["{n} Silk","{n} Rose","{n} Bloom"]};
 const ORIGIN={TR:[1,1],IT:[1.8,2.5]};const SHIP={TR:[5,9],IT:[7,13]};
 const PACK={poly:[1,2],box:[6,15],premium:[18,35]};
 const CUR={QA:["QAR",1],AE:["AED",1.009],SA:["SAR",1.03],KW:["KWD",.0843],BH:["BHD",.1033],OM:["OMR",.1058]};
 const TABS=["home","roadmap","budget","plans","profile"];
-const SUB={request:"plans",sent:"home"};
+const SUB={request:"plans",sent:"home",brand:"home",about:"home"};
 const ALIAS={estimate:"budget",start:"request"};
 
 /* ===== Icons ===== */
@@ -854,12 +969,13 @@ const IC={
  check:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 9.5"/></svg>',
  card:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>',
  phone:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>',
+ wa:'<svg class="i" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>',
  alert:'<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.8v3.6M8 11h0"/></svg>'
 };
 
 /* ===== State (saved on device) ===== */
 const KEY="startup-v2";
-let S={lang:"en",theme:"auto",onboarded:false,profile:{name:"",country:"QA",product:"abaya"},done:[],saved:[]};
+let S={lang:"en",theme:"auto",onboarded:false,profile:{name:"",country:"QA",product:"abaya"},done:[],saved:[],brand:null,season:"any",study:false};
 try{const raw=JSON.parse(localStorage.getItem(KEY)||"null");if(raw)S=Object.assign(S,raw)}catch(_){}
 try{ // migrate v1
   if(!localStorage.getItem(KEY)){const d=JSON.parse(localStorage.getItem("startup-done")||"null");if(Array.isArray(d)){S.done=d;S.onboarded=true}
@@ -972,6 +1088,10 @@ function renderStatic(){
   $("faq").innerHTML=t.faq.map(x=>`<details><summary>${x[0]}</summary><p>${x[1]}</p></details>`).join("");
   $("f-idea").placeholder=t.ideaP;$("msq").placeholder=t.searchP;
   $("install").textContent=t.install;
+  $("abStats").innerHTML=t.abStats.map(x=>`<div><b dir="ltr">${x[0]}</b><span>${x[1]}</span></div>`).join("");
+  $("abVals").innerHTML=t.abVals.map((x,i)=>`<li><span class="ic">${[IC.calc,IC.check,IC.globe][i]}</span><div><h3>${x[0]}</h3><p>${x[1]}</p></div></li>`).join("");
+  renderContact();renderBrand();
+  fillSelect("season",t.seasons,S.season||"any");
   ["product","country","pack"].forEach(id=>{const v=$(id).value;fillSelect(id,id==="product"?t.products:id==="country"?t.countries:t.packs,v||{product:S.profile.product,country:S.profile.country,pack:"box"}[id])});
   fillSelect("pf-country",t.countries,S.profile.country);fillSelect("pf-product",t.products,S.profile.product);
   document.querySelectorAll('input[name="lang"]').forEach(r=>r.checked=r.value===L);
@@ -1018,7 +1138,7 @@ function renderMS(){
       <button type="button" class="chk" aria-pressed="${done.has(i)}" aria-label="${esc(h)}">${done.has(i)?CHECK:String(i+1).padStart(2,"0")}</button>
       <div class="ms-title"><h3>${h}</h3><small class="num">${t.phases[m.ph]} · ${m.w} ${t.week}</small></div>
       <span class="tag ${m.f?"":"pro"}">${m.f?t.free:t.pro}</span>${CARET}</div>
-      <div class="ms-body"${open.has(i)?"":" hidden"}><p>${d}</p><ul>${l.map(x=>"<li>"+x+"</li>").join("")}</ul></div>`;
+      <div class="ms-body"${open.has(i)?"":" hidden"}><p>${d}</p><ul>${l.map(x=>"<li>"+x+"</li>").join("")}</ul>${i===2?`<p class="season" style="margin-top:10px"><span><b>${fmt(t.legalIn,{c:t.countries[S.profile.country]})}</b>${t.legal[S.profile.country]}</span></p>`:""}</div>`;
     li.querySelector(".chk").addEventListener("click",e=>{e.stopPropagation();const was=done.has(i);was?done.delete(i):done.add(i);persist();haptic();renderMS();renderDash();renderProfile();
       const c=document.querySelector("#ms-"+i+" .chk");if(c){c.classList.add("pop");c.focus()}if(!was)toast(done.size===11?t.done+" 🎉":t.msDone)});
     const row=li.querySelector(".ms-row");const tog=()=>{open.has(i)?open.delete(i):open.add(i);renderMS();const r=document.querySelector("#ms-"+i+" .ms-row");r&&r.focus()};
@@ -1049,6 +1169,7 @@ function calc(){
   $("legend").innerHTML=est.parts.map(x=>`<div class="lr"><i style="background:${x[2]}"></i><span>${t[x[0]]}</span><span class="num">${rng(x[1],c)}</span></div>`).join("");
   $("perPiece").textContent=rng(est.unit,c);$("retail").textContent=rng([est.unit[0]*2.5,est.unit[1]*3],c);
   const w=$("warn");if(est.q<50){w.textContent=t.warnMoq;w.hidden=false}else w.hidden=true;
+  renderSeason();renderProfit();
   renderDash();
 }
 function savedItem(s,i,compactRow){
@@ -1074,10 +1195,74 @@ function renderHomeSaved(){
 function loadEst(s){$("product").value=s.p;$("qty").value=s.q;$("country").value=s.c;$("pack").value=s.pack;document.querySelector(`input[name="origin"][value="${s.o}"]`).checked=true;["b-label","b-tag","b-logo"].forEach((id,k)=>$(id).checked=s.b[k]);calc()}
 function applyProfileDefaults(){$("product").value=S.profile.product;$("country").value=S.profile.country}
 
+/* ===== Season & profit ===== */
+function weeksLeft(){return MS.reduce((a,m,i)=>a+(done.has(i)?0:m.w),0)}
+function dLabel(d){return d.toLocaleDateString(L==="ar"?"ar-QA-u-nu-latn":"en-GB",{month:"long",year:"numeric"})}
+function renderSeason(){
+  const t=T[L],b=$("seasonBox"),k=$("season").value||"any";S.season=k;
+  const w=weeksLeft(),ready=new Date(Date.now()+w*7*864e5);
+  if(k==="any"){b.className="season";b.innerHTML=`<span><b>${fmt(t.seasonAny,{d:dLabel(ready)})}</b>${fmt(t.seasonAnyS,{w:w})}</span>`;b.hidden=false;return}
+  const now=new Date();const ev=SEASONS[k].map(x=>new Date(x+"T00:00:00")).find(d=>d>now)||new Date(SEASONS[k][1]);
+  const e=ev.toLocaleDateString(L==="ar"?"ar-QA-u-nu-latn":"en-GB",{day:"numeric",month:"short",year:"numeric"})+(["ramadan","eidFitr","eidAdha"].includes(k)?" "+t.approx:"");
+  const ok=ready.getTime()<=ev.getTime()-14*864e5;
+  b.className="season "+(ok?"ok":"late");
+  b.innerHTML=ok?`<span><b>${fmt(t.seasonOk,{d:dLabel(ready)})}</b>${fmt(t.seasonOkS,{s:t.seasons[k],e})}</span>`
+    :`<span><b>${fmt(t.seasonLate,{s:t.seasons[k],e})}</b>${fmt(t.seasonLateS,{d:dLabel(ready)})}</span>`;
+  b.hidden=false;
+}
+let sellTouched=false,sellKey="";
+function renderProfit(){
+  const c=est.c,r=CUR[c][1],key=est.p+est.o+c;
+  if(!sellTouched||key!==sellKey){$("sell").value=Math.round(mid([est.unit[0]*2.5,est.unit[1]*3])*r);sellKey=key;sellTouched=false}
+  const sell=(parseFloat($("sell").value)||0)/r,u=mid(est.unit),pp=sell-u,tot=pp*est.q;
+  $("profitPc").innerHTML=(pp<0?"-":"")+money(Math.abs(pp),c);$("profitTot").innerHTML=(tot<0?"-":"")+money(Math.abs(tot),c);
+}
+
+/* ===== Brand kit ===== */
+let bk={name:"",style:"modern",color:BK_COLORS[0]};
+function renderBrand(){
+  const t=T[L];if(S.brand)bk=Object.assign({},S.brand);
+  $("bk-name").placeholder=t.bkPh;if(document.activeElement!==$("bk-name"))$("bk-name").value=bk.name||"";
+  $("bkStyle").innerHTML=Object.keys(BK_STYLE).map(k=>`<label><input type="radio" name="bkstyle" value="${k}"${bk.style===k?" checked":""}><span>${t.bkStyles[k]}</span></label>`).join("");
+  $("bkColor").innerHTML=BK_COLORS.map((c,i)=>`<label><input type="radio" name="bkcolor" value="${c}"${bk.color===c?" checked":""} aria-label="${c}"><span style="background:${c}"></span></label>`).join("");
+  $("bkStyle").querySelectorAll("input").forEach(r=>r.onchange=()=>{bk.style=r.value;drawMock()});
+  $("bkColor").querySelectorAll("input").forEach(r=>r.onchange=()=>{bk.color=r.value;drawMock()});
+  drawMock();
+}
+function bkText(n,st){const s=BK_STYLE[st];return s.up?n.toUpperCase():n}
+function svgText(x,y,size,fill,txt,st,anchor){const s=BK_STYLE[st];return `<text x="${x}" y="${y}" text-anchor="${anchor||"middle"}" font-family="${s.f}" font-weight="${s.w}" font-style="${s.it?"italic":"normal"}" font-size="${size}" letter-spacing="${s.ls*size/40}" fill="${fill}">${esc(bkText(txt,st))}</text>`}
+function fitSize(n,base,max,st){const k=BK_STYLE[st||bk.style];const per=(k.up?.78:.62)+k.ls/40;return Math.min(base,Math.floor(max/(Math.max(4,n.length)*per)))}
+function drawMock(){
+  const t=T[L],n=(bk.name||"").trim()||t.bkPh,c=bk.color,st=bk.style,light=c==="#C9A98A";
+  const ink=light?"#0A0A0A":"#FFFFFF",dot='<circle cx="0" cy="0" r="0"/>';
+  const logo=`<svg viewBox="0 0 320 120" role="img" aria-label="${esc(n)}"><rect width="320" height="120" rx="14" fill="#FFFFFF"/>${svgText(160,72,fitSize(n,44,290),c,n,st)}<circle cx="${160}" cy="96" r="4" fill="#FFD400"/></svg>`;
+  const label=`<svg viewBox="0 0 160 110"><rect x="10" y="25" width="140" height="60" rx="4" fill="${c}"/><path d="M10 25h140M10 85h140" stroke="${ink}" stroke-opacity=".25" stroke-dasharray="2 3"/>${svgText(80,62,fitSize(n,20,120),ink,n,st)}</svg>`;
+  const tag=`<svg viewBox="0 0 160 110"><g transform="rotate(-8 80 55)"><rect x="45" y="10" width="70" height="95" rx="6" fill="#FFFFFF" stroke="#E5E5E5"/><circle cx="80" cy="22" r="4" fill="none" stroke="#BDBDBD"/><path d="M80 18C70 0 50 0 40 6" fill="none" stroke="#BDBDBD"/>${svgText(80,58,fitSize(n,13,60),c,n,st)}<rect x="58" y="78" width="44" height="3" rx="1.5" fill="${c}" opacity=".35"/><rect x="64" y="86" width="32" height="3" rx="1.5" fill="${c}" opacity=".35"/></g></svg>`;
+  const bag=`<svg viewBox="0 0 320 170"><path d="M130 50c0-24 60-24 60 0" fill="none" stroke="${light?"#8C735C":"#3A3A3A"}" stroke-width="5"/><rect x="95" y="45" width="130" height="118" rx="6" fill="${c}"/><rect x="95" y="45" width="130" height="10" fill="#000" opacity=".08"/>${svgText(160,112,fitSize(n,22,110),ink,n,st)}</svg>`;
+  $("mock").innerHTML=`<figure class="wide">${logo}<figcaption>${t.mLogo}</figcaption></figure><figure>${label}<figcaption>${t.mLabel}</figcaption></figure><figure>${tag}<figcaption>${t.mTag}</figcaption></figure><figure class="wide">${bag}<figcaption>${t.mBag}</figcaption></figure>`;
+}
+function suggestNames(){
+  const t=T[L],pool=[...BK_NAMES].sort(()=>Math.random()-.5).slice(0,6),af=BK_AFFIX[bk.style];
+  $("sugg").innerHTML=pool.map((x,i)=>{const v=af[i%af.length].replace("{n}",x);return `<button type="button" class="fchip" data-v="${esc(v)}">${esc(v)}</button>`}).join("");
+  $("sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{bk.name=b.dataset.v;$("bk-name").value=bk.name;$("sugg").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));drawMock()});
+}
+
+/* ===== Contact ===== */
+function waLink(msg){return CONTACT_WA?"https://wa.me/"+CONTACT_WA+(msg?"?text="+encodeURIComponent(msg):""):""}
+function renderContact(){
+  const t=T[L],b=[];
+  if(CONTACT_WA)b.push(`<a class="btn wa block" href="${waLink(t.hi+" Startup")}" target="_blank" rel="noopener">${IC.wa}<span>${t.ctWa}</span></a>`);
+  if(CONTACT_EMAIL)b.push(`<a class="btn k block" href="mailto:${CONTACT_EMAIL}">${t.ctMail}</a>`);
+  if(CONTACT_IG)b.push(`<a class="btn o block" href="https://instagram.com/${CONTACT_IG}" target="_blank" rel="noopener">${t.ctIg} · @${CONTACT_IG}</a>`);
+  b.push(`<a class="btn ${b.length?"g":"y"} block" href="#request">${t.ctForm}</a>`);
+  $("ctBtns").innerHTML=b.join("");
+  const f=$("waFab");if(CONTACT_WA){f.href=waLink(t.hi+" Startup");f.hidden=false}else f.hidden=true;
+}
+
 /* ===== Dashboard ===== */
 function renderPath(){
   const t=T[L],hasB=S.saved.length>0,st=S.study||lastReq;
-  const href=["#budget","#plans","#roadmap"],ok=[hasB,!!st,done.size===11];
+  const href=["#budget","#brand","#plans","#roadmap"],ok=[hasB,!!(S.brand&&S.brand.name),!!st,done.size===11];
   const now=ok.findIndex(x=>!x);
   const arrow='<svg class="i flip go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
   $("path").innerHTML=t.path.map((p,i)=>`<li class="${ok[i]?"ok":""}${i===now?" now":""}"><a class="tap" href="${href[i]}"><span class="n">${ok[i]?"✓":i+1}</span><span class="tx"><b>${p[0]}</b><span class="s">${ok[i]?t.doneS:p[1]}</span></span>${arrow}</a></li>`).join("");
@@ -1107,6 +1292,7 @@ Object.keys(validators).forEach(id=>{
 function renderReq(){
   document.querySelectorAll('input[name="plan"]').forEach(r=>r.checked=r.value===plan);
   if(!$("f-name").value&&S.profile.name)$("f-name").value=S.profile.name;
+  if(!$("f-brand").value&&S.brand&&S.brand.name)$("f-brand").value=S.brand.name;
   $("reqSum").innerHTML=sumRows(true);
 }
 document.querySelectorAll('input[name="plan"]').forEach(r=>r.addEventListener("change",()=>{plan=r.value;$("reqSum").innerHTML=sumRows(true)}));
@@ -1169,6 +1355,11 @@ $("msq").addEventListener("input",e=>{filter.q=e.target.value;renderMS()});
 $("est").addEventListener("input",calc);$("est").addEventListener("change",calc);$("est").addEventListener("submit",e=>e.preventDefault());
 const step=d=>{const q=$("qty");q.value=Math.max(1,(parseInt(q.value,10)||0)+d);calc();haptic()};
 $("qMinus").onclick=()=>step(-50);$("qPlus").onclick=()=>step(50);
+$("season").addEventListener("change",()=>{renderSeason();persist()});
+$("sell").addEventListener("input",()=>{sellTouched=true;renderProfit()});
+$("bk-name").addEventListener("input",e=>{bk.name=e.target.value.slice(0,18);drawMock()});
+$("bkSug").onclick=suggestNames;
+$("bkSave").onclick=()=>{const t=T[L];bk.name=($("bk-name").value||"").trim();if(!bk.name){suggestNames();$("bk-name").focus();return}S.brand=Object.assign({},bk);persist();haptic();renderPath();toast(t.bkSaved);if(!$("f-brand").value)$("f-brand").value=bk.name};
 $("saveEst").onclick=()=>{const t=T[L];const x=readEst();if(S.saved.length&&JSON.stringify(S.saved[0])===JSON.stringify(x)){toast(t.saved);return}const first=!S.saved.length;S.saved.unshift(x);S.saved=S.saved.slice(0,10);persist();renderSaved();renderProfile();renderDash();haptic();toast(t.saved,{label:t.seeDash,fn:()=>{location.hash="#home"}});if(first)setTimeout(()=>{location.hash="#home"},900)};
 document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=()=>checkout(b.dataset.plan));
 $("pfForm").onsubmit=e=>{e.preventDefault();S.profile.name=$("pf-name").value.trim().slice(0,30);S.profile.country=$("pf-country").value;S.profile.product=$("pf-product").value;persist();applyProfileDefaults();calc();renderProfile();toast(T[L].profileSaved)};
