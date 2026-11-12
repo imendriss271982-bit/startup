@@ -898,6 +898,19 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
 .st-facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
 .st-facts li{display:flex;justify-content:space-between;gap:12px;font-size:.92rem}
 .st-facts li span{color:var(--muted)}
+
+/* Hick's law: hide secondary choices until asked */
+details.more{border:1px solid var(--line);border-radius:var(--r-lg);padding:0 14px;background:var(--field)}
+details.more>summary{list-style:none;cursor:pointer;min-height:48px;display:flex;align-items:center;justify-content:space-between;font-weight:600;gap:10px}
+details.more>summary::-webkit-details-marker{display:none}
+details.more>summary::after{content:"+";width:26px;height:26px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);transition:transform var(--t-base)}
+details.more[open]>summary::after{transform:rotate(45deg)}
+details.more[open]{padding-bottom:14px}
+details.more>.in{display:flex;flex-direction:column;gap:16px;padding-top:4px}
+.link-btn{background:none;border:0;cursor:pointer;color:var(--ink);text-decoration:underline;font:600 .95rem var(--body);align-self:center;padding:10px;min-height:44px}
+#path:not(.all) li:not(.now){display:none}
+#path.all li{display:list-item}
+.dash .mini>div:nth-child(4),.dash .bars{display:none}
 </style>
 </head>
 <body>
@@ -989,8 +1002,9 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
       <div class="ready"><div class="bar"><i id="readyBar" style="width:0"></i></div><b class="num" id="readyPct">0%</b></div>
       <p class="ready-l" id="readyL"></p>
       <ol class="path" id="path"></ol>
+      <button type="button" class="link-btn" id="pathAll" data-t="allSteps"></button>
       <div id="homeSaved"></div>
-      <a class="btn g block" href="#start" data-t="newProd"></a>
+      <a class="link-btn" href="#start" data-t="newProd" style="text-align:center"></a>
     </div>
   </section>
 
@@ -1010,7 +1024,7 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
       <p data-t="rP"></p>
     </div>
     <div class="phases" id="phases"></div>
-    <div class="search"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+    <div class="search" hidden><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
       <label class="sr" for="msq" data-t="searchL"></label><input id="msq" type="search" autocomplete="off"></div>
     <div class="filters" id="filters" role="group"></div>
     <ol class="ms" id="ms"></ol>
@@ -1027,13 +1041,6 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
     <div class="split">
       <form class="card fields" id="est" novalidate>
         <label for="product"><span data-t="fProduct"></span><select id="product"></select></label>
-        <fieldset><legend data-t="fMat"></legend><div class="mats" id="mats"></div></fieldset>
-        <fieldset><legend data-t="fCraft"></legend>
-          <div class="seg" id="craft">
-            <label><input type="radio" name="craft" value="machine" checked><span data-t="crMachine"></span></label>
-            <label><input type="radio" name="craft" value="hand"><span data-t="crHand"></span></label>
-          </div>
-        </fieldset>
         <div class="lbl"><span id="qtyL" data-t="fQty"></span>
           <div class="stepper" role="group" aria-labelledby="qtyL">
             <button type="button" id="qMinus" aria-label="−50">−</button>
@@ -1046,6 +1053,14 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
           <div class="seg">
             <label><input type="radio" name="origin" value="TR" checked><span data-t="tr"></span></label>
             <label><input type="radio" name="origin" value="IT"><span data-t="it"></span></label>
+          </div>
+        </fieldset>
+        <details class="more"><summary data-t="moreOpt"></summary><div class="in">
+        <fieldset><legend data-t="fMat"></legend><div class="mats" id="mats"></div></fieldset>
+        <fieldset><legend data-t="fCraft"></legend>
+          <div class="seg" id="craft">
+            <label><input type="radio" name="craft" value="machine" checked><span data-t="crMachine"></span></label>
+            <label><input type="radio" name="craft" value="hand"><span data-t="crHand"></span></label>
           </div>
         </fieldset>
         <label for="season"><span data-t="fSeason"></span><select id="season"></select></label>
@@ -1061,6 +1076,7 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
             <label class="tg"><input type="checkbox" id="b-logo"><span class="box"><svg viewBox="0 0 10 10" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.2l2 2 4-4.4"/></svg></span><span data-t="bLogo"></span></label>
           </div>
         </fieldset>
+        </div></details>
       </form>
       <div style="display:flex;flex-direction:column;gap:12px">
         <div class="inv" aria-live="polite" id="resCard">
@@ -1073,13 +1089,13 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
           <div><span data-t="retail"></span><b class="num" id="retail"></b></div>
         </div>
         <div class="season" id="seasonBox" hidden></div>
+        <p class="warn" id="warn" hidden></p>
+        <button class="btn y block" type="button" data-plan="study" data-t="eCta"></button>
+        <button class="link-btn" type="button" id="saveEst" data-t="save"></button>
+        <details class="more"><summary data-t="moreProfit"></summary><div class="in">
         <label for="sell" class="lbl"><span data-t="fSell"></span><input id="sell" type="number" inputmode="decimal" min="0" step="1"></label>
         <div class="profit"><div><span data-t="profitPc"></span><b class="num" id="profitPc"></b></div><div><span data-t="profitTot"></span><b class="num" id="profitTot"></b></div></div>
-        <p class="warn" id="warn" hidden></p>
-        <div class="btns" style="display:grid;grid-template-columns:1fr 1fr">
-          <button class="btn g" type="button" id="saveEst" data-t="save"></button>
-          <button class="btn k" type="button" data-plan="study" data-t="eCta"></button>
-        </div>
+        </div></details>
         <p class="note" data-t="eNote"></p>
       </div>
     </div>
@@ -1126,7 +1142,7 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
       <p data-t="sP"></p>
     </div>
     <form class="card fields" id="req" novalidate>
-      <fieldset>
+      <fieldset hidden>
         <legend data-t="fPlan"></legend>
         <div class="seg" id="planSeg">
           <label><input type="radio" name="plan" value="study" checked><span data-t="p2"></span></label>
@@ -1135,9 +1151,11 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
       </fieldset>
       <label for="f-name"><span data-t="fName"></span><input id="f-name" autocomplete="name" aria-describedby="e-name"><span class="ferr" id="e-name" hidden></span></label>
       <label for="f-email"><span data-t="fEmail"></span><input id="f-email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" required aria-describedby="e-email"><span class="ferr" id="e-email" hidden></span></label>
+      <label for="f-idea"><span data-t="fIdea"></span><textarea id="f-idea" aria-describedby="e-idea"></textarea><span class="ferr" id="e-idea" hidden></span></label>
+      <details class="more"><summary data-t="moreOpt2"></summary><div class="in">
       <label for="f-contact"><span><span data-t="fContact"></span> <span class="hint" data-t="optional"></span></span><input id="f-contact" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="e-contact"><span class="ferr" id="e-contact" hidden></span></label>
       <label for="f-brand"><span><span data-t="fBrandName"></span> <span class="hint" data-t="optional"></span></span><input id="f-brand"></label>
-      <label for="f-idea"><span data-t="fIdea"></span><textarea id="f-idea" aria-describedby="e-idea"></textarea><span class="ferr" id="e-idea" hidden></span></label>
+      </div></details>
       <div class="sum" id="reqSum"></div>
       <button class="btn y block" type="submit" id="reqSubmit" data-t="fSubmit"></button>
       <p class="note" data-t="fPrivacy" style="text-align:center"></p>
@@ -1154,7 +1172,7 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
       <div class="btns" style="width:100%;flex-direction:column">
         <a class="btn y block" id="sendWa" target="_blank" rel="noopener" hidden><span data-t="sendWa"></span></a>
         <button class="btn k block" type="button" id="shareReq" data-t="share" hidden></button>
-        <button class="btn o block" type="button" id="copyReq" data-t="fCopy"></button>
+        <button class="link-btn" type="button" id="copyReq" data-t="fCopy"></button>
       </div>
       <div class="card steps-next how"><p class="eyebrow" data-t="nextEye" style="margin-bottom:4px"></p><ol id="nextSteps"></ol></div>
       <a class="link" href="#home" data-t="backHome"></a>
@@ -1208,8 +1226,10 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
       <label for="bk-name"><span data-t="bkName"></span>
         <span class="bk-name"><input id="bk-name" maxlength="18" autocomplete="off"><button type="button" class="btn g sm" id="bkSug" data-t="bkSug"></button></span></label>
       <div class="sugg" id="sugg"></div>
+      <details class="more"><summary data-t="moreStyle"></summary><div class="in">
       <fieldset><legend data-t="bkStyle"></legend><div class="seg" id="bkStyle"></div></fieldset>
       <fieldset><legend data-t="bkColor"></legend><div class="swatches" id="bkColor"></div></fieldset>
+      </div></details>
     </div>
     <div class="mock" id="mock" aria-live="polite"></div>
     <div class="inv bkreq" id="bkReq">
@@ -1218,10 +1238,8 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
       <a class="btn y block" id="bkWa" target="_blank" rel="noopener"><span data-t="bkReqBtn"></span></a>
       <p data-t="bkReqNote" style="text-align:center"></p>
     </div>
-    <div class="btns" style="display:grid;grid-template-columns:1fr 1fr">
-      <button class="btn k" type="button" id="bkSave" data-t="bkSave"></button>
-      <a class="btn y" href="#study" data-t="bkNext"></a>
-    </div>
+    <a class="btn y block" href="#study" id="bkNextBtn" data-t="bkNext"></a>
+    <button class="link-btn" type="button" id="bkSave" data-t="bkSave"></button>
     <p class="note" data-t="bkNote" style="text-align:center"></p>
   </section>
 
@@ -1263,20 +1281,19 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
     </ul>
     <p class="list-label" data-t="myProject"></p>
     <ul class="list">
-      <li><a class="row" href="#roadmap"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8 6h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h7"/></svg></span><span class="rt"><span data-t="tRoad"></span><small id="pfProg"></small></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a></li>
-      <li><a class="row" href="#budget"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></span><span class="rt"><span data-t="savedH"></span><small id="pfSaved"></small></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a></li>
       <li><a class="row" href="#about"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg></span><span class="rt" data-t="abNav"></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a></li>
       <li><a class="row" href="#plans"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.8z"/></svg></span><span class="rt" data-t="tPlans"></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a></li>
     </ul>
-    <p class="list-label" data-t="dataL"></p>
+    <details class="more"><summary data-t="advanced"></summary><div class="in">
     <ul class="list">
       <li><button class="row" type="button" id="resetProg"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.6M4 4v4.6h4.6"/></svg></span><span class="rt" data-t="resetProg"></span></button></li>
       <li><button class="row danger" type="button" id="wipe"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></span><span class="rt"><span data-t="wipe"></span><small data-t="wipeS"></small></span></button></li>
     </ul>
+    </div></details>
     <p class="note" data-t="localNote" style="text-align:center"></p>
   </section>
 
-  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v5.0</span></footer>
+  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v5.2</span></footer>
 </main>
 
 <nav class="tabs" id="tabs" aria-label="Main">
@@ -1510,7 +1527,7 @@ try{ // migrate v1
   if(!localStorage.getItem(KEY)){const d=JSON.parse(localStorage.getItem("startup-done")||"null");if(Array.isArray(d)){S.done=d;S.onboarded=true}
   if(localStorage.getItem("startup-lang")==="ar")S.lang="ar"}
 }catch(_){}
-let L=S.lang,done=new Set(S.done),open=new Set(),est={},filter={ph:-1,st:"all",q:""},plan="study",lastReq="";
+let L=S.lang,done=new Set(S.done),open=new Set(),est={},filter={ph:-1,st:"todo",q:""},plan="study",lastReq="";
 function persist(){S.lang=L;S.done=[...done];try{localStorage.setItem(KEY,JSON.stringify(S))}catch(_){}}
 
 /* ===== Helpers ===== */
@@ -1714,7 +1731,7 @@ Object.assign(T.en,{
 heroFree:"Free to try · no account needed",
 why:[["Factories in Turkey & Italy","We find the right one for your product"],["Your budget in seconds","Cost per piece and total, before you pay anything"],["A real person on WhatsApp","We answer your questions fast"]],
 newProd:"+ Start another product",
-stOf:"Step {a} of {b}",st1H:"What do you want to make?",stProdH:"Which one?",stMatH:"Which material?",stCraftH:"How is it made?",stLogoH:"Do you have a logo?",rec:"Recommended",stNext:"Continue",crMachineS:"Lower price · faster",crHandS:"Premium · higher price",stItems:"{n} choices",
+stOf:"Step {a} of {b}",moreOpt:"More options",moreProfit:"Calculate my profit",moreOpt2:"Add WhatsApp & brand name (optional)",moreStyle:"Style & colour",allSteps:"See all 4 stages",lessSteps:"Show less",advanced:"Advanced",st1H:"What do you want to make?",stProdH:"Which one?",stMatH:"Which material?",stCraftH:"How is it made?",stLogoH:"Do you have a logo?",rec:"Recommended",stNext:"Continue",crMachineS:"Lower price · faster",crHandS:"Premium · higher price",stItems:"{n} choices",
 grp:{women:"Women",men:"Men",kids:"Kids",shoes:"Shoes",bags:"Bags",acc:"Accessories",basic:"Everyday basics"},
 moqL:"min. {n} pcs",st2H:"Your product details",change:"Change",
 stQty:"How many pieces?",moqHint:"Factories usually start at about {n} pieces for this product.",moqLow:"Below {n} pieces, prices go up. Your study finds the right workshop.",
@@ -1727,7 +1744,7 @@ Object.assign(T.ar,{
 heroFree:"مجاني للتجربة · بدون حساب",
 why:[["مصانع في تركيا وإيطاليا","نلقى لك المصنع المناسب لمنتجك"],["ميزانيتك في ثواني","تكلفة القطعة والإجمالي قبل ما تدفعين أي شي"],["شخص حقيقي على الواتساب","نرد على أسئلتك بسرعة"]],
 newProd:"+ ابدئي منتج ثاني",
-stOf:"الخطوة {a} من {b}",st1H:"شو تبين تصنعين؟",stProdH:"أي واحد؟",stMatH:"أي خامة؟",stCraftH:"كيف تنصنع؟",stLogoH:"عندك شعار؟",rec:"ننصح فيه",stNext:"كمّلي",crMachineS:"سعر أقل · أسرع",crHandS:"فاخر · سعر أعلى",stItems:"{n} اختيارات",
+stOf:"الخطوة {a} من {b}",moreOpt:"خيارات أكثر",moreProfit:"احسبي ربحك",moreOpt2:"أضيفي الواتساب واسم الماركة (اختياري)",moreStyle:"الستايل واللون",allSteps:"شوفي المراحل الأربع",lessSteps:"أقل",advanced:"متقدم",st1H:"شو تبين تصنعين؟",stProdH:"أي واحد؟",stMatH:"أي خامة؟",stCraftH:"كيف تنصنع؟",stLogoH:"عندك شعار؟",rec:"ننصح فيه",stNext:"كمّلي",crMachineS:"سعر أقل · أسرع",crHandS:"فاخر · سعر أعلى",stItems:"{n} اختيارات",
 grp:{women:"نساء",men:"رجال",kids:"أطفال",shoes:"أحذية",bags:"شنط",acc:"إكسسوارات",basic:"ملابس يومية"},
 moqL:"أقل كمية {n} قطعة",st2H:"تفاصيل منتجك",change:"تغيير",
 stQty:"كم قطعة؟",moqHint:"المصانع عادة تبدأ من حوالي {n} قطعة لهالمنتج.",moqLow:"أقل من {n} قطعة السعر يرتفع. دراستك تلقى لك الورشة المناسبة.",
@@ -1845,8 +1862,8 @@ function renderProfile(){
   $("pfName").textContent=S.profile.name||t.tProfile;
   $("pfMeta").textContent=fmt(t.pfMeta,{c:t.countries[S.profile.country],p:t.products[S.profile.product]});
   $("pf-name").value=S.profile.name;
-  $("pfProg").textContent=fmt(t.pfProgV,{d:done.size});
-  $("pfSaved").textContent=fmt(t.savedN,{n:S.saved.length});
+  if($("pfProg"))$("pfProg").textContent=fmt(t.pfProgV,{d:done.size});
+  if($("pfSaved"))$("pfSaved").textContent=fmt(t.savedN,{n:S.saved.length});
   $("hello").textContent=S.profile.name?fmt(t.hiName,{n:S.profile.name}):t.hi;
 }
 
@@ -1856,8 +1873,8 @@ function renderMS(){
   $("phases").innerHTML=t.phases.map((p,i)=>{const idx=MS.map((m,j)=>m.ph===i?j:-1).filter(j=>j>=0);const d=idx.filter(j=>done.has(j)).length;
     return `<div class="phase${d===idx.length?" full":""}"><b>${p}</b><div class="meter"><i style="width:${d/idx.length*100}%"></i></div><span class="num">${d}/${idx.length}</span></div>`}).join("");
   const cnt={all:11,todo:11-done.size,done:done.size};
-  $("filters").innerHTML=[["all",t.fAll],["todo",t.fTodo],["done",t.fDone]].map(([k,l])=>`<button type="button" class="fchip" data-st="${k}" aria-pressed="${filter.st===k}">${l} <span class="ct num">${cnt[k]}</span></button>`).join("")
-    +t.phases.map((p,i)=>`<button type="button" class="fchip" data-ph="${i}" aria-pressed="${filter.ph===i}">${p}</button>`).join("");
+  $("filters").innerHTML=[["todo",t.fTodo],["done",t.fDone],["all",t.fAll]].map(([k,l])=>`<button type="button" class="fchip" data-st="${k}" aria-pressed="${filter.st===k}">${l} <span class="ct num">${cnt[k]}</span></button>`).join("")
+;
   $("filters").querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{filter.st=b.dataset.st;renderMS()});
   $("filters").querySelectorAll("[data-ph]").forEach(b=>b.onclick=()=>{const v=+b.dataset.ph;filter.ph=filter.ph===v?-1:v;renderMS()});
   const q=filter.q.trim().toLowerCase();
@@ -1971,7 +1988,7 @@ function brandMsg(){
 }
 function renderBrandMode(){
   document.querySelectorAll('input[name="bkmode"]').forEach(r=>r.checked=r.value===bkMode);
-  const own=bkMode==="own";$("bkOwn").hidden=!own;$("bkMake").hidden=own;$("bkReq").hidden=own;renderUpl();drawMock();
+  const own=bkMode==="own";$("bkNextBtn").className="btn block "+(own?"y":"k");$("bkOwn").hidden=!own;$("bkMake").hidden=own;$("bkReq").hidden=own;renderUpl();drawMock();
 }
 function renderBrand(){
   const t=T[L];if(S.brand)bk=Object.assign({},S.brand);
@@ -2063,6 +2080,7 @@ function renderContact(){
 
 /* ===== Dashboard ===== */
 function renderPath(){
+  {const t0=T[L],pa=$("path"),b=$("pathAll");if(b){b.textContent=pa.classList.contains("all")?t0.lessSteps:t0.allSteps;b.onclick=()=>{pa.classList.toggle("all");b.textContent=pa.classList.contains("all")?t0.lessSteps:t0.allSteps}}}
   const t=T[L],hasB=S.saved.length>0,st=S.study||lastReq;
   const href=["#project","#budget","#brand","#study"],ok=[!!S.project,hasB,!!(S.brand&&S.brand.name)||!!S.logo||!!S.brandReq,!!st];
   const n=ok.filter(Boolean).length,pct=Math.round((n*25+done.size/11*0)*1)||0;
@@ -2071,6 +2089,7 @@ function renderPath(){
   const now=ok.findIndex(x=>!x);
   const arrow='<svg class="i flip go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
   const sub=i=>i===0&&S.project?projLine(true):ok[i]?t.doneS:t.path[i][1];
+  if(now<0)$("path").classList.add("all");
   $("path").innerHTML=t.path.map((p,i)=>`<li class="${ok[i]?"ok":""}${i===now?" now":""}"><a class="tap" href="${href[i]}"><span class="n">${ok[i]?"✓":i+1}</span><span class="tx" data-stage="${t.stageL} 0${i+1} · ${t.stages[i]}"><b>${p[0]}</b><span class="s">${sub(i)}</span></span>${arrow}</a></li>`).join("");
   renderStages(href,ok);
   renderIncl();
@@ -2114,7 +2133,7 @@ document.querySelectorAll('input[name="plan"]').forEach(r=>r.addEventListener("c
 $("req").addEventListener("submit",e=>{
   e.preventDefault();const t=T[L];let first=null;
   Object.keys(validators).forEach(id=>{const k=validators[id]($(id).value);setErr(id,k);if(k&&!first)first=id});
-  if(first){$(first).focus();toast(t.errForm);return}
+  if(first){if(first==="f-contact")$("f-contact").closest("details").open=true;$(first).focus();toast(t.errForm);return}
   const b=$("reqSubmit");b.classList.add("loading");b.disabled=true;
   setTimeout(()=>{
     b.classList.remove("loading");b.disabled=false;
@@ -2129,7 +2148,7 @@ function renderSent(){
   const t=T[L];if(!lastReq){location.replace("#request");return}
   $("f-text").textContent=lastReq;
   const wa=$("sendWa");if(CONTACT_WA){wa.href="https://wa.me/"+CONTACT_WA+"?text="+encodeURIComponent(lastReq);wa.hidden=false}else wa.hidden=true;
-  $("shareReq").hidden=!navigator.share;
+  $("shareReq").hidden=!navigator.share||!!CONTACT_WA;
   $("okP").textContent=CONTACT_WA?t.okWa:t.okShare;
   $("copyReq").textContent=t.fCopy;
 }
