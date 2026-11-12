@@ -464,6 +464,41 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
 .wa-fab svg{width:26px;height:26px}
 body.no-tabs .wa-fab{display:none}
 
+/* ===== Ready meter ===== */
+.ready{display:flex;align-items:center;gap:12px}
+.ready .bar{flex:1;height:10px;border-radius:5px;background:var(--soft);overflow:hidden}
+.ready .bar i{display:block;height:100%;background:var(--y);border-radius:5px;transition:width .6s var(--ease)}
+.ready b{font:700 .95rem "Poppins",sans-serif;white-space:nowrap}
+.ready-l{font-size:.85rem;color:var(--muted);margin-top:-12px}
+/* ===== Project wizard ===== */
+.qz{display:flex;flex-direction:column;gap:18px}
+.qz-dots{display:flex;gap:6px}.qz-dots i{flex:1;height:6px;border-radius:3px;background:var(--line)}.qz-dots i.on{background:var(--ink)}
+.qz h2{font-size:1.5rem}
+.chips{display:flex;flex-wrap:wrap;gap:10px}
+.chips .fchip{min-height:48px;padding:0 18px;font-size:.95rem}
+.qz-sub{font:600 .8rem var(--body);color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+[dir="rtl"] .qz-sub{letter-spacing:0}
+.canvas{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.canvas div{background:var(--soft);border-radius:var(--r-md);padding:12px;min-width:0}
+.canvas span{display:block;font-size:.72rem;color:var(--muted)}
+.canvas b{font:600 .95rem var(--display);line-height:1.3}
+/* ===== Study page ===== */
+.incl{list-style:none;margin:0;padding:0;display:flex;flex-direction:column}
+.incl li{display:flex;gap:12px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line)}
+.incl li:last-child{border-bottom:0}
+.incl .ic{width:32px;height:32px;border-radius:50%;background:var(--soft);display:grid;place-items:center;flex:none;color:var(--muted)}
+.incl .ic svg{width:16px;height:16px}
+.incl li.have .ic{background:var(--ink);color:var(--y)}
+.incl b{font:600 .95rem var(--display);display:block}
+.incl small{color:var(--muted);font-size:.8rem}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.vs div{border-radius:var(--r-md);padding:14px;font-size:.84rem;display:flex;flex-direction:column;gap:6px}
+.vs .a{background:var(--soft);color:var(--muted)}
+.vs .b{background:var(--inv);color:var(--inv-ink)}
+.vs h4{margin:0;font:700 .9rem var(--display)}
+.vs .b h4{color:var(--y)}
+.vs p{margin:0}
+
 /* ===== Tablet / desktop ===== */
 @media (min-width:760px){
   .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
@@ -525,6 +560,8 @@ body.no-tabs .wa-fab{display:none}
       <p class="eyebrow" id="hello"></p>
       <h1><span data-t="h1a"></span><span class="mark" data-t="h1b"></span><span data-t="h1c"></span></h1>
     </div>
+    <div class="ready"><div class="bar"><i id="readyBar" style="width:0"></i></div><b class="num" id="readyPct">0%</b></div>
+    <p class="ready-l" id="readyL"></p>
     <ol class="path" id="path"></ol>
     <div id="dashWrap">
       <div class="inv dash" aria-live="polite">
@@ -699,6 +736,30 @@ body.no-tabs .wa-fab{display:none}
     </div>
   </section>
 
+  <!-- PROJECT (wizard) -->
+  <section class="view" id="v-project" hidden>
+    <div class="qz" id="qz"></div>
+  </section>
+
+  <!-- STUDY -->
+  <section class="view" id="v-study" hidden>
+    <div class="head">
+      <p class="eyebrow" data-t="stEye"></p>
+      <h2 data-t="stH"></h2>
+      <p data-t="stP"></p>
+    </div>
+    <div class="card"><ul class="incl" id="incl"></ul></div>
+    <div class="vs">
+      <div class="a"><h4 data-t="vsA"></h4><p data-t="vsAp"></p></div>
+      <div class="b"><h4 data-t="vsB"></h4><p data-t="vsBp"></p></div>
+    </div>
+    <div class="inv" style="display:flex;flex-direction:column;gap:12px">
+      <div class="total"><span data-t="stPrice"></span><b class="num" dir="ltr">19 QAR</b></div>
+      <button class="btn y block" type="button" data-plan="study" data-t="p2Btn"></button>
+    </div>
+    <p class="note" data-t="stNote" style="text-align:center"></p>
+  </section>
+
   <!-- BRAND KIT -->
   <section class="view" id="v-brand" hidden>
     <div class="head">
@@ -771,7 +832,7 @@ body.no-tabs .wa-fab{display:none}
     <p class="note" data-t="localNote" style="text-align:center"></p>
   </section>
 
-  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v2.1</span></footer>
+  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v2.2</span></footer>
 </main>
 
 <nav class="tabs" id="tabs" aria-label="Main">
@@ -798,7 +859,18 @@ const STUDY_PRICE=19;
 const T={
 en:{h1a:"Your brand in ",h1b:"one click",h1c:".",
 lead:"",
-hi:"Hello",hiName:"Hello, {n}",path:[["Calculate my budget","30 seconds"],["Create my brand look","Name, logo, label"],["Get my study","19 QAR"],["Launch my brand","11 easy steps"]],doneS:"Done",seeDash:"See dashboard",
+hi:"Hello",hiName:"Hello, {n}",path:[["My project","2 minutes · free"],["My budget","Cost of your first collection"],["My brand look","Name, logo, label"],["My full study","19 QAR · everything to launch"]],
+readyL:"Your brand is {p}% ready",readyL0:"Start with your project. It takes 2 minutes.",readyL4:"Your study is on its way. Next: the 11 launch steps.",
+qzQ:["What will you sell?","Who will buy it?","Which price level?","Where will you sell?","When do you want to launch?"],qzOf:"Question {a} of {b}",qzBack:"Back",qzNext:"Next",qzDone:"See my project",
+qWho:{women:"Women",men:"Men",kids:"Kids",all:"Everyone"},qAge:{a1:"18–25",a2:"25–35",a3:"35–50",a4:"50+"},qAgeL:"Age",qWhoL:"Customer",
+qPrice:{low:"Affordable",mid:"Mid-range",high:"Premium",lux:"Luxury"},qChan:{ig:"Instagram",web:"Online store",shop:"Boutiques",popup:"Pop-up events"},qChanL:"Sell on",qCountryL:"Country",
+pjEye:"My project",pjH:"Here is your project",pjEdit:"Change answers",pjNext:"Next: my budget",cvProd:"Product",cvWho:"Customer",cvPrice:"Price level",cvWhere:"Where",cvWhen:"Launch",cvChan:"Sell on",
+pjLine:"Your {p} brand for {w} aged {a} in {c}. {r} prices, sold on {h}.",
+stEye:"My full study",stH:"Everything you need before you pay a factory",stP:"Written for your project by our team, in 5 working days.",
+incl:[["Project summary","Your idea and what makes it different"],["Your customer","Who buys, how much she spends, where"],["Market & competitors","3 to 5 GCC brands and their prices"],["Collection plan","Designs, sizes, fabrics, quantities"],["Matched factories","2 to 3 factories, minimum order, timing"],["Full costs","Per piece and total, with shipping and customs"],["Price & profit","Selling price, margin, break-even"],["Brand & packaging","Logo, labels, box or bag"],["Legal papers","What to register in your country"],["Launch & marketing","Instagram, influencers, season"],["Timeline","Every step with a date"],["Risks","What can go wrong, and how to avoid it"]],
+haveIt:"You started it",
+vsA:"Alone",vsAp:"3 to 6 months searching, unknown factories, surprise costs, and the risk of paying for stock that does not sell.",vsB:"With Startup",vsBp:"A clear study in 5 days, factories we know, real costs, and one person who follows you to launch.",
+stPrice:"Your full study",stNote:"Pay once. The study is yours, even if you stop there.",doneS:"Done",seeDash:"See dashboard",
 whoH:"Who we are",whoS:"Meet the team and talk to us",abNav:"About us & contact",qH:"Still have a question?",qS:"Talk to us, we answer fast",
 abEye:"About Startup",abH:"We turn your idea into a real brand.",abP:"Startup is an app by Diva Divina, a Doha company with more than 15 years in fashion business, operations and factory sourcing. We work with factories in Turkey and Italy and follow your order until it reaches your door in the GCC.",
 abStats:[["15+","years of experience"],["TR · IT","partner factories"],["6","GCC countries"]],
@@ -869,7 +941,18 @@ ms:[
 ["Launch & sales","Open your shop and get your first customers.",["Instagram and website","Online store","Launch campaign"]]]},
 ar:{h1a:"علامتك في ",h1b:"ضغطة واحدة",h1c:".",
 lead:"",
-hi:"مرحبًا",hiName:"مرحبًا {n}",path:[["احسبي ميزانيتي","30 ثانية"],["صمّمي شكل علامتك","الاسم، الشعار، الليبل"],["احصلي على دراستي","19 ريال"],["أطلقي علامتك","11 خطوة سهلة"]],doneS:"تم",seeDash:"شوفي اللوحة",
+hi:"مرحبًا",hiName:"مرحبًا {n}",path:[["مشروعي","دقيقتين · مجاني"],["ميزانيتي","تكلفة أول مجموعة"],["شكل علامتي","الاسم، الشعار، الليبل"],["دراستي الكاملة","19 ريال · كل ما تحتاجينه للإطلاق"]],
+readyL:"علامتك جاهزة بنسبة {p}%",readyL0:"ابدئي بمشروعك. ياخذ دقيقتين بس.",readyL4:"دراستك في الطريق. التالي: 11 خطوة للإطلاق.",
+qzQ:["شو بتبيعين؟","مين بيشتري؟","أي مستوى سعر؟","وين بتبيعين؟","متى تبين تطلقين؟"],qzOf:"سؤال {a} من {b}",qzBack:"رجوع",qzNext:"التالي",qzDone:"شوفي مشروعي",
+qWho:{women:"نساء",men:"رجال",kids:"أطفال",all:"الكل"},qAge:{a1:"18–25",a2:"25–35",a3:"35–50",a4:"+50"},qAgeL:"العمر",qWhoL:"الزبونة",
+qPrice:{low:"اقتصادي",mid:"متوسط",high:"راقي",lux:"فاخر"},qChan:{ig:"إنستغرام",web:"متجر أونلاين",shop:"بوتيكات",popup:"معارض ومناسبات"},qChanL:"البيع عبر",qCountryL:"البلد",
+pjEye:"مشروعي",pjH:"هذا مشروعك",pjEdit:"غيّري الإجابات",pjNext:"التالي: ميزانيتي",cvProd:"المنتج",cvWho:"الزبونة",cvPrice:"مستوى السعر",cvWhere:"البلد",cvWhen:"الإطلاق",cvChan:"البيع عبر",
+pjLine:"علامة {p} لـ{w} بعمر {a} في {c}. مستوى سعر {r}، تُباع عبر {h}.",
+stEye:"دراستي الكاملة",stH:"كل ما تحتاجينه قبل ما تدفعين لأي مصنع",stP:"يكتبها فريقنا لمشروعك أنتِ، خلال 5 أيام عمل.",
+incl:[["ملخص المشروع","فكرتك وشو يميّزها"],["زبونتك","مين تشتري، كم تصرف، ووين"],["السوق والمنافسين","3 إلى 5 علامات خليجية وأسعارها"],["خطة المجموعة","الموديلات، المقاسات، القماش، الكميات"],["مصانع مناسبة","2 إلى 3 مصانع، أقل كمية، والمدة"],["التكاليف الكاملة","للقطعة وللمجموعة، مع الشحن والجمارك"],["السعر والربح","سعر البيع، الهامش، ونقطة التعادل"],["الهوية والتغليف","الشعار، الليبلات، العلبة أو الكيس"],["الأوراق القانونية","شو تسجّلين في بلدك"],["الإطلاق والتسويق","إنستغرام، المؤثرات، والموسم"],["الجدول الزمني","كل خطوة بتاريخها"],["المخاطر","شو ممكن يصير غلط، وكيف تتجنبينه"]],
+haveIt:"بديتيها",
+vsA:"لوحدك",vsAp:"3 إلى 6 شهور بحث، مصانع ما تعرفينها، تكاليف مفاجئة، وخطر تدفعين على بضاعة ما تنباع.",vsB:"مع Startup",vsBp:"دراسة واضحة في 5 أيام، مصانع نعرفها، تكاليف حقيقية، وشخص واحد يتابعك حتى الإطلاق.",
+stPrice:"دراستك الكاملة",stNote:"تدفعين مرة وحدة. الدراسة لك، حتى لو وقفتي عندها.",doneS:"تم",seeDash:"شوفي اللوحة",
 whoH:"من نحن",whoS:"تعرّفي علينا وتواصلي معنا",abNav:"من نحن وتواصل معنا",qH:"عندك سؤال؟",qS:"كلّمينا، نرد بسرعة",
 abEye:"عن Startup",abH:"نحوّل فكرتك إلى علامة حقيقية.",abP:"Startup تطبيق من شركة Diva Divina في الدوحة، بخبرة أكثر من 15 سنة في تجارة الأزياء والعمليات والتعامل مع المصانع. نشتغل مع مصانع في تركيا وإيطاليا ونتابع طلبيتك حتى توصل لباب بيتك في الخليج.",
 abStats:[["+15","سنة خبرة"],["TR · IT","مصانع شريكة"],["6","دول خليجية"]],
@@ -951,7 +1034,7 @@ const ORIGIN={TR:[1,1],IT:[1.8,2.5]};const SHIP={TR:[5,9],IT:[7,13]};
 const PACK={poly:[1,2],box:[6,15],premium:[18,35]};
 const CUR={QA:["QAR",1],AE:["AED",1.009],SA:["SAR",1.03],KW:["KWD",.0843],BH:["BHD",.1033],OM:["OMR",.1058]};
 const TABS=["home","roadmap","budget","plans","profile"];
-const SUB={request:"plans",sent:"home",brand:"home",about:"home"};
+const SUB={request:"plans",sent:"home",brand:"home",about:"home",project:"home",study:"home"};
 const ALIAS={estimate:"budget",start:"request"};
 
 /* ===== Icons ===== */
@@ -970,12 +1053,13 @@ const IC={
  card:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>',
  phone:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>',
  wa:'<svg class="i" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm0 18.2a8.2 8.2 0 0 1-4.2-1.2l-.3-.2-3 .8.8-2.9-.2-.3A8.2 8.2 0 1 1 12 20.2zm4.5-6.1c-.2-.1-1.5-.7-1.7-.8s-.4-.1-.6.1-.7.8-.8 1-.3.2-.5.1a6.7 6.7 0 0 1-3.3-2.9c-.3-.4.3-.4.8-1.4.1-.2 0-.3 0-.4l-.8-1.8c-.2-.5-.4-.4-.6-.4h-.5a1 1 0 0 0-.7.3 3 3 0 0 0-.9 2.2 5.2 5.2 0 0 0 1.1 2.7 11.9 11.9 0 0 0 4.5 4c1.7.7 2.4.8 3.2.6a2.8 2.8 0 0 0 1.8-1.3 2.3 2.3 0 0 0 .2-1.3c-.1-.1-.3-.2-.5-.3z"/></svg>',
+ lock:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="10" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>',
  alert:'<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.8v3.6M8 11h0"/></svg>'
 };
 
 /* ===== State (saved on device) ===== */
 const KEY="startup-v2";
-let S={lang:"en",theme:"auto",onboarded:false,profile:{name:"",country:"QA",product:"abaya"},done:[],saved:[],brand:null,season:"any",study:false};
+let S={lang:"en",theme:"auto",onboarded:false,profile:{name:"",country:"QA",product:"abaya"},done:[],saved:[],brand:null,season:"any",study:false,project:null};
 try{const raw=JSON.parse(localStorage.getItem(KEY)||"null");if(raw)S=Object.assign(S,raw)}catch(_){}
 try{ // migrate v1
   if(!localStorage.getItem(KEY)){const d=JSON.parse(localStorage.getItem("startup-done")||"null");if(Array.isArray(d)){S.done=d;S.onboarded=true}
@@ -1090,7 +1174,7 @@ function renderStatic(){
   $("install").textContent=t.install;
   $("abStats").innerHTML=t.abStats.map(x=>`<div><b dir="ltr">${x[0]}</b><span>${x[1]}</span></div>`).join("");
   $("abVals").innerHTML=t.abVals.map((x,i)=>`<li><span class="ic">${[IC.calc,IC.check,IC.globe][i]}</span><div><h3>${x[0]}</h3><p>${x[1]}</p></div></li>`).join("");
-  renderContact();renderBrand();
+  renderContact();renderBrand();if(!$("v-project").hidden)renderProject();
   fillSelect("season",t.seasons,S.season||"any");
   ["product","country","pack"].forEach(id=>{const v=$(id).value;fillSelect(id,id==="product"?t.products:id==="country"?t.countries:t.packs,v||{product:S.profile.product,country:S.profile.country,pack:"box"}[id])});
   fillSelect("pf-country",t.countries,S.profile.country);fillSelect("pf-product",t.products,S.profile.product);
@@ -1213,7 +1297,7 @@ function renderSeason(){
 let sellTouched=false,sellKey="";
 function renderProfit(){
   const c=est.c,r=CUR[c][1],key=est.p+est.o+c;
-  if(!sellTouched||key!==sellKey){$("sell").value=Math.round(mid([est.unit[0]*2.5,est.unit[1]*3])*r);sellKey=key;sellTouched=false}
+  if(!sellTouched||key!==sellKey){const x=S.project?PRICE_X[S.project.pr]:2.75;$("sell").value=Math.round(mid(est.unit)*x*r);sellKey=key;sellTouched=false}
   const sell=(parseFloat($("sell").value)||0)/r,u=mid(est.unit),pp=sell-u,tot=pp*est.q;
   $("profitPc").innerHTML=(pp<0?"-":"")+money(Math.abs(pp),c);$("profitTot").innerHTML=(tot<0?"-":"")+money(Math.abs(tot),c);
 }
@@ -1247,6 +1331,52 @@ function suggestNames(){
   $("sugg").querySelectorAll("button").forEach(b=>b.onclick=()=>{bk.name=b.dataset.v;$("bk-name").value=bk.name;$("sugg").querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));drawMock()});
 }
 
+/* ===== Project wizard ===== */
+let qi=0,pj=null;
+const PRICE_X={low:2.2,mid:2.7,high:3.5,lux:4.5};
+function projLine(short){
+  const t=T[L],P=S.project;if(!P)return"";
+  if(short)return t.products[P.p]+" · "+t.qPrice[P.pr]+" · "+t.countries[P.c];
+  const lc=x=>L==="en"?x.toLowerCase():x;
+  return fmt(t.pjLine,{p:lc(t.products[P.p]),w:lc(t.qWho[P.w]),a:t.qAge[P.a],c:t.countries[P.c],r:t.qPrice[P.pr],h:P.ch.map(x=>t.qChan[x]).join(L==="ar"?" و":", ")}).replace(/\{(\w+)\}/g,"");
+}
+function chipRow(name,obj,val,multi){return `<div class="chips" data-q="${name}">${Object.keys(obj).map(k=>`<button type="button" class="fchip" data-v="${k}" aria-pressed="${multi?val.includes(k):val===k}">${esc(obj[k])}</button>`).join("")}</div>`}
+function renderProject(){
+  const t=T[L],box=$("qz");
+  if(!pj)pj=S.project?JSON.parse(JSON.stringify(S.project)):{p:S.profile.product,w:"women",a:"a2",pr:"mid",c:S.profile.country,ch:["ig"],s:S.season||"any"};
+  if(S.project&&qi<0){ // summary
+    const P=S.project;
+    box.innerHTML=`<div class="head"><p class="eyebrow">${t.pjEye}</p><h2>${t.pjH}</h2><p>${esc(projLine())}</p></div>
+    <div class="canvas"><div><span>${t.cvProd}</span><b>${t.products[P.p]}</b></div><div><span>${t.cvWho}</span><b>${t.qWho[P.w]} · ${t.qAge[P.a]}</b></div>
+    <div><span>${t.cvPrice}</span><b>${t.qPrice[P.pr]}</b></div><div><span>${t.cvWhere}</span><b>${t.countries[P.c]}</b></div>
+    <div><span>${t.cvChan}</span><b>${P.ch.map(x=>t.qChan[x]).join(", ")}</b></div><div><span>${t.cvWhen}</span><b>${t.seasons[P.s]}</b></div></div>
+    <div class="btns" style="display:grid;grid-template-columns:1fr 1fr"><button type="button" class="btn g" id="pjEdit">${t.pjEdit}</button><a class="btn y" href="#budget">${t.pjNext}</a></div>`;
+    $("pjEdit").onclick=()=>{qi=0;renderProject()};return;
+  }
+  if(qi<0)qi=0;
+  const N=5,dots=Array.from({length:N},(_,i)=>`<i class="${i<=qi?"on":""}"></i>`).join("");
+  let body="";
+  if(qi===0)body=chipRow("p",t.products,pj.p);
+  if(qi===1)body=`<p class="qz-sub">${t.qWhoL}</p>${chipRow("w",t.qWho,pj.w)}<p class="qz-sub">${t.qAgeL}</p>${chipRow("a",t.qAge,pj.a)}`;
+  if(qi===2)body=chipRow("pr",t.qPrice,pj.pr);
+  if(qi===3)body=`<p class="qz-sub">${t.qCountryL}</p>${chipRow("c",t.countries,pj.c)}<p class="qz-sub">${t.qChanL}</p>${chipRow("ch",t.qChan,pj.ch,true)}`;
+  if(qi===4)body=chipRow("s",t.seasons,pj.s);
+  box.innerHTML=`<div class="qz-dots">${dots}</div><p class="qz-sub">${fmt(t.qzOf,{a:qi+1,b:N})}</p><h2>${t.qzQ[qi]}</h2>${body}
+  <div class="btns" style="display:grid;grid-template-columns:1fr 2fr;margin-top:8px"><button type="button" class="btn g" id="qzB">${t.qzBack}</button><button type="button" class="btn ${qi===N-1?"y":"k"}" id="qzN">${qi===N-1?t.qzDone:t.qzNext}</button></div>`;
+  box.querySelectorAll(".chips").forEach(row=>{const q=row.dataset.q;row.querySelectorAll("button").forEach(b=>b.onclick=()=>{
+    if(q==="ch"){const v=b.dataset.v;pj.ch=pj.ch.includes(v)?pj.ch.filter(x=>x!==v):[...pj.ch,v];if(!pj.ch.length)pj.ch=[v]}else pj[q]=b.dataset.v;
+    haptic();renderProject()})});
+  $("qzB").onclick=()=>{if(qi===0){location.hash="#home";return}qi--;renderProject()};
+  $("qzN").onclick=()=>{if(qi<N-1){qi++;renderProject();window.scrollTo(0,0);return}
+    S.project=JSON.parse(JSON.stringify(pj));S.season=pj.s;S.profile.product=pj.p;S.profile.country=pj.c;persist();
+    $("product").value=pj.p;$("country").value=pj.c;$("season").value=pj.s;sellTouched=false;calc();renderProfile();renderPath();
+    qi=-1;renderProject();window.scrollTo(0,0)};
+}
+function renderIncl(){
+  const t=T[L],have=[!!S.project,!!S.project,false,false,false,S.saved.length>0,S.saved.length>0,!!(S.brand&&S.brand.name),false,false,false,false];
+  $("incl").innerHTML=t.incl.map((x,i)=>`<li class="${have[i]?"have":""}"><span class="ic">${have[i]?CHECK:IC.lock}</span><div><b>${x[0]}</b><small>${have[i]?t.haveIt:x[1]}</small></div></li>`).join("");
+}
+
 /* ===== Contact ===== */
 function waLink(msg){return CONTACT_WA?"https://wa.me/"+CONTACT_WA+(msg?"?text="+encodeURIComponent(msg):""):""}
 function renderContact(){
@@ -1262,10 +1392,15 @@ function renderContact(){
 /* ===== Dashboard ===== */
 function renderPath(){
   const t=T[L],hasB=S.saved.length>0,st=S.study||lastReq;
-  const href=["#budget","#brand","#plans","#roadmap"],ok=[hasB,!!(S.brand&&S.brand.name),!!st,done.size===11];
+  const href=["#project","#budget","#brand","#study"],ok=[!!S.project,hasB,!!(S.brand&&S.brand.name),!!st];
+  const n=ok.filter(Boolean).length,pct=Math.round((n*25+done.size/11*0)*1)||0;
+  $("readyBar").style.width=pct+"%";$("readyPct").textContent=pct+"%";
+  $("readyL").textContent=n===0?t.readyL0:n===4?t.readyL4:fmt(t.readyL,{p:pct});
   const now=ok.findIndex(x=>!x);
   const arrow='<svg class="i flip go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
-  $("path").innerHTML=t.path.map((p,i)=>`<li class="${ok[i]?"ok":""}${i===now?" now":""}"><a class="tap" href="${href[i]}"><span class="n">${ok[i]?"✓":i+1}</span><span class="tx"><b>${p[0]}</b><span class="s">${ok[i]?t.doneS:p[1]}</span></span>${arrow}</a></li>`).join("");
+  const sub=i=>i===0&&S.project?projLine(true):ok[i]?t.doneS:t.path[i][1];
+  $("path").innerHTML=t.path.map((p,i)=>`<li class="${ok[i]?"ok":""}${i===now?" now":""}"><a class="tap" href="${href[i]}"><span class="n">${ok[i]?"✓":i+1}</span><span class="tx"><b>${p[0]}</b><span class="s">${sub(i)}</span></span>${arrow}</a></li>`).join("");
+  renderIncl();
 }
 function renderDash(){
   renderPath();
@@ -1334,6 +1469,8 @@ function route(){
   document.querySelectorAll(".tab").forEach(a=>{(a.dataset.tab===v||a.dataset.tab===parent)?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current")});
   $("tabs").hidden=isSub;document.body.classList.toggle("no-tabs",isSub);
   $("brand").hidden=isSub;$("backBtn").hidden=!isSub;$("backBtn").href="#"+(v==="request"?"plans":"home");
+  if(v==="project"){qi=S.project?-1:0;pj=null;renderProject()}
+  if(v==="study")renderIncl();
   if(v==="request")renderReq();
   if(v==="sent")renderSent();
   window.scrollTo(0,0);
