@@ -1040,7 +1040,8 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
         </div>
       </fieldset>
       <label for="f-name"><span data-t="fName"></span><input id="f-name" autocomplete="name" aria-describedby="e-name"><span class="ferr" id="e-name" hidden></span></label>
-      <label for="f-contact"><span data-t="fContact"></span><input id="f-contact" autocomplete="tel" inputmode="email" aria-describedby="e-contact"><span class="ferr" id="e-contact" hidden></span></label>
+      <label for="f-email"><span data-t="fEmail"></span><input id="f-email" type="email" autocomplete="email" inputmode="email" autocapitalize="off" spellcheck="false" required aria-describedby="e-email"><span class="ferr" id="e-email" hidden></span></label>
+      <label for="f-contact"><span><span data-t="fContact"></span> <span class="hint" data-t="optional"></span></span><input id="f-contact" type="tel" autocomplete="tel" inputmode="tel" aria-describedby="e-contact"><span class="ferr" id="e-contact" hidden></span></label>
       <label for="f-brand"><span><span data-t="fBrandName"></span> <span class="hint" data-t="optional"></span></span><input id="f-brand"></label>
       <label for="f-idea"><span data-t="fIdea"></span><textarea id="f-idea" aria-describedby="e-idea"></textarea><span class="ferr" id="e-idea" hidden></span></label>
       <div class="sum" id="reqSum"></div>
@@ -1236,10 +1237,10 @@ tEye:"Why Startup",trust:[["Real factory prices","Quotes from factories we work 
 fqEye:"Questions",faq:[["What do I get for 99 QAR?","A written study of your project: real costs per piece, matched factories, a dated milestone plan and your retail price and margin."],["How long does it take?","We confirm your request on WhatsApp within 48 hours and deliver the study within 5 working days."],["Do I have to continue after the study?","No. The study is yours. You choose whether to launch with us, alone, or not at all."],["What is the minimum quantity?","Most factories start at 50 to 100 pieces per design. The study tells you the exact minimum for your product."]],
 sheetH:"Project study",sheetP:"Your study is based on this estimate:",sumPlan:"Plan",sumProd:"Product",sumFact:"Factory",sumBud:"Estimated budget",sumTot:"To pay",payNote:"Online payment opens soon. Send your request now: we confirm on WhatsApp and send you a secure payment link.",payCard:"Card",payApple:"Apple Pay",soon:"soon",continue:"Continue",close:"Close",
 sheetH2:"Full launch",sheetP2:"We prepare a quote for your launch based on this estimate:",
-sEye:"Your request",sH:"Tell us about your brand",sP:"Your estimate is attached. We reply within 48 hours.",fPlan:"What do you need?",fName:"Your name",fContact:"WhatsApp or email",fBrandName:"Brand name",optional:"(optional)",fIdea:"Your idea",
+sEye:"Your request",sH:"Tell us about your brand",sP:"Your estimate is attached. We reply within 48 hours.",fPlan:"What do you need?",fName:"Your name",fEmail:"Your email",fContact:"WhatsApp number",fBrandName:"Brand name",optional:"(optional)",fIdea:"Your idea",
 ideaP:"e.g. a linen abaya line in beige and olive for summer",
 fSubmit:"Send my request",fPrivacy:"Your details are only used to answer your request.",
-errName:"Add your name so we know who to answer.",errContact:"Add a WhatsApp number (8 digits or more) or an email.",errIdea:"Describe your idea in a few words.",errForm:"Check the highlighted fields.",
+errName:"Add your name so we know who to answer.",errEmail:"Add your email to receive your study.",errContact:"Check the WhatsApp number: 8 digits or more.",errIdea:"Describe your idea in a few words.",errForm:"Check the highlighted fields.",
 okH:"Your request is ready",okWa:"Send it on WhatsApp to reach the Startup team.",okShare:"Send it to the Startup team, or copy it.",
 sendWa:"Send on WhatsApp",share:"Share my request",fCopy:"Copy my request",copied:"Request copied",selected:"Text selected, copy it",
 nextEye:"What happens next",nextSteps:[["We confirm","On WhatsApp, within 48 hours."],["You pay securely","99 QAR by payment link."],["You get your study","Within 5 working days."]],backHome:"Back to home",
@@ -1319,10 +1320,10 @@ tEye:"لماذا Startup",trust:[["أسعار مصانع حقيقية","عروض
 fqEye:"أسئلة",faq:[["ماذا أحصل مقابل 99 ريال؟","دراسة مكتوبة لمشروعك: التكاليف الحقيقية للقطعة، مصانع مناسبة، خطة مراحل بالتواريخ، وسعر البيع والهامش."],["كم تستغرق؟","نؤكد طلبك على واتساب خلال 48 ساعة ونسلّم الدراسة خلال 5 أيام عمل."],["هل يجب أن أكمل بعد الدراسة؟","لا. الدراسة لكِ، وتختارين الإطلاق معنا أو وحدك أو عدم الإطلاق."],["ما هو الحد الأدنى للكمية؟","تبدأ معظم المصانع من 50 إلى 100 قطعة لكل تصميم، والدراسة تحدد الحد الأدنى لمنتجك."]],
 sheetH:"دراسة المشروع",sheetP:"تُبنى دراستك على هذا التقدير:",sumPlan:"الباقة",sumProd:"المنتج",sumFact:"المصنع",sumBud:"الميزانية التقديرية",sumTot:"المبلغ",payNote:"الدفع الإلكتروني يفتح قريبًا. أرسلي طلبك الآن: نؤكد على واتساب ونرسل لك رابط دفع آمن.",payCard:"بطاقة",payApple:"Apple Pay",soon:"قريبًا",continue:"متابعة",close:"إغلاق",
 sheetH2:"إطلاق كامل",sheetP2:"نجهز عرض سعر لإطلاقك بناءً على هذا التقدير:",
-sEye:"طلبك",sH:"أخبرينا عن علامتك",sP:"تقديرك مرفق. نرد خلال 48 ساعة.",fPlan:"ماذا تحتاجين؟",fName:"اسمك",fContact:"واتساب أو بريد إلكتروني",fBrandName:"اسم العلامة",optional:"(اختياري)",fIdea:"فكرتك",
+sEye:"طلبك",sH:"أخبرينا عن علامتك",sP:"تقديرك مرفق. نرد خلال 48 ساعة.",fPlan:"ماذا تحتاجين؟",fName:"اسمك",fEmail:"بريدك الإلكتروني",fContact:"رقم واتساب",fBrandName:"اسم العلامة",optional:"(اختياري)",fIdea:"فكرتك",
 ideaP:"مثال: مجموعة عبايات كتان بلون البيج والزيتي للصيف",
 fSubmit:"أرسلي طلبي",fPrivacy:"بياناتك تُستخدم فقط للرد على طلبك.",
-errName:"أضيفي اسمك لنعرف لمن نرد.",errContact:"أضيفي رقم واتساب (8 أرقام أو أكثر) أو بريدًا إلكترونيًا.",errIdea:"صفي فكرتك ببضع كلمات.",errForm:"تحققي من الحقول المحددة.",
+errName:"أضيفي اسمك لنعرف لمن نرد.",errEmail:"أضيفي بريدك الإلكتروني لتصلك دراستك.",errContact:"تأكدي من رقم واتساب: 8 أرقام أو أكثر.",errIdea:"صفي فكرتك ببضع كلمات.",errForm:"تحققي من الحقول المحددة.",
 okH:"طلبك جاهز",okWa:"أرسليه على واتساب للتواصل مع فريق Startup.",okShare:"أرسليه لفريق Startup أو انسخيه.",
 sendWa:"أرسلي على واتساب",share:"شاركي طلبي",fCopy:"انسخي طلبي",copied:"تم نسخ الطلب",selected:"تم تحديد النص، انسخيه",
 nextEye:"ماذا بعد",nextSteps:[["نؤكد طلبك","على واتساب خلال 48 ساعة."],["تدفعين بأمان","99 ريال عبر رابط دفع."],["تستلمين دراستك","خلال 5 أيام عمل."]],backHome:"العودة للرئيسية",
@@ -1758,7 +1759,8 @@ function renderDash(){
 /* ===== Request ===== */
 const validators={
   "f-name":v=>v.trim().length>=2?"":"errName",
-  "f-contact":v=>{v=v.trim();if(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))return"";return (v.replace(/\D/g,"").length>=8&&!/[a-z@]/i.test(v))?"":"errContact"},
+  "f-email":v=>/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v.trim())?"":"errEmail",
+  "f-contact":v=>{v=v.trim();if(!v)return"";return (v.replace(/\D/g,"").length>=8&&!/[a-z@]/i.test(v))?"":"errContact"},
   "f-idea":v=>v.trim().length>=4?"":"errIdea"};
 function setErr(id,key){const el=$(id),er=$("e-"+id.slice(2));if(key){el.setAttribute("aria-invalid","true");er.innerHTML=IC.alert+"<span>"+T[L][key]+"</span>";er.hidden=false}else{el.removeAttribute("aria-invalid");er.hidden=true}}
 Object.keys(validators).forEach(id=>{
@@ -1768,6 +1770,7 @@ Object.keys(validators).forEach(id=>{
 function renderReq(){
   document.querySelectorAll('input[name="plan"]').forEach(r=>r.checked=r.value===plan);
   if(!$("f-name").value&&S.profile.name)$("f-name").value=S.profile.name;
+  if(!$("f-email").value&&S.profile.email)$("f-email").value=S.profile.email;
   if(!$("f-brand").value&&S.brand&&S.brand.name)$("f-brand").value=S.brand.name;
   $("reqSum").innerHTML=sumRows(true);
 }
@@ -1780,8 +1783,9 @@ $("req").addEventListener("submit",e=>{
   setTimeout(()=>{
     b.classList.remove("loading");b.disabled=false;
     const en=T.en,brand=$("f-brand").value.trim();
-    S.study=true;persist();
-    lastReq=`STARTUP – ${plan==="study"?"Project study (99 QAR)":"Full launch quote"}\nName: ${$("f-name").value.trim()}\nContact: ${$("f-contact").value.trim()}${brand?"\nBrand: "+brand:""}\nIdea: ${$("f-idea").value.trim()}\n\nEstimate: ${en.products[est.p]} × ${est.q} pcs · ${est.o==="TR"?"Turkey":"Italy"} · ${en.countries[est.c]}\nBudget: ${plain(rng(est.tot,est.c))}\nPer piece: ${plain(rng(est.unit,est.c))}\nMilestones done: ${done.size}/11\nLanguage: ${L==="ar"?"Arabic":"English"}`;
+    S.study=true;S.profile.email=$("f-email").value.trim();persist();
+    const wa=$("f-contact").value.trim();
+    lastReq=`STARTUP – ${plan==="study"?"Project study (99 QAR)":"Full launch quote"}\nName: ${$("f-name").value.trim()}\nEmail: ${$("f-email").value.trim()}${wa?"\nWhatsApp: "+wa:""}${brand?"\nBrand: "+brand:""}\nIdea: ${$("f-idea").value.trim()}\n\nEstimate: ${en.products[est.p]} × ${est.q} pcs · ${est.o==="TR"?"Turkey":"Italy"} · ${en.countries[est.c]}\nBudget: ${plain(rng(est.tot,est.c))}\nPer piece: ${plain(rng(est.unit,est.c))}\nMilestones done: ${done.size}/11\nLanguage: ${L==="ar"?"Arabic":"English"}`;
     location.hash="#sent";
   },650);
 });
