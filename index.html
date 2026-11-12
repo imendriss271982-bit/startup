@@ -1714,7 +1714,7 @@ Object.assign(T.en,{
 heroFree:"Free to try · no account needed",
 why:[["Factories in Turkey & Italy","We find the right one for your product"],["Your budget in seconds","Cost per piece and total, before you pay anything"],["A real person on WhatsApp","We answer your questions fast"]],
 newProd:"+ Start another product",
-stOf:"Step {a} of 3",st1H:"What do you want to make?",
+stOf:"Step {a} of {b}",st1H:"What do you want to make?",stProdH:"Which one?",stMatH:"Which material?",stCraftH:"How is it made?",stLogoH:"Do you have a logo?",rec:"Recommended",stNext:"Continue",crMachineS:"Lower price · faster",crHandS:"Premium · higher price",stItems:"{n} choices",
 grp:{women:"Women",men:"Men",kids:"Kids",shoes:"Shoes",bags:"Bags",acc:"Accessories",basic:"Everyday basics"},
 moqL:"min. {n} pcs",st2H:"Your product details",change:"Change",
 stQty:"How many pieces?",moqHint:"Factories usually start at about {n} pieces for this product.",moqLow:"Below {n} pieces, prices go up. Your study finds the right workshop.",
@@ -1727,7 +1727,7 @@ Object.assign(T.ar,{
 heroFree:"مجاني للتجربة · بدون حساب",
 why:[["مصانع في تركيا وإيطاليا","نلقى لك المصنع المناسب لمنتجك"],["ميزانيتك في ثواني","تكلفة القطعة والإجمالي قبل ما تدفعين أي شي"],["شخص حقيقي على الواتساب","نرد على أسئلتك بسرعة"]],
 newProd:"+ ابدئي منتج ثاني",
-stOf:"الخطوة {a} من 3",st1H:"شو تبين تصنعين؟",
+stOf:"الخطوة {a} من {b}",st1H:"شو تبين تصنعين؟",stProdH:"أي واحد؟",stMatH:"أي خامة؟",stCraftH:"كيف تنصنع؟",stLogoH:"عندك شعار؟",rec:"ننصح فيه",stNext:"كمّلي",crMachineS:"سعر أقل · أسرع",crHandS:"فاخر · سعر أعلى",stItems:"{n} اختيارات",
 grp:{women:"نساء",men:"رجال",kids:"أطفال",shoes:"أحذية",bags:"شنط",acc:"إكسسوارات",basic:"ملابس يومية"},
 moqL:"أقل كمية {n} قطعة",st2H:"تفاصيل منتجك",change:"تغيير",
 stQty:"كم قطعة؟",moqHint:"المصانع عادة تبدأ من حوالي {n} قطعة لهالمنتج.",moqLow:"أقل من {n} قطعة السعر يرتفع. دراستك تلقى لك الورشة المناسبة.",
@@ -1749,37 +1749,66 @@ $("langTg").onclick=()=>{haptic();setLang(L==="en"?"ar":"en")};
 let sf={s:0,w:null};
 function stDefault(){const p=S.profile.product&&BASE[S.profile.product]?S.profile.product:"abaya";return{p,m:cheapMat(p),h:"machine",q:moq(p,"TR"),c:S.profile.country,o:"TR",pack:"box",b:[true,true,false],logo:S.logo?"own":"make"}}
 function stGo(n){sf.s=n;renderStart();window.scrollTo(0,0)}
+function stPick(p,soft){const w=sf.w;if(w.p!==p){w.p=p;w.m=cheapMat(p);w.q=moq(p,w.o)}if(!soft)sf.picked=true}
 function stChips(key,obj,val){return `<div class="chips">${Object.keys(obj).map(k=>`<button type="button" class="fchip" data-k="${key}" data-v="${k}" aria-pressed="${val===k}">${obj[k]}</button>`).join("")}</div>`}
 function stQtyHint(){const t=T[L],w=sf.w,n=moq(w.p,w.o),h=$("stQh");if(!h)return;const low=w.q<n;h.className="hint"+(low?" bad":"");h.textContent=fmt(low?t.moqLow:t.moqHint,{n})}
+/* Hick's law: one decision per screen, few options, best choice marked, one tap moves on */
+const ST_STEPS=["cat","prod","mat","craft","fac","qty","logo","res"];
+function stSteps(){const w=sf.w,g=GROUPS.find(x=>x[0]===sf.g)||GROUPS.find(x=>x[1].includes(w.p));return ST_STEPS.filter(k=>k!=="prod"||!g||g[1].length>1)}
+function stTile(attr,on,icon,title,sub,rec,dk){const t=T[L];return `<button type="button" class="card tile tap${dk?" dk":""}" ${attr} aria-pressed="${on}"><span class="ti" aria-hidden="true">${icon}</span><b>${title}</b>${sub?`<small>${sub}</small>`:""}${rec?`<span class="pill">${t.rec}</span>`:""}</button>`}
 function renderStart(){
-  const t=T[L],w=sf.w||(sf.w=stDefault()),c=w.c,box=$("stBody");
-  $("stDots").innerHTML=[0,1,2].map(i=>`<i class="${i<=sf.s?"on":""}"></i>`).join("");
-  $("stOf").textContent=fmt(t.stOf,{a:sf.s+1});
-  if(sf.s===0){
-    box.innerHTML=`<h2>${t.st1H}</h2>`+GROUPS.map(([g,ps])=>`<div class="st-group"><p>${t.grp[g]}</p><div class="pgrid">${ps.map(p=>{const r=compute({p,q:moq(p,"TR"),c,o:"TR",pack:"poly",b:[false,false,false],m:cheapMat(p),h:"machine"});
-      return `<button type="button" class="card tile tap" data-p="${p}" aria-pressed="${sf.w.p===p&&sf.picked?"true":"false"}"><span class="ti">${pIcon(p)}</span><b>${t.products[p]}</b><small>${fmt(t.pgFrom,{v:money(r.unit[0],c)})}</small><span class="moq">${fmt(t.moqL,{n:moq(p,"TR")})}</span></button>`}).join("")}</div></div>`).join("");
-    box.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{haptic();const p=b.dataset.p;if(w.p!==p){w.p=p;w.m=cheapMat(p);w.q=moq(p,w.o)}sf.picked=true;stGo(1)});
+  const t=T[L],w=sf.w||(sf.w=stDefault()),c=w.c,box=$("stBody"),steps=stSteps();
+  if(sf.s>=steps.length)sf.s=steps.length-1;
+  const k=steps[sf.s],n=steps.length-1;
+  $("stDots").innerHTML=steps.slice(0,n).map((_,i)=>`<i class="${i<=sf.s?"on":""}"></i>`).join("");
+  $("stOf").textContent=k==="res"?"":fmt(t.stOf,{a:sf.s+1,b:n});
+  const next=()=>{haptic();setTimeout(()=>stGo(sf.s+1),140)};
+  const back=`<button type="button" class="link" id="stB" style="background:none;border:0;cursor:pointer;align-self:center;margin-top:4px">${t.qzBack}</button>`;
+  const press=(sel,b)=>box.querySelectorAll(sel).forEach(x=>x.setAttribute("aria-pressed",x===b));
+  const wire=()=>{const bb=$("stB");if(bb)bb.onclick=()=>stGo(Math.max(0,sf.s-1))};
+  if(k==="cat"){
+    box.innerHTML=`<h2>${t.st1H}</h2><div class="pgrid">${GROUPS.map(([g,ps])=>stTile(`data-g="${g}"`,sf.g===g,pIcon(ps[0]),t.grp[g],ps.length>1?fmt(t.stItems,{n:ps.length}):"",false)).join("")}</div>`;
+    box.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>{press("[data-g]",b);sf.g=b.dataset.g;const ps=GROUPS.find(x=>x[0]===sf.g)[1];
+      if(ps.length===1)stPick(ps[0]);else if(!ps.includes(w.p))stPick(ps[0],true);next()});
     return;
   }
-  if(sf.s===1){
-    const ms=matsFor(w.p);if(!ms[w.m])w.m=cheapMat(w.p);
-    const matNames={};Object.keys(ms).forEach(k=>matNames[k]=t.mats[k]+" "+"$".repeat(ms[k][1]));
-    box.innerHTML=`<h2>${t.st2H}</h2>
-    <div class="st-pick"><span style="display:flex;align-items:center;gap:10px"><span class="ti" style="width:34px;height:34px;display:grid;place-items:center">${pIcon(w.p).replace("<svg ",'<svg style="width:22px;height:22px" ')}</span>${t.products[w.p]}</span><button type="button" id="stChg">${t.change}</button></div>
-    <div class="st-field"><b>${t.fMat}</b>${stChips("m",matNames,w.m)}</div>
-    <div class="st-field"><b>${t.fCraft}</b>${stChips("h",{machine:t.crMachine,hand:t.crHand},w.h)}</div>
-    <div class="st-field"><b id="stQl">${t.stQty}</b><div class="stepper" role="group" aria-labelledby="stQl"><button type="button" id="stQm" aria-label="−50">−</button><input id="stQ" type="number" min="1" step="1" inputmode="numeric" value="${w.q}" aria-labelledby="stQl"><button type="button" id="stQp" aria-label="+50">+</button></div><span class="hint" id="stQh"></span></div>
-    <div class="st-field"><b>${t.stFactory}</b><div class="fx">${t.fx.map((x,i)=>{const o=i?"IT":"TR";return `<button type="button" class="card tile tap dk" data-o="${o}" aria-pressed="${w.o===o}"><span class="ti" aria-hidden="true">${x[1]}</span><b>${x[0]}</b><small>${x[2]}</small></button>`}).join("")}</div></div>
-    <div class="st-field"><b>${t.stLogo}</b><div class="lgrid"><button type="button" class="card tile tap dk" data-l="own" aria-pressed="${w.logo==="own"}"><span class="ti">↑</span><b>${t.lgOwn}</b><small>${t.lgOwnS}</small></button><button type="button" class="card tile tap" data-l="make" aria-pressed="${w.logo==="make"}"><span class="ti">✦</span><b>${t.lgMake}</b><small>${t.lgMakeS}</small><span class="pill" dir="ltr">250 QAR</span></button></div></div>
-    <div class="btns" style="display:grid;grid-template-columns:1fr 2fr"><button type="button" class="btn g" id="stB">${t.qzBack}</button><button type="button" class="btn y" id="stN">${t.stSee}</button></div>`;
-    $("stChg").onclick=()=>stGo(0);$("stB").onclick=()=>stGo(0);$("stN").onclick=()=>{haptic();stGo(2)};
-    box.querySelectorAll(".fchip[data-k]").forEach(b=>b.onclick=()=>{haptic();w[b.dataset.k]=b.dataset.v;b.parentNode.querySelectorAll(".fchip").forEach(x=>x.setAttribute("aria-pressed",x===b))});
-    box.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{haptic();w.o=b.dataset.o;box.querySelectorAll("[data-o]").forEach(x=>x.setAttribute("aria-pressed",x===b));stQtyHint()});
-    box.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{haptic();w.logo=b.dataset.l;box.querySelectorAll("[data-l]").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+  if(k==="prod"){
+    const ps=(GROUPS.find(x=>x[0]===sf.g)||GROUPS.find(x=>x[1].includes(w.p)))[1];
+    box.innerHTML=`<h2>${t.stProdH}</h2><div class="pgrid">${ps.map(p=>{const r=compute({p,q:moq(p,"TR"),c,o:"TR",pack:"poly",b:[false,false,false],m:cheapMat(p),h:"machine"});
+      return `<button type="button" class="card tile tap" data-p="${p}" aria-pressed="${w.p===p&&!!sf.picked}"><span class="ti">${pIcon(p)}</span><b>${t.products[p]}</b><small>${fmt(t.pgFrom,{v:money(r.unit[0],c)})}</small><span class="moq">${fmt(t.moqL,{n:moq(p,"TR")})}</span></button>`}).join("")}</div>${back}`;
+    box.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{press("[data-p]",b);stPick(b.dataset.p);next()});
+    return wire();
+  }
+  if(k==="mat"){
+    const ms=matsFor(w.p);if(!ms[w.m])w.m=cheapMat(w.p);const best=cheapMat(w.p);
+    box.innerHTML=`<h2>${t.stMatH}</h2><p class="qz-sub">${t.products[w.p]}</p><div class="pgrid">${Object.keys(ms).map(m=>stTile(`data-m="${m}"`,w.m===m,"$".repeat(ms[m][1]),t.mats[m],"",m===best,false)).join("")}</div>${back}`;
+    box.querySelectorAll("[data-m]").forEach(b=>b.onclick=()=>{press("[data-m]",b);w.m=b.dataset.m;next()});
+    return wire();
+  }
+  if(k==="craft"){
+    box.innerHTML=`<h2>${t.stCraftH}</h2><div class="lgrid">${stTile('data-h="machine"',w.h==="machine","⚙",t.crMachine,t.crMachineS,true,true)}${stTile('data-h="hand"',w.h==="hand","✋",t.crHand,t.crHandS,false,false)}</div>${back}`;
+    box.querySelectorAll("[data-h]").forEach(b=>b.onclick=()=>{press("[data-h]",b);w.h=b.dataset.h;next()});
+    return wire();
+  }
+  if(k==="fac"){
+    box.innerHTML=`<h2>${t.stFactory}</h2><div class="fx">${t.fx.map((x,i)=>{const o=i?"IT":"TR";return stTile(`data-o="${o}"`,w.o===o,x[1],x[0],x[2],o==="TR",true)}).join("")}</div>${back}`;
+    box.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{press("[data-o]",b);if(w.o!==b.dataset.o){w.o=b.dataset.o;w.q=Math.max(w.q,moq(w.p,w.o))}next()});
+    return wire();
+  }
+  if(k==="qty"){
+    box.innerHTML=`<h2 id="stQl">${t.stQty}</h2>
+    <div class="st-field"><div class="stepper" role="group" aria-labelledby="stQl"><button type="button" id="stQm" aria-label="−50">−</button><input id="stQ" type="number" min="1" step="1" inputmode="numeric" value="${w.q}" aria-labelledby="stQl"><button type="button" id="stQp" aria-label="+50">+</button></div><span class="hint" id="stQh"></span></div>
+    <button type="button" class="btn y block" id="stN">${t.stNext}</button>${back}`;
     const q=$("stQ"),setQ=v=>{w.q=Math.max(1,Math.min(100000,v||1));q.value=w.q;stQtyHint()};
     q.oninput=()=>{w.q=Math.max(1,Math.min(100000,parseInt(q.value,10)||1));stQtyHint()};
     $("stQm").onclick=()=>{haptic();setQ(w.q-50)};$("stQp").onclick=()=>{haptic();setQ(w.q+50)};
-    stQtyHint();return;
+    $("stN").onclick=()=>{haptic();stGo(sf.s+1)};
+    stQtyHint();return wire();
+  }
+  if(k==="logo"){
+    box.innerHTML=`<h2>${t.stLogoH}</h2><div class="lgrid">${stTile('data-l="own"',w.logo==="own","↑",t.lgOwn,t.lgOwnS,false,true)}<button type="button" class="card tile tap" data-l="make" aria-pressed="${w.logo==="make"}"><span class="ti">✦</span><b>${t.lgMake}</b><small>${t.lgMakeS}</small><span class="pill" dir="ltr">250 QAR</span></button></div>${back}`;
+    box.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{press("[data-l]",b);w.logo=b.dataset.l;next()});
+    return wire();
   }
   const r=compute(w),m=r.parts.map(x=>mid(x[1])),sum=m.reduce((a,b)=>a+b,0);
   box.innerHTML=`<h2>${t.st3H}</h2>
@@ -1793,10 +1822,10 @@ function renderStart(){
   </ul></div>
   <button type="button" class="btn y block hero-go" id="stStudy">${t.stStudyBtn}</button>
   ${w.logo==="make"?`<a class="who tap" href="#brand" id="stLogo"><span class="ic">✦</span><span class="tx"><b>${t.stLogoRow}</b><span>${t.stLogoGo}</span></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a>`:""}
-  <button type="button" class="btn g block" id="stSave">${t.stSave}</button>
+  <button type="button" class="link" id="stSave" style="background:none;border:0;cursor:pointer;align-self:center;font-weight:600">${t.stSave}</button>
   <p class="note" style="text-align:center">${t.fxNote}</p>
   <button type="button" class="link" id="stB" style="background:none;border:0;cursor:pointer;align-self:center">${t.qzBack}</button>`;
-  $("stB").onclick=()=>stGo(1);
+  $("stB").onclick=()=>stGo(sf.s-1);
   $("stStudy").onclick=()=>{haptic();stCommit();checkout("study")};
   $("stSave").onclick=()=>{haptic();stCommit();toast(t.saved);location.hash="#home"};
   if($("stLogo"))$("stLogo").onclick=()=>{stCommit();bkMode="make"};
@@ -2125,7 +2154,7 @@ function route(){
   if(v==="study")renderIncl();
   if(v==="brand")renderBrandMode();
   if(v==="home")renderHome();
-  if(v==="start"){sf={s:0,w:stDefault(),picked:false};renderStart()}
+  if(v==="start"){sf={s:0,w:stDefault(),picked:false,g:null};renderStart()}
   if(v==="request")renderReq();
   if(v==="sent")renderSent();
   window.scrollTo(0,0);
