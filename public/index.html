@@ -420,6 +420,7 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
 .path li.now a{background:var(--y);color:var(--y-ink)}
 .path li.now .n{background:var(--ink);color:var(--y);border-color:var(--ink)}
 .path li.now span.s{color:inherit;opacity:.75}
+.path li.now .go{opacity:1;width:32px;height:32px;padding:7px;border-radius:50%;background:var(--ink);color:var(--y)}
 .path li.ok .n{background:var(--ink);color:var(--bg);border-color:var(--ink)}
 
 /* ===== Tablet / desktop ===== */
@@ -484,7 +485,7 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
       <h1><span data-t="h1a"></span><span class="mark" data-t="h1b"></span><span data-t="h1c"></span></h1>
     </div>
     <ol class="path" id="path"></ol>
-    <div id="dashWrap" hidden>
+    <div id="dashWrap">
       <div class="inv dash" aria-live="polite">
         <div class="dash-top">
           <div><h3 data-t="dTitle"></h3><small id="dSub"></small></div>
@@ -1079,14 +1080,13 @@ function renderPath(){
   const now=ok.findIndex(x=>!x);
   const arrow='<svg class="i flip go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
   $("path").innerHTML=t.path.map((p,i)=>`<li class="${ok[i]?"ok":""}${i===now?" now":""}"><a class="tap" href="${href[i]}"><span class="n">${ok[i]?"✓":i+1}</span><span class="tx"><b>${p[0]}</b><span class="s">${ok[i]?t.doneS:p[1]}</span></span>${arrow}</a></li>`).join("");
-  $("dashWrap").hidden=!hasB;
 }
 function renderDash(){
   renderPath();
   const t=T[L],n=done.size,pct=Math.round(n/11*100);
   $("ring").setAttribute("stroke-dashoffset",(251.3*(1-n/11)).toFixed(1));$("ringTxt").textContent=pct+"%";
   $("dDone").textContent=n+"/11";$("dWeeks").textContent=MS.reduce((a,m,i)=>a+(done.has(i)?0:m.w),0);
-  if(S.saved.length){const r=compute(S.saved[0]);$("dBudget").innerHTML=compact(mid(r.tot),r.c);$("dUnit").innerHTML=compact(mid(r.unit),r.c)}
+  if(S.saved.length){const r=compute(S.saved[0]);$("dBudget").innerHTML=compact(mid(r.tot),r.c);$("dUnit").innerHTML=compact(mid(r.unit),r.c)}else{$("dBudget").textContent="–";$("dUnit").textContent="–"}
   $("bars").innerHTML=MS.map((m,i)=>`<i class="${done.has(i)?"on":""}" style="height:${30+m.w*11}%"></i>`).join("");
   const nx=MS.findIndex((m,i)=>!done.has(i));$("dNext").textContent=nx<0?t.done:t.ms[nx][0];
   $("dTag").textContent=nx<0?t.done:n===0?t.dTagNew:t.dTag;
