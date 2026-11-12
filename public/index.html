@@ -557,7 +557,7 @@ body.no-tabs .toast{bottom:calc(24px + env(safe-area-inset-bottom,0px))}
 /* ===== Tab bar: floating obsidian glass ===== */
 .tabs{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom,0px));
   width:min(480px,calc(100% - 24px));height:var(--tab-h);background:rgba(12,13,15,.72);-webkit-backdrop-filter:blur(28px) saturate(180%);backdrop-filter:blur(28px) saturate(180%);
-  border:1px solid rgba(255,255,255,.1);border-radius:var(--r-pill);display:grid;grid-template-columns:repeat(5,1fr);padding:6px;
+  border:1px solid rgba(255,255,255,.1);border-radius:var(--r-pill);display:grid;grid-template-columns:repeat(4,1fr);padding:6px;
   box-shadow:inset 0 1px 0 rgba(255,255,255,.14),inset 0 -1px 0 rgba(0,0,0,.4),0 24px 50px -16px rgba(0,0,0,.6)}
 .tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#8E929A;text-decoration:none;border-radius:var(--r-pill);font:500 .62rem var(--body);letter-spacing:.01em;min-width:0;position:relative;
   transition:color var(--t-base),background var(--t-base) var(--ease),box-shadow var(--t-base),transform var(--t-fast) var(--spring)}
@@ -872,6 +872,32 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
 .bkreq .row1{display:flex;justify-content:space-between;align-items:baseline;gap:10px}
 .bkreq .row1 b{font:600 1.5rem var(--display)}
 .bkreq p{color:var(--inv-muted);font-size:.88rem}
+/* ===== v5: guided flow ===== */
+.home-new{display:flex;flex-direction:column;gap:18px}
+.home-new .trust{margin-top:6px}
+#homeMine{display:flex;flex-direction:column;gap:18px}
+#homeMine[hidden]{display:none}
+#homeMine .ready-l{margin-top:-8px}
+#homeMine .sec-title{margin:6px 0 0}
+.lang-tg{min-width:42px;height:42px;padding:0 10px;border-radius:var(--r-pill);border:1px solid var(--line);background:var(--surface);color:var(--ink);font:600 .9rem var(--body);cursor:pointer}
+.lang-tg:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.st-body{display:flex;flex-direction:column;gap:16px}
+.st-body h2{font-size:clamp(1.5rem,6.5vw,2rem)}
+.st-group{display:flex;flex-direction:column;gap:10px}
+.st-group>p{margin:6px 0 0;font:600 .9rem var(--body);color:var(--muted)}
+.tile .moq{font:500 .72rem var(--mono);color:var(--muted);margin-top:auto}
+.tile[aria-pressed="true"]{outline:2px solid var(--ink);outline-offset:-2px;background:var(--y-soft)}
+.st-pick{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:var(--r-lg);background:var(--soft);font-weight:600}
+.st-pick button{background:none;border:0;color:var(--ink);text-decoration:underline;font:inherit;font-weight:500;cursor:pointer}
+.st-field{display:flex;flex-direction:column;gap:8px}
+.st-field>b{font:600 .95rem var(--body)}
+.st-field .hint{font-size:.82rem;color:var(--muted)}
+.st-field .hint.bad{color:#B4441E}
+.st-res{display:flex;flex-direction:column;gap:12px}
+.st-res .big{font:700 clamp(1.6rem,7vw,2.1rem) var(--display);letter-spacing:-.02em}
+.st-facts{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.st-facts li{display:flex;justify-content:space-between;gap:12px;font-size:.92rem}
+.st-facts li span{color:var(--muted)}
 </style>
 </head>
 <body>
@@ -916,6 +942,7 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
     <a class="back" href="#plans" id="backBtn" hidden><svg class="i flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span data-t="back"></span></a>
     <div class="top-actions">
       <button type="button" id="install" class="install" hidden></button>
+      <button type="button" class="lang-tg" id="langTg"></button>
       <a class="avatar" href="#profile" id="hdrAvatar" aria-label="Profile">S</a>
     </div>
   </div>
@@ -925,31 +952,20 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
 
   <!-- HOME -->
   <section class="view" id="v-home" hidden>
-    <div class="head">
-      <p class="eyebrow" id="hello"></p>
-      <h1><span data-t="h1a"></span><span class="mark" data-t="h1b"></span><span data-t="h1c"></span></h1>
-      <p data-t="heroP"></p>
+    <p class="eyebrow" id="hello"></p>
+    <!-- New visitor: one message, one button -->
+    <div id="homeNew" class="home-new">
+      <div class="head">
+        <h1><span data-t="h1a"></span><span class="mark" data-t="h1b"></span><span data-t="h1c"></span></h1>
+        <p data-t="heroP"></p>
+      </div>
+      <a class="btn y block hero-go" href="#start"><span data-t="heroBtn"></span><svg class="i flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></a>
+      <p class="note" data-t="heroFree" style="text-align:center;margin-top:-6px"></p>
+      <div class="card trust"><ul id="why"></ul></div>
     </div>
-    <a class="btn y block hero-go" href="#budget"><span data-t="heroBtn"></span><svg class="i flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg></a>
-
-    <div class="sec-title"><h3 data-t="pgH"></h3><a class="link" href="#budget" data-t="pgMore"></a></div>
-    <div class="pgrid" id="pgrid"></div>
-
-    <div class="sec-title"><h3 data-t="fxH"></h3></div>
-    <div class="fx" id="fx"></div>
-    <p class="note" data-t="fxNote" style="margin-top:-12px"></p>
-
-    <div class="sec-title"><h3 data-t="lgH"></h3></div>
-    <div class="lgrid" id="lgrid"></div>
-
-    <div class="inv ex" id="exCard"></div>
-
-    <a class="who tap" href="#study"><span class="ic" dir="ltr" style="background:var(--chrome);color:var(--y-ink);font-size:.8rem">99</span><span class="tx"><b data-t="stCardH"></b><span data-t="stCardS"></span></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a>
-
-    <div class="sec-title my-h"><h3 data-t="myH"></h3></div>
-    <div class="ready"><div class="bar"><i id="readyBar" style="width:0"></i></div><b class="num" id="readyPct">0%</b></div>
-    <p class="ready-l" id="readyL"></p>
-    <ol class="path" id="path"></ol>
+    <!-- Returning client: the home becomes her dashboard -->
+    <div id="homeMine" hidden>
+      <div class="sec-title my-h" style="margin-top:0"><h2 data-t="myH" style="font-size:1.6rem"></h2></div>
     <div id="dashWrap">
       <div class="inv dash" aria-live="polite">
         <div class="dash-top">
@@ -969,8 +985,20 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
         <button type="button" class="next" id="goNext"><span data-t="dNext"></span><b><span id="dNext"></span><svg class="i flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M9 5l7 7-7 7"/></svg></b></button>
       </div>
     </div>
-    <div id="homeSaved"></div>
-    <a class="who tap" href="#about"><span class="ic" dir="ltr">S.</span><span class="tx"><b data-t="whoH"></b><span data-t="whoS"></span></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a>
+      <div class="sec-title"><h3 data-t="stagesH"></h3><a class="link" href="#roadmap" data-t="stagesAll"></a></div>
+      <div class="ready"><div class="bar"><i id="readyBar" style="width:0"></i></div><b class="num" id="readyPct">0%</b></div>
+      <p class="ready-l" id="readyL"></p>
+      <ol class="path" id="path"></ol>
+      <div id="homeSaved"></div>
+      <a class="btn g block" href="#start" data-t="newProd"></a>
+    </div>
+  </section>
+
+  <!-- START: 3 simple steps -->
+  <section class="view" id="v-start" hidden>
+    <div class="qz-dots" id="stDots" aria-hidden="true"></div>
+    <p class="qz-sub" id="stOf"></p>
+    <div id="stBody" class="st-body"></div>
   </section>
 
   <!-- ROADMAP -->
@@ -1050,7 +1078,7 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
         <p class="warn" id="warn" hidden></p>
         <div class="btns" style="display:grid;grid-template-columns:1fr 1fr">
           <button class="btn g" type="button" id="saveEst" data-t="save"></button>
-          <a class="btn k" href="#plans" data-t="eCta"></a>
+          <button class="btn k" type="button" data-plan="study" data-t="eCta"></button>
         </div>
         <p class="note" data-t="eNote"></p>
       </div>
@@ -1192,7 +1220,7 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
     </div>
     <div class="btns" style="display:grid;grid-template-columns:1fr 1fr">
       <button class="btn k" type="button" id="bkSave" data-t="bkSave"></button>
-      <a class="btn y" href="#plans" data-t="bkNext"></a>
+      <a class="btn y" href="#study" data-t="bkNext"></a>
     </div>
     <p class="note" data-t="bkNote" style="text-align:center"></p>
   </section>
@@ -1248,14 +1276,13 @@ input,select,textarea{background-color:rgba(255,255,255,.32);-webkit-backdrop-fi
     <p class="note" data-t="localNote" style="text-align:center"></p>
   </section>
 
-  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v4.0</span></footer>
+  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v5.0</span></footer>
 </main>
 
 <nav class="tabs" id="tabs" aria-label="Main">
   <a class="tab" href="#home" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg><span data-t="tHome"></span></a>
   <a class="tab" href="#roadmap" data-tab="roadmap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8 6h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h7"/></svg><span data-t="tRoad"></span></a>
   <a class="tab" href="#budget" data-tab="budget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M14 11h2M8 15h2M14 15h2M8 18h2M14 18h2"/></svg><span data-t="tBudget"></span></a>
-  <a class="tab" href="#plans" data-tab="plans"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.8z"/></svg><span data-t="tPlans"></span></a>
   <a class="tab" href="#profile" data-tab="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-t="tProfile"></span></a>
 </nav>
 
@@ -1451,9 +1478,9 @@ const BK_AFFIX={classic:["Maison {n}","{n} Atelier","House of {n}"],modern:["{n}
 const ORIGIN={TR:[1,1],IT:[1.8,2.5]};const SHIP={TR:[5,9],IT:[7,13]};
 const PACK={poly:[1,2],box:[6,15],premium:[18,35]};
 const CUR={QA:["QAR",1],AE:["AED",1.009],SA:["SAR",1.03],KW:["KWD",.0843],BH:["BHD",.1033],OM:["OMR",.1058]};
-const TABS=["home","roadmap","budget","plans","profile"];
-const SUB={request:"plans",sent:"home",brand:"home",about:"home",project:"home",study:"home"};
-const ALIAS={estimate:"budget",start:"request"};
+const TABS=["home","roadmap","budget","profile"];
+const SUB={start:"home",plans:"profile",request:"plans",sent:"home",brand:"home",about:"home",project:"home",study:"home"};
+const ALIAS={estimate:"budget"};
 
 /* ===== Icons ===== */
 const CHECK='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.3l3 3 6-6.6"/></svg>';
@@ -1669,22 +1696,116 @@ function syncMats(){
 }
 function setMat(m){const r=document.querySelector(`input[name="mat"][value="${m}"]`);if(r)r.checked=true}
 function setCraft(h){const r=document.querySelector(`input[name="craft"][value="${h||"machine"}"]`);if(r)r.checked=true}
+/* ===== v5: more products, minimum order, guided start ===== */
+Object.assign(BASE,{thobe:[45,120],mshirt:[28,70],trousers:[32,80],belt:[20,60],kidsset:[22,55]});
+Object.assign(MAT_GROUP,{thobe:"men",mshirt:"men",trousers:"men",belt:"leather",kidsset:"basic"});
+MAT.men={cotton:[1,1],linen:[1.2,2],blend:[.8,1]};
+// Approximate minimum order per design: [Turkey, Italy]. Confirmed in the full study.
+const MOQ={shoes:[300,150],bag:[100,50],wallet:[200,100],belt:[200,100],tshirt:[200,300],hoodie:[150,200]};
+function moq(p,o){const m=MOQ[p]||[100,100];return o==="IT"?m[1]:m[0]}
+const GROUPS=[["women",["abaya","jalabiya","kaftan","dress","evening"]],["men",["thobe","mshirt","trousers"]],["kids",["kidsdress","kidsset"]],["shoes",["shoes"]],["bags",["bag","wallet"]],["acc",["belt","scarf"]],["basic",["tshirt","hoodie"]]];
+P_ICON.shirt='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l4 3 4-3 5 4-3 3-2-1v12H8V9l-2 1-3-3z"/></svg>';
+P_ICON.belt='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="9" width="20" height="6" rx="1"/><rect x="7" y="7.5" width="6" height="9" rx="1"/><path d="M10 12h5"/></svg>';
+const G_ICON={women:"abaya",men:"shirt",kids:"kidsdress",shoes:"shoes",bags:"bag",acc:"belt",basic:"shirt"};
+function pIcon(p){if(P_ICON[p])return P_ICON[p];const g=GROUPS.find(x=>x[1].includes(p));return P_ICON[G_ICON[g?g[0]:"women"]]}
+Object.assign(T.en.products,{thobe:"Thobe",mshirt:"Men's shirt",trousers:"Trousers",belt:"Leather belt",kidsset:"Kids set"});
+Object.assign(T.ar.products,{thobe:"ثوب",mshirt:"قميص رجالي",trousers:"بنطلون",belt:"حزام جلد",kidsset:"طقم أطفال"});
+Object.assign(T.en,{
+heroFree:"Free to try · no account needed",
+why:[["Factories in Turkey & Italy","We find the right one for your product"],["Your budget in seconds","Cost per piece and total, before you pay anything"],["A real person on WhatsApp","We answer your questions fast"]],
+newProd:"+ Start another product",
+stOf:"Step {a} of 3",st1H:"What do you want to make?",
+grp:{women:"Women",men:"Men",kids:"Kids",shoes:"Shoes",bags:"Bags",acc:"Accessories",basic:"Everyday basics"},
+moqL:"min. {n} pcs",st2H:"Your product details",change:"Change",
+stQty:"How many pieces?",moqHint:"Factories usually start at about {n} pieces for this product.",moqLow:"Below {n} pieces, prices go up. Your study finds the right workshop.",
+stFactory:"Which factory?",stLogo:"Your logo",stSee:"See my budget",
+st3H:"Your estimated budget",stTotal:"Total for {q} pieces",stUnit:"Per piece, delivered",stMoq:"Minimum order",stMoqV:"about {n} pcs",
+stStudyBtn:"Get my full study · 99 QAR",stSave:"Save and see my dashboard",stLogoRow:"Your logo design · 250 QAR",stLogoGo:"Request it on WhatsApp",
+warnMoq2:"Factories usually need about {n} pieces of this product. Below that, expect higher prices or a small workshop.",
+eCta:"Get my full study",langTo:"العربية",stagesH:"Your 4 stages",stagesAll:"Full roadmap"});
+Object.assign(T.ar,{
+heroFree:"مجاني للتجربة · بدون حساب",
+why:[["مصانع في تركيا وإيطاليا","نلقى لك المصنع المناسب لمنتجك"],["ميزانيتك في ثواني","تكلفة القطعة والإجمالي قبل ما تدفعين أي شي"],["شخص حقيقي على الواتساب","نرد على أسئلتك بسرعة"]],
+newProd:"+ ابدئي منتج ثاني",
+stOf:"الخطوة {a} من 3",st1H:"شو تبين تصنعين؟",
+grp:{women:"نساء",men:"رجال",kids:"أطفال",shoes:"أحذية",bags:"شنط",acc:"إكسسوارات",basic:"ملابس يومية"},
+moqL:"أقل كمية {n} قطعة",st2H:"تفاصيل منتجك",change:"تغيير",
+stQty:"كم قطعة؟",moqHint:"المصانع عادة تبدأ من حوالي {n} قطعة لهالمنتج.",moqLow:"أقل من {n} قطعة السعر يرتفع. دراستك تلقى لك الورشة المناسبة.",
+stFactory:"أي مصنع؟",stLogo:"شعارك",stSee:"شوفي ميزانيتي",
+st3H:"ميزانيتك التقديرية",stTotal:"الإجمالي لـ {q} قطعة",stUnit:"تكلفة القطعة واصلة",stMoq:"أقل كمية",stMoqV:"حوالي {n} قطعة",
+stStudyBtn:"احصلي على دراستي الكاملة · 99 ريال",stSave:"احفظي وشوفي مشروعي",stLogoRow:"تصميم شعارك · 250 ريال",stLogoGo:"اطلبيه على الواتساب",
+warnMoq2:"المصانع عادة تطلب حوالي {n} قطعة من هالمنتج. أقل من كذا يعني أسعار أعلى أو ورشة صغيرة.",
+eCta:"احصلي على دراستي",langTo:"English",stagesH:"مراحلك الأربع",stagesAll:"الخطة كاملة"});
+
 function renderHome(){
-  const t=T[L],c=S.profile.country;
-  $("pgrid").innerHTML=HOME_P.map(p=>{const r=compute({p,q:300,c,o:"TR",pack:"poly",b:[false,false,false],m:cheapMat(p),h:"machine"});
-    return `<button type="button" class="card tile tap" data-hp="${p}"><span class="ti">${P_ICON[p]}</span><b>${t.pgN[p]}</b><small>${fmt(t.pgFrom,{v:money(r.unit[0],c)})}</small></button>`}).join("");
-  $("pgrid").querySelectorAll("[data-hp]").forEach(b=>b.onclick=()=>{haptic();$("product").value=b.dataset.hp;$("mats").dataset.g="";syncMats();calc();location.hash="#budget"});
-  $("fx").innerHTML=t.fx.map((x,i)=>`<button type="button" class="card tile tap dk" data-fo="${i?"IT":"TR"}"><span class="ti" aria-hidden="true">${x[1]}</span><b>${x[0]}</b><small>${x[2]}</small></button>`).join("");
-  $("fx").querySelectorAll("[data-fo]").forEach(b=>b.onclick=()=>{haptic();document.querySelector(`input[name="origin"][value="${b.dataset.fo}"]`).checked=true;calc();location.hash="#budget"});
-  $("lgrid").innerHTML=`<button type="button" class="card tile tap dk" data-lg="own"><span class="ti">${S.logo?`<img src="${S.logo}" alt="" style="width:30px;height:30px;object-fit:contain;border-radius:6px;background:#fff">`:"↑"}</span><b>${t.lgOwn}</b><small>${t.lgOwnS}</small></button>
-  <button type="button" class="card tile tap" data-lg="make"><span class="ti">✦</span><b>${t.lgMake}</b><small>${t.lgMakeS}</small><span class="pill" dir="ltr">250 QAR</span></button>`;
-  $("lgrid").querySelectorAll("[data-lg]").forEach(b=>b.onclick=()=>{haptic();bkMode=b.dataset.lg;location.hash="#brand"});
-  const ex={p:"abaya",q:150,c,o:"TR",pack:"box",b:[true,true,false],m:"crepe",h:"machine"},r=compute(ex);
-  $("exCard").innerHTML=`<div class="ex-h"><div><p class="eyebrow" style="color:var(--inv-muted)">${t.exEye}</p><h3>${t.exH}</h3></div><span class="ti" style="width:44px;height:44px;border-radius:14px;display:grid;place-items:center;background:var(--chrome);color:var(--y-ink);flex:none">${P_ICON.abaya.replace("<svg ",'<svg style="width:22px;height:22px" ')}</span></div>
-  <p class="ex-l">${fmt(t.exLine,{q:"<bdi dir=ltr>150</bdi>",o:t.tr,m:t.mats.crepe,h:t.crMachine})}</p>
-  <div class="ex-kv"><div><span>${t.exTot}</span><b class="num">${rng(r.tot,c)}</b></div><div><span>${t.exUnit}</span><b class="num">${rng(r.unit,c)}</b></div></div>
-  <button type="button" class="btn y block" id="exGo">${t.exBtn}</button>`;
-  $("exGo").onclick=()=>{location.hash="#budget"};
+  const t=T[L],mine=S.saved.length>0;
+  $("homeNew").hidden=mine;$("homeMine").hidden=!mine;
+  $("why").innerHTML=t.why.map((x,i)=>`<li><span class="ic">${[IC.factory,IC.calc,IC.wa][i]}</span><div><h3>${x[0]}</h3><p>${x[1]}</p></div></li>`).join("");
+}
+function renderLangTg(){const b=$("langTg");b.textContent=L==="en"?"ع":"EN";b.setAttribute("aria-label",T[L].langTo)}
+$("langTg").onclick=()=>{haptic();setLang(L==="en"?"ar":"en")};
+
+/* Start: 3 steps — product → details → budget */
+let sf={s:0,w:null};
+function stDefault(){const p=S.profile.product&&BASE[S.profile.product]?S.profile.product:"abaya";return{p,m:cheapMat(p),h:"machine",q:moq(p,"TR"),c:S.profile.country,o:"TR",pack:"box",b:[true,true,false],logo:S.logo?"own":"make"}}
+function stGo(n){sf.s=n;renderStart();window.scrollTo(0,0)}
+function stChips(key,obj,val){return `<div class="chips">${Object.keys(obj).map(k=>`<button type="button" class="fchip" data-k="${key}" data-v="${k}" aria-pressed="${val===k}">${obj[k]}</button>`).join("")}</div>`}
+function stQtyHint(){const t=T[L],w=sf.w,n=moq(w.p,w.o),h=$("stQh");if(!h)return;const low=w.q<n;h.className="hint"+(low?" bad":"");h.textContent=fmt(low?t.moqLow:t.moqHint,{n})}
+function renderStart(){
+  const t=T[L],w=sf.w||(sf.w=stDefault()),c=w.c,box=$("stBody");
+  $("stDots").innerHTML=[0,1,2].map(i=>`<i class="${i<=sf.s?"on":""}"></i>`).join("");
+  $("stOf").textContent=fmt(t.stOf,{a:sf.s+1});
+  if(sf.s===0){
+    box.innerHTML=`<h2>${t.st1H}</h2>`+GROUPS.map(([g,ps])=>`<div class="st-group"><p>${t.grp[g]}</p><div class="pgrid">${ps.map(p=>{const r=compute({p,q:moq(p,"TR"),c,o:"TR",pack:"poly",b:[false,false,false],m:cheapMat(p),h:"machine"});
+      return `<button type="button" class="card tile tap" data-p="${p}" aria-pressed="${sf.w.p===p&&sf.picked?"true":"false"}"><span class="ti">${pIcon(p)}</span><b>${t.products[p]}</b><small>${fmt(t.pgFrom,{v:money(r.unit[0],c)})}</small><span class="moq">${fmt(t.moqL,{n:moq(p,"TR")})}</span></button>`}).join("")}</div></div>`).join("");
+    box.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{haptic();const p=b.dataset.p;if(w.p!==p){w.p=p;w.m=cheapMat(p);w.q=moq(p,w.o)}sf.picked=true;stGo(1)});
+    return;
+  }
+  if(sf.s===1){
+    const ms=matsFor(w.p);if(!ms[w.m])w.m=cheapMat(w.p);
+    const matNames={};Object.keys(ms).forEach(k=>matNames[k]=t.mats[k]+" "+"$".repeat(ms[k][1]));
+    box.innerHTML=`<h2>${t.st2H}</h2>
+    <div class="st-pick"><span style="display:flex;align-items:center;gap:10px"><span class="ti" style="width:34px;height:34px;display:grid;place-items:center">${pIcon(w.p).replace("<svg ",'<svg style="width:22px;height:22px" ')}</span>${t.products[w.p]}</span><button type="button" id="stChg">${t.change}</button></div>
+    <div class="st-field"><b>${t.fMat}</b>${stChips("m",matNames,w.m)}</div>
+    <div class="st-field"><b>${t.fCraft}</b>${stChips("h",{machine:t.crMachine,hand:t.crHand},w.h)}</div>
+    <div class="st-field"><b id="stQl">${t.stQty}</b><div class="stepper" role="group" aria-labelledby="stQl"><button type="button" id="stQm" aria-label="−50">−</button><input id="stQ" type="number" min="1" step="1" inputmode="numeric" value="${w.q}" aria-labelledby="stQl"><button type="button" id="stQp" aria-label="+50">+</button></div><span class="hint" id="stQh"></span></div>
+    <div class="st-field"><b>${t.stFactory}</b><div class="fx">${t.fx.map((x,i)=>{const o=i?"IT":"TR";return `<button type="button" class="card tile tap dk" data-o="${o}" aria-pressed="${w.o===o}"><span class="ti" aria-hidden="true">${x[1]}</span><b>${x[0]}</b><small>${x[2]}</small></button>`}).join("")}</div></div>
+    <div class="st-field"><b>${t.stLogo}</b><div class="lgrid"><button type="button" class="card tile tap dk" data-l="own" aria-pressed="${w.logo==="own"}"><span class="ti">↑</span><b>${t.lgOwn}</b><small>${t.lgOwnS}</small></button><button type="button" class="card tile tap" data-l="make" aria-pressed="${w.logo==="make"}"><span class="ti">✦</span><b>${t.lgMake}</b><small>${t.lgMakeS}</small><span class="pill" dir="ltr">250 QAR</span></button></div></div>
+    <div class="btns" style="display:grid;grid-template-columns:1fr 2fr"><button type="button" class="btn g" id="stB">${t.qzBack}</button><button type="button" class="btn y" id="stN">${t.stSee}</button></div>`;
+    $("stChg").onclick=()=>stGo(0);$("stB").onclick=()=>stGo(0);$("stN").onclick=()=>{haptic();stGo(2)};
+    box.querySelectorAll(".fchip[data-k]").forEach(b=>b.onclick=()=>{haptic();w[b.dataset.k]=b.dataset.v;b.parentNode.querySelectorAll(".fchip").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+    box.querySelectorAll("[data-o]").forEach(b=>b.onclick=()=>{haptic();w.o=b.dataset.o;box.querySelectorAll("[data-o]").forEach(x=>x.setAttribute("aria-pressed",x===b));stQtyHint()});
+    box.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{haptic();w.logo=b.dataset.l;box.querySelectorAll("[data-l]").forEach(x=>x.setAttribute("aria-pressed",x===b))});
+    const q=$("stQ"),setQ=v=>{w.q=Math.max(1,Math.min(100000,v||1));q.value=w.q;stQtyHint()};
+    q.oninput=()=>{w.q=Math.max(1,Math.min(100000,parseInt(q.value,10)||1));stQtyHint()};
+    $("stQm").onclick=()=>{haptic();setQ(w.q-50)};$("stQp").onclick=()=>{haptic();setQ(w.q+50)};
+    stQtyHint();return;
+  }
+  const r=compute(w),m=r.parts.map(x=>mid(x[1])),sum=m.reduce((a,b)=>a+b,0);
+  box.innerHTML=`<h2>${t.st3H}</h2>
+  <div class="inv" style="display:flex;flex-direction:column;gap:12px" aria-live="polite"><div class="total"><span>${fmt(t.stTotal,{q:"<bdi dir=ltr>"+w.q.toLocaleString("en-US")+"</bdi>"})}</span><b class="num">${rng(r.tot,c)}</b></div><div class="stack" aria-hidden="true">${r.parts.map((x,i)=>m[i]>0?`<i style="width:${(m[i]/sum*100).toFixed(1)}%;background:${x[2]}"></i>`:"").join("")}</div></div>
+  <div class="card"><ul class="st-facts">
+    <li><span>${t.stUnit}</span><b class="num">${rng(r.unit,c)}</b></li>
+    <li><span>${t.sumProd}</span><b>${t.products[w.p]}</b></li>
+    <li><span>${t.fMat}</span><b>${t.mats[w.m]} · ${w.h==="hand"?t.crHand:t.crMachine}</b></li>
+    <li><span>${t.sumFact}</span><b>${w.o==="TR"?t.tr:t.it}</b></li>
+    <li><span>${t.stMoq}</span><b>${fmt(t.stMoqV,{n:moq(w.p,w.o)})}</b></li>
+  </ul></div>
+  <button type="button" class="btn y block hero-go" id="stStudy">${t.stStudyBtn}</button>
+  ${w.logo==="make"?`<a class="who tap" href="#brand" id="stLogo"><span class="ic">✦</span><span class="tx"><b>${t.stLogoRow}</b><span>${t.stLogoGo}</span></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a>`:""}
+  <button type="button" class="btn g block" id="stSave">${t.stSave}</button>
+  <p class="note" style="text-align:center">${t.fxNote}</p>
+  <button type="button" class="link" id="stB" style="background:none;border:0;cursor:pointer;align-self:center">${t.qzBack}</button>`;
+  $("stB").onclick=()=>stGo(1);
+  $("stStudy").onclick=()=>{haptic();stCommit();checkout("study")};
+  $("stSave").onclick=()=>{haptic();stCommit();toast(t.saved);location.hash="#home"};
+  if($("stLogo"))$("stLogo").onclick=()=>{stCommit();bkMode="make"};
+}
+function stCommit(){
+  const w=sf.w;loadEst(w);const x=readEst();
+  if(!(S.saved.length&&JSON.stringify(S.saved[0])===JSON.stringify(x))){S.saved.unshift(x);S.saved=S.saved.slice(0,10)}
+  S.profile.product=w.p;if(w.logo==="own")bkMode="own";persist();
+  renderSaved();renderProfile();renderDash();
 }
 
 /* ===== Render: profile bits ===== */
@@ -1758,7 +1879,7 @@ function calc(){
   $("stack").innerHTML=est.parts.map((x,i)=>m[i]>0?`<i style="width:${(m[i]/ms*100).toFixed(1)}%;background:${x[2]}"></i>`:"").join("");
   $("legend").innerHTML=est.parts.map(x=>`<div class="lr"><i style="background:${x[2]}"></i><span>${t[x[0]]}</span><span class="num">${rng(x[1],c)}</span></div>`).join("");
   $("perPiece").textContent=rng(est.unit,c);$("retail").textContent=rng([est.unit[0]*2.5,est.unit[1]*3],c);
-  const w=$("warn");if(est.q<50){w.textContent=t.warnMoq;w.hidden=false}else w.hidden=true;
+  const w=$("warn"),mq=moq(est.p,est.o);if(est.q<mq){w.textContent=fmt(t.warnMoq2,{n:mq});w.hidden=false}else w.hidden=true;
   renderSeason();renderProfit();
   renderDash();
 }
@@ -1999,11 +2120,12 @@ function route(){
   const parent=SUB[v];const isSub=!!parent;
   document.querySelectorAll(".tab").forEach(a=>{(a.dataset.tab===v||a.dataset.tab===parent)?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current")});
   $("tabs").hidden=isSub;document.body.classList.toggle("no-tabs",isSub);
-  $("brand").hidden=isSub;$("backBtn").hidden=!isSub;$("backBtn").href="#"+(v==="request"?"plans":"home");
+  $("brand").hidden=isSub;$("backBtn").hidden=!isSub;$("backBtn").href="#"+(({request:"plans",plans:"profile"})[v]||"home");
   if(v==="project"){qi=S.project?-1:0;pj=null;renderProject()}
   if(v==="study")renderIncl();
   if(v==="brand")renderBrandMode();
   if(v==="home")renderHome();
+  if(v==="start"){sf={s:0,w:stDefault(),picked:false};renderStart()}
   if(v==="request")renderReq();
   if(v==="sent")renderSent();
   window.scrollTo(0,0);
@@ -2063,7 +2185,7 @@ function setLang(l){L=l;persist();renderAll()}
 function updateOnline(){$("offline").hidden=navigator.onLine!==false}
 addEventListener("online",updateOnline);addEventListener("offline",updateOnline);
 
-function renderAll(){renderStatic();renderHome();renderProfile();renderMS();calc();renderSaved();if(!$("v-request").hidden)renderReq();if(!$("v-sent").hidden)renderSent()}
+function renderAll(){renderStatic();renderLangTg();renderHome();if(!$("v-start").hidden)renderStart();renderProfile();renderMS();calc();renderSaved();if(!$("v-request").hidden)renderReq();if(!$("v-sent").hidden)renderSent()}
 
 /* ===== Boot ===== */
 applyTheme();updateOnline();
