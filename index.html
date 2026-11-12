@@ -74,12 +74,11 @@ svg.i{width:20px;height:20px;flex:none}
 [dir="rtl"] svg.flip{transform:scaleX(-1)}
 
 /* ===== Splash ===== */
-.splash{position:fixed;inset:0;z-index:100;background:#DDD8DE;display:grid;place-items:center;transition:opacity .45s var(--ease),visibility .45s}
-.splash::before{content:"";position:absolute;inset:-40px;background:url(splash.jpg) center/cover;filter:blur(24px)}
-.splash video{position:relative;width:100%;height:100%;object-fit:contain;display:block}
+.splash{position:fixed;inset:0;z-index:100;background:#F6F6F6;display:grid;place-items:center;transition:opacity .45s var(--ease),visibility .45s}
+.splash video{position:relative;width:min(100vw,80vh);aspect-ratio:4/5;height:auto;object-fit:cover;display:block;-webkit-mask-image:linear-gradient(transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(transparent,#000 8%,#000 92%,transparent)}
 .splash.out{opacity:0;visibility:hidden}
-.skip{position:absolute;inset-inline-end:max(16px,env(safe-area-inset-right,0px));bottom:calc(24px + env(safe-area-inset-bottom,0px));
-  font:600 .82rem var(--body);color:#0A0A0A;background:rgba(255,255,255,.8);border:1px solid rgba(10,10,10,.12);border-radius:var(--r-pill);padding:10px 18px;min-height:44px;cursor:pointer}
+.skip{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(40px + env(safe-area-inset-bottom,0px));
+  font:600 1rem var(--body);color:#fff;background:#0A0A0A;border:0;border-radius:var(--r-pill);padding:0 36px;min-height:54px;min-width:200px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.18)}
 
 /* ===== Onboarding ===== */
 .onb{position:fixed;inset:0;z-index:80;background:var(--bg);display:flex;flex-direction:column;
@@ -409,6 +408,20 @@ body.no-tabs .toast{bottom:calc(24px + env(safe-area-inset-bottom,0px))}
 
 footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:center;display:flex;flex-direction:column;gap:4px;align-items:center}
 
+
+/* ===== Home path (3 big steps) ===== */
+.path{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
+.path a{display:flex;align-items:center;gap:14px;padding:16px;border-radius:var(--r-lg);background:var(--soft);color:var(--ink);text-decoration:none;min-height:76px}
+.path .n{width:40px;height:40px;flex:none;border-radius:50%;display:grid;place-items:center;background:var(--surface);border:1.5px solid var(--line);font:700 1rem "Poppins",sans-serif}
+.path .tx{flex:1;min-width:0}
+.path b{display:block;font:600 1.08rem var(--display);line-height:1.25}
+.path span.s{display:block;font-size:.85rem;color:var(--muted);margin-top:2px}
+.path .go{flex:none;opacity:.6}
+.path li.now a{background:var(--y);color:var(--y-ink)}
+.path li.now .n{background:var(--ink);color:var(--y);border-color:var(--ink)}
+.path li.now span.s{color:inherit;opacity:.75}
+.path li.ok .n{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+
 /* ===== Tablet / desktop ===== */
 @media (min-width:760px){
   .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
@@ -426,12 +439,12 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
 <!-- SPLASH -->
 <div class="splash" id="splash" role="presentation">
   <video id="sv" muted playsinline autoplay preload="auto" poster="splash.jpg" aria-hidden="true"><source src="splash.mp4" type="video/mp4"></video>
-  <button type="button" class="skip" id="skip">Skip</button>
+  <button type="button" class="skip" id="skip">Let's start</button>
 </div>
 <script>
 (function(){
   var s=document.getElementById("splash"),v=document.getElementById("sv"),k=document.getElementById("skip"),gone=false;
-  if(document.documentElement.lang==="ar")k.textContent="تخطي";
+  if(document.documentElement.lang==="ar")k.textContent="لنبدأ";
   function hide(){if(gone)return;gone=true;s.classList.add("out");try{v.pause()}catch(_){}try{sessionStorage.setItem("startup-splash","1")}catch(_){}setTimeout(function(){s.remove()},500)}
   var seen=false;try{seen=sessionStorage.getItem("startup-splash")==="1"}catch(_){}
   var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -469,9 +482,9 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
     <div class="head">
       <p class="eyebrow" id="hello"></p>
       <h1><span data-t="h1a"></span><span class="mark" data-t="h1b"></span><span data-t="h1c"></span></h1>
-      <p class="muted" data-t="lead"></p>
     </div>
-    <div class="home-grid">
+    <ol class="path" id="path"></ol>
+    <div id="dashWrap" hidden>
       <div class="inv dash" aria-live="polite">
         <div class="dash-top">
           <div><h3 data-t="dTitle"></h3><small id="dSub"></small></div>
@@ -489,23 +502,8 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
         <div class="bars" id="bars" aria-hidden="true"></div>
         <button type="button" class="next" id="goNext"><span data-t="dNext"></span><b><span id="dNext"></span><svg class="i flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M9 5l7 7-7 7"/></svg></b></button>
       </div>
-      <div style="display:flex;flex-direction:column;gap:12px">
-        <div class="quick">
-          <a class="qa y tap" href="#budget"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M14 11h2M8 15h2M14 15h2M8 18h2M14 18h2"/></svg><div><b data-t="qa1"></b><span data-t="qa1s"></span></div></a>
-          <a class="qa tap" href="#plans"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><div><b data-t="qa2"></b><span data-t="qa2s"></span></div></a>
-        </div>
-        <div id="homeSaved"></div>
-      </div>
     </div>
-    <div class="kpis">
-      <div class="kpi"><b class="num">11</b><span data-t="k1"></span></div>
-      <div class="kpi"><b dir="ltr">TR · IT</b><span data-t="k2"></span></div>
-      <div class="kpi"><b>GCC</b><span data-t="k3"></span></div>
-    </div>
-    <div class="card how">
-      <p class="eyebrow" data-t="hEye" style="margin-bottom:4px"></p>
-      <ol id="how"></ol>
-    </div>
+    <div id="homeSaved"></div>
   </section>
 
   <!-- ROADMAP -->
@@ -710,9 +708,9 @@ const STUDY_PRICE=19;
 
 /* ===== Copy (EN / AR) ===== */
 const T={
-en:{h1a:"Launch your ",h1b:"fashion brand",h1c:". From business plan to finished product.",
+en:{h1a:"Your brand in ",h1b:"one click",h1c:".",
 lead:"Your budget in 30 seconds, matched factories in Turkey and Italy, and an 11-step plan to your first sale.",
-hi:"Hello",hiName:"Hello, {n}",
+hi:"Hello",hiName:"Hello, {n}",path:[["Calculate my budget","30 seconds"],["Get my study","19 QAR"],["Launch my brand","11 easy steps"]],doneS:"Done",seeDash:"See dashboard",
 dTitle:"Your launch dashboard",dSub0:"Start with milestone 1",dSubN:"{d} of 11 milestones done",dTag:"On track",dTagNew:"New",dDone:"milestones done",dWeeks:"weeks to launch",dBudget:"estimated budget",dUnit:"cost per piece",dNext:"Next milestone",
 seeDetails:"Details",qa1:"Estimate my budget",qa1s:"30 seconds",qa2:"Get my study",qa2s:"19 QAR",
 k1:"milestones to launch",k2:"partner factories",k3:"6 countries covered",
@@ -769,9 +767,9 @@ ms:[
 ["Production & quality","Follow the order and check every batch.",["Production schedule","Quality inspection","Final payment"]],
 ["Logistics & customs","Bring the goods to your country.",["Shipping mode","Customs clearance (5% GCC duty)","Storage"]],
 ["Launch & sales","Open your shop and get your first customers.",["Instagram and website","Online store","Launch campaign"]]]},
-ar:{h1a:"أطلقي ",h1b:"علامتك التجارية",h1c:". من دراسة المشروع إلى المنتج النهائي.",
+ar:{h1a:"علامتك في ",h1b:"ضغطة واحدة",h1c:".",
 lead:"ميزانيتك في 30 ثانية، مصانع مناسبة في تركيا وإيطاليا، وخطة من 11 مرحلة حتى أول عملية بيع.",
-hi:"مرحبًا",hiName:"مرحبًا {n}",
+hi:"مرحبًا",hiName:"مرحبًا {n}",path:[["احسبي ميزانيتي","30 ثانية"],["احصلي على دراستي","19 ريال"],["أطلقي علامتك","11 خطوة سهلة"]],doneS:"تم",seeDash:"شوفي اللوحة",
 dTitle:"لوحة متابعة الإطلاق",dSub0:"ابدئي بالمرحلة الأولى",dSubN:"{d} من 11 مرحلة منجزة",dTag:"على المسار",dTagNew:"جديد",dDone:"مراحل منجزة",dWeeks:"أسبوعًا حتى الإطلاق",dBudget:"الميزانية التقديرية",dUnit:"تكلفة القطعة",dNext:"المرحلة التالية",
 seeDetails:"التفاصيل",qa1:"احسبي ميزانيتي",qa1s:"30 ثانية",qa2:"احصلي على دراستي",qa2s:"19 ريال",
 k1:"مرحلة حتى الإطلاق",k2:"مصانع شريكة",k3:"6 دول مشمولة",
@@ -966,7 +964,6 @@ function renderStatic(){
   const t=T[L];document.documentElement.lang=L;document.documentElement.dir=L==="ar"?"rtl":"ltr";
   document.querySelectorAll("[data-t]").forEach(el=>{const v=t[el.dataset.t];if(typeof v==="string")el.textContent=v});
   ["p1l","p2l","p3l"].forEach(k=>{$(k).innerHTML=t[k].map(x=>"<li>"+TICK+"<span>"+x+"</span></li>").join("")});
-  $("how").innerHTML=t.how.map((h,i)=>`<li><span class="n">${i+1}</span><div><h3>${h[0]}</h3><p>${h[1]}</p></div></li>`).join("");
   $("nextSteps").innerHTML=t.nextSteps.map((h,i)=>`<li><span class="n">${i+1}</span><div><h3>${h[0]}</h3><p>${h[1]}</p></div></li>`).join("");
   const ti=[IC.factory,IC.globe,IC.check];
   $("trust").innerHTML=t.trust.map((x,i)=>`<li><span class="ic">${ti[i]}</span><div><h3>${x[0]}</h3><p>${x[1]}</p></div></li>`).join("");
@@ -1067,7 +1064,7 @@ function renderSaved(){
   renderHomeSaved();
 }
 function renderHomeSaved(){
-  const t=T[L],h=$("homeSaved");
+  const t=T[L],h=$("homeSaved");if(typeof renderPath==="function")renderPath();
   if(!S.saved.length){h.innerHTML="";return}
   h.innerHTML=`<div class="sec-title" style="margin-bottom:8px"><h3>${t.savedH}</h3><a class="link" href="#budget">${fmt(t.savedN,{n:S.saved.length})}</a></div><ul class="saved">${savedItem(S.saved[0],0,true)}</ul>`;
   h.querySelector("[data-load]").onclick=()=>{loadEst(S.saved[0]);location.hash="#budget"};
@@ -1076,11 +1073,20 @@ function loadEst(s){$("product").value=s.p;$("qty").value=s.q;$("country").value
 function applyProfileDefaults(){$("product").value=S.profile.product;$("country").value=S.profile.country}
 
 /* ===== Dashboard ===== */
+function renderPath(){
+  const t=T[L],hasB=S.saved.length>0,st=S.study||lastReq;
+  const href=["#budget","#plans","#roadmap"],ok=[hasB,!!st,done.size===11];
+  const now=ok.findIndex(x=>!x);
+  const arrow='<svg class="i flip go" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 5l7 7-7 7"/></svg>';
+  $("path").innerHTML=t.path.map((p,i)=>`<li class="${ok[i]?"ok":""}${i===now?" now":""}"><a class="tap" href="${href[i]}"><span class="n">${ok[i]?"✓":i+1}</span><span class="tx"><b>${p[0]}</b><span class="s">${ok[i]?t.doneS:p[1]}</span></span>${arrow}</a></li>`).join("");
+  $("dashWrap").hidden=!hasB;
+}
 function renderDash(){
+  renderPath();
   const t=T[L],n=done.size,pct=Math.round(n/11*100);
   $("ring").setAttribute("stroke-dashoffset",(251.3*(1-n/11)).toFixed(1));$("ringTxt").textContent=pct+"%";
   $("dDone").textContent=n+"/11";$("dWeeks").textContent=MS.reduce((a,m,i)=>a+(done.has(i)?0:m.w),0);
-  if(est.tot){$("dBudget").innerHTML=compact(mid(est.tot),est.c);$("dUnit").innerHTML=compact(mid(est.unit),est.c)}
+  if(S.saved.length){const r=compute(S.saved[0]);$("dBudget").innerHTML=compact(mid(r.tot),r.c);$("dUnit").innerHTML=compact(mid(r.unit),r.c)}
   $("bars").innerHTML=MS.map((m,i)=>`<i class="${done.has(i)?"on":""}" style="height:${30+m.w*11}%"></i>`).join("");
   const nx=MS.findIndex((m,i)=>!done.has(i));$("dNext").textContent=nx<0?t.done:t.ms[nx][0];
   $("dTag").textContent=nx<0?t.done:n===0?t.dTagNew:t.dTag;
@@ -1111,6 +1117,7 @@ $("req").addEventListener("submit",e=>{
   setTimeout(()=>{
     b.classList.remove("loading");b.disabled=false;
     const en=T.en,brand=$("f-brand").value.trim();
+    S.study=true;persist();
     lastReq=`STARTUP – ${plan==="study"?"Project study (19 QAR)":"Full launch quote"}\nName: ${$("f-name").value.trim()}\nContact: ${$("f-contact").value.trim()}${brand?"\nBrand: "+brand:""}\nIdea: ${$("f-idea").value.trim()}\n\nEstimate: ${en.products[est.p]} × ${est.q} pcs · ${est.o==="TR"?"Turkey":"Italy"} · ${en.countries[est.c]}\nBudget: ${plain(rng(est.tot,est.c))}\nPer piece: ${plain(rng(est.unit,est.c))}\nMilestones done: ${done.size}/11\nLanguage: ${L==="ar"?"Arabic":"English"}`;
     location.hash="#sent";
   },650);
@@ -1161,7 +1168,7 @@ $("msq").addEventListener("input",e=>{filter.q=e.target.value;renderMS()});
 $("est").addEventListener("input",calc);$("est").addEventListener("change",calc);$("est").addEventListener("submit",e=>e.preventDefault());
 const step=d=>{const q=$("qty");q.value=Math.max(1,(parseInt(q.value,10)||0)+d);calc();haptic()};
 $("qMinus").onclick=()=>step(-50);$("qPlus").onclick=()=>step(50);
-$("saveEst").onclick=()=>{const t=T[L];const x=readEst();if(S.saved.length&&JSON.stringify(S.saved[0])===JSON.stringify(x)){toast(t.saved);return}S.saved.unshift(x);S.saved=S.saved.slice(0,10);persist();renderSaved();renderProfile();haptic();toast(t.saved)};
+$("saveEst").onclick=()=>{const t=T[L];const x=readEst();if(S.saved.length&&JSON.stringify(S.saved[0])===JSON.stringify(x)){toast(t.saved);return}const first=!S.saved.length;S.saved.unshift(x);S.saved=S.saved.slice(0,10);persist();renderSaved();renderProfile();renderDash();haptic();toast(t.saved,{label:t.seeDash,fn:()=>{location.hash="#home"}});if(first)setTimeout(()=>{location.hash="#home"},900)};
 document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=()=>checkout(b.dataset.plan));
 $("pfForm").onsubmit=e=>{e.preventDefault();S.profile.name=$("pf-name").value.trim().slice(0,30);S.profile.country=$("pf-country").value;S.profile.product=$("pf-product").value;persist();applyProfileDefaults();calc();renderProfile();toast(T[L].profileSaved)};
 document.querySelectorAll('input[name="lang"]').forEach(r=>r.addEventListener("change",()=>setLang(r.value)));
