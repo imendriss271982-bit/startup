@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Startup</title>
 <meta name="description" content="Startup - Your brand in one click. Launch your fashion or leather-goods brand in the GCC, from business plan to finished product.">
-<meta name="theme-color" content="#FFFFFF" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#0B0B0B" media="(prefers-color-scheme: dark)">
+<meta name="theme-color" content="#FFFFFF" id="themeColor">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -18,41 +17,61 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<script>
+/* Apply saved theme before paint (no flash) */
+try{var st=JSON.parse(localStorage.getItem("startup-v2")||"{}");if(st.theme==="light"||st.theme==="dark")document.documentElement.dataset.theme=st.theme;if(st.lang==="ar"){document.documentElement.lang="ar";document.documentElement.dir="rtl"}}catch(_){}
+</script>
 <style>
-/* ===== Tokens — change --y to switch the yellow everywhere ===== */
+/* =====================================================================
+   STARTUP DESIGN TOKENS  ·  change --y to switch the brand yellow
+   ===================================================================== */
 :root{
-  --y:#FFD400;            /* brand yellow (accent) */
-  --y-ink:#0A0A0A;        /* text on yellow */
-  --bg:#FFFFFF; --surface:#FFFFFF; --soft:#F4F4F2; --ink:#0A0A0A; --muted:#6B6B6B; --line:#E7E7E4;
+  --y:#FFD400; --y-ink:#0A0A0A; --y-soft:#FFF6CC;
+  --bg:#FFFFFF; --surface:#FFFFFF; --soft:#F4F4F2; --ink:#0A0A0A; --ink-2:#2B2B2B; --muted:#6B6B6B; --line:#E7E7E4;
   --inv:#0A0A0A; --inv-ink:#FFFFFF; --inv-muted:#A3A3A3; --inv-line:#262626; --inv-soft:#1A1A1A;
+  --ok:#1F8A4C; --ok-soft:#E6F4EC; --err:#C2281E; --err-soft:#FCEBEA;
   --display:"Poppins","IBM Plex Sans Arabic",system-ui,sans-serif;
   --body:"Inter","IBM Plex Sans Arabic",system-ui,-apple-system,"Segoe UI",sans-serif;
-  --r-lg:22px; --r-md:16px; --r-sm:12px;
+  --r-xl:28px; --r-lg:22px; --r-md:16px; --r-sm:12px; --r-pill:999px;
+  --s1:4px; --s2:8px; --s3:12px; --s4:16px; --s5:20px; --s6:24px; --s8:32px;
   --tab-h:64px;
-  --ease:cubic-bezier(.2,.7,.2,1);
+  --sh-1:0 1px 2px rgba(10,10,10,.06); --sh-2:0 12px 32px -12px rgba(10,10,10,.35);
+  --ease:cubic-bezier(.2,.7,.2,1); --t-fast:.15s; --t-base:.25s; --t-slow:.4s;
   color-scheme:light;
 }
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
-  --bg:#0B0B0B; --surface:#141414; --soft:#1B1B1B; --ink:#F5F5F3; --muted:#9C9C9C; --line:#262626;
-  --inv:#171717; --inv-ink:#FFFFFF; --inv-muted:#A3A3A3; --inv-line:#2C2C2C; --inv-soft:#202020; --mark-bg:none; --mark-ink:var(--y); color-scheme:dark}}
+  --bg:#0B0B0B; --surface:#141414; --soft:#1B1B1B; --ink:#F5F5F3; --ink-2:#D6D6D3; --muted:#9C9C9C; --line:#262626;
+  --inv:#171717; --inv-ink:#FFFFFF; --inv-muted:#A3A3A3; --inv-line:#2C2C2C; --inv-soft:#202020;
+  --ok:#4CC27E; --ok-soft:#10261A; --err:#FF6B61; --err-soft:#2A1312; --y-soft:#2A2510;
+  --mark-bg:none; --mark-ink:var(--y); color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0B0B0B; --surface:#141414; --soft:#1B1B1B; --ink:#F5F5F3; --muted:#9C9C9C; --line:#262626;
-  --inv:#171717; --inv-ink:#FFFFFF; --inv-muted:#A3A3A3; --inv-line:#2C2C2C; --inv-soft:#202020; --mark-bg:none; --mark-ink:var(--y); color-scheme:dark}
+  --bg:#0B0B0B; --surface:#141414; --soft:#1B1B1B; --ink:#F5F5F3; --ink-2:#D6D6D3; --muted:#9C9C9C; --line:#262626;
+  --inv:#171717; --inv-ink:#FFFFFF; --inv-muted:#A3A3A3; --inv-line:#2C2C2C; --inv-soft:#202020;
+  --ok:#4CC27E; --ok-soft:#10261A; --err:#FF6B61; --err-soft:#2A1312; --y-soft:#2A2510;
+  --mark-bg:none; --mark-ink:var(--y); color-scheme:dark}
 
+/* ===== Base ===== */
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
 html,body{margin:0}
-body{background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased;
-  padding-bottom:calc(var(--tab-h) + 28px + env(safe-area-inset-bottom,0px))}
+body{background:var(--bg);color:var(--ink);font:400 16px/1.55 var(--body);-webkit-font-smoothing:antialiased;overflow-x:hidden;
+  padding-bottom:calc(var(--tab-h) + 32px + env(safe-area-inset-bottom,0px))}
+body.no-tabs{padding-bottom:calc(24px + env(safe-area-inset-bottom,0px))}
+body.locked{overflow:hidden}
 [hidden]{display:none!important}
 h1,h2,h3{font-family:var(--display);margin:0;letter-spacing:-.02em;text-wrap:balance}
 [dir="rtl"] h1,[dir="rtl"] h2,[dir="rtl"] h3{letter-spacing:0}
-h1{font-size:clamp(2rem,8vw,3.1rem);line-height:1.08;font-weight:700}
-h2{font-size:clamp(1.55rem,5.5vw,2.1rem);line-height:1.12;font-weight:700}
+h1{font-size:clamp(1.9rem,8vw,3.1rem);line-height:1.08;font-weight:700}
+h2{font-size:clamp(1.5rem,6vw,2.1rem);line-height:1.12;font-weight:700}
 h3{font-size:1rem;font-weight:600;line-height:1.3}
 p{margin:0}
+a{color:inherit}
 .num{font-variant-numeric:tabular-nums}
-.wrap{max-width:720px;margin:0 auto;padding-inline:max(18px,env(safe-area-inset-left,0px)) max(18px,env(safe-area-inset-right,0px))}
-:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:6px}
+.muted{color:var(--muted)}
+.wrap{max-width:720px;margin:0 auto;padding-inline:max(16px,env(safe-area-inset-left,0px)) max(16px,env(safe-area-inset-right,0px))}
+:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:8px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+svg.i{width:20px;height:20px;flex:none}
+[dir="rtl"] svg.flip{transform:scaleX(-1)}
 
 /* ===== Splash ===== */
 .splash{position:fixed;inset:0;z-index:100;background:#DDD8DE;display:grid;place-items:center;transition:opacity .45s var(--ease),visibility .45s}
@@ -60,56 +79,95 @@ p{margin:0}
 .splash video{position:relative;width:100%;height:100%;object-fit:contain;display:block}
 .splash.out{opacity:0;visibility:hidden}
 .skip{position:absolute;inset-inline-end:max(16px,env(safe-area-inset-right,0px));bottom:calc(24px + env(safe-area-inset-bottom,0px));
-  font:600 .82rem var(--body);color:#0A0A0A;background:rgba(255,255,255,.75);border:1px solid rgba(10,10,10,.12);border-radius:999px;padding:9px 16px;cursor:pointer}
+  font:600 .82rem var(--body);color:#0A0A0A;background:rgba(255,255,255,.8);border:1px solid rgba(10,10,10,.12);border-radius:var(--r-pill);padding:10px 18px;min-height:44px;cursor:pointer}
+
+/* ===== Onboarding ===== */
+.onb{position:fixed;inset:0;z-index:80;background:var(--bg);display:flex;flex-direction:column;
+  padding:calc(env(safe-area-inset-top,0px) + 12px) max(20px,env(safe-area-inset-right,0px)) calc(env(safe-area-inset-bottom,0px) + 20px) max(20px,env(safe-area-inset-left,0px));overflow-y:auto}
+.onb-in{max-width:480px;width:100%;margin:0 auto;flex:1;display:flex;flex-direction:column;gap:24px}
+.onb-top{display:flex;justify-content:space-between;align-items:center;min-height:44px}
+.onb-skip{background:none;border:0;font:600 .9rem var(--body);color:var(--muted);cursor:pointer;padding:10px 4px;min-height:44px}
+.onb-art{flex:1;min-height:220px;display:grid;place-items:center;position:relative}
+.onb-copy{display:flex;flex-direction:column;gap:10px}
+.onb-copy p{color:var(--muted);font-size:1.02rem}
+.dots{display:flex;gap:6px}
+.dots i{width:8px;height:8px;border-radius:4px;background:var(--line);transition:width var(--t-base) var(--ease),background var(--t-base)}
+.dots i.on{width:24px;background:var(--ink)}
+.onb-foot{display:flex;flex-direction:column;gap:12px}
+.slide{display:flex;flex-direction:column;gap:24px;flex:1;animation:slide var(--t-slow) var(--ease)}
+@keyframes slide{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:none}}
+[dir="rtl"] .slide{animation-name:slide-r}
+@keyframes slide-r{from{opacity:0;transform:translateX(-16px)}to{opacity:1;transform:none}}
+.art-mark{font:700 clamp(3.4rem,18vw,5rem)/1 "Poppins",sans-serif;letter-spacing:-.04em;display:flex;align-items:baseline}
+.art-mark i{width:.22em;height:.22em;border-radius:50%;background:var(--y);margin-inline-start:.05em;display:inline-block}
+.art-card{width:min(100%,320px);transform:rotate(-2deg);box-shadow:var(--sh-2)}
+.art-stack{width:min(100%,320px);display:flex;flex-direction:column;gap:8px}
+.art-stack>div{transform-origin:center}
+.lang-pick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.lang-pick button{min-height:56px;border-radius:var(--r-md);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);font:600 1rem var(--body);cursor:pointer}
+.lang-pick button[aria-pressed="true"]{border-color:var(--ink);background:var(--ink);color:var(--bg)}
 
 /* ===== Header ===== */
-.top{position:sticky;top:0;z-index:20;background:var(--bg);padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid transparent;transition:border-color .2s}
+.top{position:sticky;top:0;z-index:20;background:var(--bg);padding-top:env(safe-area-inset-top,0px);border-bottom:1px solid transparent;transition:border-color var(--t-base)}
 .top.scrolled{border-bottom-color:var(--line)}
 .top .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;height:60px}
 .wordmark{font:700 1.45rem/1 "Poppins",system-ui,sans-serif;letter-spacing:-.03em;color:var(--ink);text-decoration:none;display:inline-flex;align-items:baseline}
 .wordmark i{width:.24em;height:.24em;border-radius:50%;background:var(--y);display:inline-block;margin-inline-start:.06em}
+.back{display:inline-flex;align-items:center;gap:6px;background:none;border:0;color:var(--ink);font:600 .95rem var(--body);cursor:pointer;min-height:44px;padding:0 8px 0 0;text-decoration:none}
+[dir="rtl"] .back{padding:0 0 0 8px}
 .top-actions{display:flex;align-items:center;gap:8px}
-.lang{display:flex;background:var(--soft);border-radius:999px;padding:3px}
-.lang button{font:600 .78rem var(--body);background:transparent;color:var(--muted);border:0;padding:6px 12px;border-radius:999px;cursor:pointer;min-height:32px}
-.lang button[aria-pressed="true"]{background:var(--ink);color:var(--bg)}
-.install{font:600 .78rem var(--body);background:var(--y);color:var(--y-ink);border:0;border-radius:999px;padding:8px 14px;cursor:pointer;min-height:32px}
+.icon-btn{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:var(--soft);border:0;color:var(--ink);cursor:pointer;text-decoration:none;position:relative}
+.avatar{width:40px;height:40px;border-radius:50%;background:var(--inv);border:1px solid var(--inv-line);color:var(--y);display:grid;place-items:center;font:700 1rem "Poppins",var(--display);text-decoration:none;flex:none}
+.avatar.lg{width:64px;height:64px;font-size:1.5rem}
+.install{font:600 .8rem var(--body);background:var(--y);color:var(--y-ink);border:0;border-radius:var(--r-pill);padding:0 14px;min-height:36px;cursor:pointer}
+
+/* offline banner */
+.offline{background:var(--ink);color:var(--bg);font-size:.82rem;text-align:center;padding:8px 16px}
 
 /* ===== Views ===== */
-.view{display:flex;flex-direction:column;gap:20px;padding-block:18px 8px;animation:in .35s var(--ease)}
-@keyframes in{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.view{display:flex;flex-direction:column;gap:20px;padding-block:16px 8px;animation:in var(--t-slow) var(--ease)}
+@keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .eyebrow{display:inline-flex;align-items:center;gap:8px;font:600 .74rem var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
-.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--y)}
+.eyebrow::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--y);flex:none}
 [dir="rtl"] .eyebrow{letter-spacing:0;font-size:.82rem}
 .head{display:flex;flex-direction:column;gap:10px}
 .head p{color:var(--muted)}
 .mark{color:var(--mark-ink,inherit);background:var(--mark-bg,linear-gradient(transparent 58%,var(--y) 58%,var(--y) 92%,transparent 92%));padding-inline:.04em;-webkit-box-decoration-break:clone;box-decoration-break:clone}
-.slogan{font:600 1rem var(--display);display:inline-flex;align-items:center;gap:8px}
-.slogan b{width:22px;height:22px;border-radius:50%;background:var(--y);display:grid;place-items:center}
-.slogan svg{width:12px;height:12px}
+.sec-title{display:flex;align-items:baseline;justify-content:space-between;gap:12px}
+.sec-title h3{font-size:1.05rem}
+.link{font:600 .88rem var(--body);color:var(--ink);text-decoration:underline;text-underline-offset:3px;text-decoration-color:var(--y);text-decoration-thickness:2px;background:none;border:0;cursor:pointer;padding:6px 0;min-height:36px}
 
-/* buttons */
+/* ===== Buttons ===== */
 .btns{display:flex;flex-wrap:wrap;gap:10px}
-.btn{font:600 .95rem var(--body);min-height:50px;padding:0 22px;border-radius:999px;border:1.5px solid transparent;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:transform .12s var(--ease),background .15s}
+.btn{font:600 .95rem var(--body);min-height:52px;padding:0 22px;border-radius:var(--r-pill);border:1.5px solid transparent;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:10px;transition:transform var(--t-fast) var(--ease),background var(--t-fast),opacity var(--t-fast);position:relative;text-align:center}
 .btn:active{transform:scale(.97)}
-.btn svg{width:18px;height:18px;flex:none}
-[dir="rtl"] .btn svg.dir{transform:scaleX(-1)}
 .btn.y{background:var(--y);color:var(--y-ink)}
 .btn.k{background:var(--ink);color:var(--bg)}
 .btn.o{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn.g{background:var(--soft);color:var(--ink)}
+.btn.danger{background:var(--err);color:#fff}
+.btn.sm{min-height:40px;padding:0 16px;font-size:.86rem}
 .btn.block{width:100%}
-.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+.btn.loading{color:transparent!important;pointer-events:none}
+.btn.loading::after{content:"";position:absolute;width:20px;height:20px;border-radius:50%;border:2.5px solid currentColor;border-color:var(--y-ink) transparent var(--y-ink) transparent;animation:spin .7s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
-/* cards */
+/* ===== Cards ===== */
 .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-lg);padding:20px}
 .inv{background:var(--inv);color:var(--inv-ink);border-radius:var(--r-lg);padding:20px;border:1px solid var(--inv-line)}
+.tap{transition:transform var(--t-fast) var(--ease),box-shadow var(--t-base)}
+.tap:active{transform:scale(.985)}
+.chip{font:600 .72rem var(--body);padding:5px 10px;border-radius:var(--r-pill);background:var(--y);color:var(--y-ink);white-space:nowrap}
+.chip.k{background:var(--ink);color:var(--bg)}
+.chip.ok{background:var(--ok-soft);color:var(--ok)}
 
 /* dashboard */
 .dash{display:flex;flex-direction:column;gap:18px}
 .dash-top{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
 .dash-top small{display:block;color:var(--inv-muted);font-size:.8rem;margin-top:2px}
-.chip{font:600 .72rem var(--body);padding:5px 10px;border-radius:999px;background:var(--y);color:var(--y-ink);white-space:nowrap}
-.prog{display:flex;align-items:center;gap:18px}
-.ring{width:96px;height:96px;flex:none}
+.prog{display:flex;align-items:center;gap:16px}
+.ring{width:88px;height:88px;flex:none}
 .ring circle{fill:none;stroke-width:8}
 .ring .trk{stroke:var(--inv-line)}
 .ring .val{stroke:var(--y);stroke-linecap:round;transition:stroke-dashoffset .6s var(--ease)}
@@ -118,78 +176,100 @@ p{margin:0}
 .mini div{background:var(--inv-soft);border-radius:var(--r-sm);padding:10px 12px;min-width:0}
 .mini b{display:block;font:600 1.05rem var(--display);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .mini b small{font:500 .66rem var(--body);color:var(--inv-muted);letter-spacing:.02em}
-.ring{width:88px;height:88px}
-.mini span{font-size:.72rem;color:var(--inv-muted)}
+.mini span{font-size:.72rem;color:var(--inv-muted);line-height:1.3;display:block}
 .bars{display:grid;grid-template-columns:repeat(11,1fr);gap:5px;align-items:end;height:44px}
-.bars i{display:block;border-radius:4px;background:var(--inv-line);transition:background .3s}
+.bars i{display:block;border-radius:4px;background:var(--inv-line);transition:background var(--t-base)}
 .bars i.on{background:var(--y)}
-.next{display:flex;align-items:center;justify-content:space-between;gap:12px;border-top:1px solid var(--inv-line);padding-top:14px;font-size:.88rem;color:var(--inv-muted);background:none;border-inline:0;border-bottom:0;width:100%;cursor:pointer;text-align:start;font-family:inherit}
-.next b{color:var(--inv-ink);font-weight:600;display:flex;align-items:center;gap:6px}
-.next svg{width:16px;height:16px}
-[dir="rtl"] .next svg{transform:scaleX(-1)}
+.next{display:flex;align-items:center;justify-content:space-between;gap:12px;border:0;border-top:1px solid var(--inv-line);padding:14px 0 0;font:inherit;font-size:.88rem;color:var(--inv-muted);background:none;width:100%;cursor:pointer;text-align:start;min-height:44px}
+.next b{color:var(--inv-ink);font-weight:600;display:flex;align-items:center;gap:6px;text-align:end}
+@media (max-width:350px){.prog{flex-direction:column;align-items:stretch}.ring{align-self:center}}
+
+.quick{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.qa{display:flex;flex-direction:column;gap:10px;padding:16px;border-radius:var(--r-lg);background:var(--soft);text-decoration:none;color:var(--ink);min-height:120px;justify-content:space-between}
+.qa.y{background:var(--y);color:var(--y-ink)}
+.qa svg.i{width:24px;height:24px}
+.qa b{display:block;font:600 1rem var(--display);line-height:1.25}
+.qa span{font-size:.8rem;opacity:.75}
 
 .kpis{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
 .kpi{background:var(--soft);border-radius:var(--r-md);padding:14px 12px;min-width:0}
-.kpi b{display:block;font:700 1.25rem var(--display);letter-spacing:-.02em}
+.kpi b{display:block;font:700 1.2rem var(--display);letter-spacing:-.02em}
 .kpi span{display:block;font-size:.74rem;color:var(--muted);line-height:1.35;margin-top:2px}
 
-/* steps preview on home */
-.how{display:flex;flex-direction:column}
-.how li{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--line)}
-.how li:last-child{border-bottom:0}
 .how ol{margin:0;padding:0;list-style:none}
+.how li{display:flex;gap:14px;align-items:flex-start;padding:14px 0;border-bottom:1px solid var(--line)}
+.how li:last-child{border-bottom:0;padding-bottom:0}
 .how .n{width:30px;height:30px;flex:none;border-radius:50%;background:var(--ink);color:var(--bg);display:grid;place-items:center;font:600 .8rem "Poppins",sans-serif}
 .how p{color:var(--muted);font-size:.9rem}
 
-/* roadmap */
+/* ===== Roadmap ===== */
 .phases{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
 .phase{display:flex;flex-direction:column;gap:6px;font-size:.74rem;color:var(--muted);min-width:0}
 .phase b{color:var(--ink);font-weight:600;font-size:.8rem;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.phase .meter{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
-.phase .meter i{display:block;height:100%;background:var(--ink);transition:width .4s var(--ease)}
+.meter{height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.meter i{display:block;height:100%;background:var(--ink);transition:width var(--t-slow) var(--ease)}
 .phase.full .meter i{background:var(--y)}
+.filters{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;margin-inline:-16px;padding-inline:16px;padding-bottom:2px}
+.filters::-webkit-scrollbar{display:none}
+.fchip{flex:none;font:600 .84rem var(--body);min-height:40px;padding:0 16px;border-radius:var(--r-pill);border:1.5px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;display:inline-flex;align-items:center;gap:6px;transition:all var(--t-fast)}
+.fchip[aria-pressed="true"]{background:var(--ink);border-color:var(--ink);color:var(--bg)}
+.fchip .ct{font-size:.72rem;opacity:.65}
+.search{position:relative}
+.search svg.i{position:absolute;inset-inline-start:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
+.search input{padding-inline-start:44px}
 .ms{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:10px}
-.ms li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);transition:background .2s,border-color .2s}
-.ms li.done{background:var(--soft);border-color:transparent}
-.ms-row{display:flex;align-items:center;gap:14px;padding:14px 16px;width:100%;background:none;border:0;color:inherit;font:inherit;text-align:start;cursor:pointer}
-.chk{width:34px;height:34px;flex:none;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);display:grid;place-items:center;font:600 .78rem "Poppins",sans-serif;color:var(--muted);cursor:pointer;padding:0;transition:transform .15s var(--ease)}
-.chk:active{transform:scale(.9)}
+.ms>li{background:var(--surface);border:1px solid var(--line);border-radius:var(--r-md);transition:background var(--t-base),border-color var(--t-base)}
+.ms>li.done{background:var(--soft);border-color:transparent}
+.ms-row{display:flex;align-items:center;gap:12px;padding:12px 14px;cursor:pointer;min-height:64px}
+.chk{width:40px;height:40px;flex:none;border-radius:50%;border:1.5px solid var(--line);background:var(--surface);display:grid;place-items:center;font:600 .78rem "Poppins",sans-serif;color:var(--muted);cursor:pointer;padding:0;transition:transform var(--t-fast) var(--ease),background var(--t-fast)}
+.chk:active{transform:scale(.88)}
 .done .chk{background:var(--ink);border-color:var(--ink);color:var(--y)}
 .chk svg{width:16px;height:16px}
+.chk.pop{animation:pop .35s var(--ease)}
+@keyframes pop{50%{transform:scale(1.15)}}
 .ms-title{flex:1;min-width:0;display:flex;flex-direction:column;gap:2px}
 .ms-title h3{font-size:.98rem}
 .done .ms-title h3{text-decoration:line-through;text-decoration-color:var(--muted);text-decoration-thickness:1px}
 .ms-title small{font-size:.78rem;color:var(--muted)}
-.tag{font:600 .68rem var(--body);padding:3px 8px;border-radius:999px;border:1px solid var(--line);color:var(--muted);white-space:nowrap}
+.tag{font:600 .68rem var(--body);padding:3px 8px;border-radius:var(--r-pill);border:1px solid var(--line);color:var(--muted);white-space:nowrap}
 .tag.pro{background:var(--ink);border-color:var(--ink);color:var(--bg)}
-.caret{width:18px;height:18px;flex:none;color:var(--muted);transition:transform .2s var(--ease)}
+.caret{width:18px;height:18px;flex:none;color:var(--muted);transition:transform var(--t-base) var(--ease)}
 .open .caret{transform:rotate(180deg)}
-.ms-body{padding:0 16px 16px calc(16px + 34px + 14px);display:flex;flex-direction:column;gap:10px}
-[dir="rtl"] .ms-body{padding:0 calc(16px + 34px + 14px) 16px 16px}
+.ms-body{padding:0 16px 16px calc(14px + 40px + 12px);display:flex;flex-direction:column;gap:10px}
+[dir="rtl"] .ms-body{padding:0 calc(14px + 40px + 12px) 16px 16px}
 .ms-body p{color:var(--muted);font-size:.9rem}
 .ms-body ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:.88rem}
-.ms-body li{display:flex;gap:8px;align-items:baseline;border:0;background:none;border-radius:0}
+.ms-body li{display:flex;gap:8px;align-items:baseline}
 .ms-body li::before{content:"";width:6px;height:6px;border-radius:50%;background:var(--y);flex:none;transform:translateY(-2px)}
+@media (max-width:350px){.ms-row .tag{display:none}.ms-body{padding-inline-start:16px}[dir="rtl"] .ms-body{padding-inline:16px}}
 
-/* budget */
+/* empty state */
+.empty{display:flex;flex-direction:column;align-items:center;text-align:center;gap:10px;padding:28px 20px;border:1.5px dashed var(--line);border-radius:var(--r-lg)}
+.empty .ic{width:52px;height:52px;border-radius:50%;background:var(--soft);display:grid;place-items:center}
+.empty p{color:var(--muted);font-size:.9rem;max-width:28em}
+
+/* ===== Forms ===== */
 .fields{display:flex;flex-direction:column;gap:16px}
 .g2{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 @media (max-width:400px){.g2{grid-template-columns:1fr}}
-label{display:flex;flex-direction:column;gap:7px;font-size:.82rem;font-weight:600;min-width:0}
-input,select,textarea{font:400 1rem var(--body);color:var(--ink);background:var(--soft);border:1.5px solid transparent;border-radius:var(--r-sm);padding:12px 14px;width:100%;min-height:48px;transition:border-color .15s,background .15s;-webkit-appearance:none;appearance:none}
+label,.lbl{display:flex;flex-direction:column;gap:7px;font-size:.84rem;font-weight:600;min-width:0}
+.hint{font-weight:400;color:var(--muted);font-size:.78rem}
+input,select,textarea{font:400 1rem var(--body);color:var(--ink);background:var(--soft);border:1.5px solid transparent;border-radius:var(--r-sm);padding:12px 14px;width:100%;min-height:50px;transition:border-color var(--t-fast),background var(--t-fast);-webkit-appearance:none;appearance:none}
 select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' fill='none' stroke='%236B6B6B' stroke-width='2'%3E%3Cpath d='M1 1l5 5 5-5'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-inline-end:36px}
 [dir="rtl"] select{background-position:left 14px center}
 input:focus,select:focus,textarea:focus{outline:none;border-color:var(--ink);background:var(--surface)}
+input[aria-invalid="true"],textarea[aria-invalid="true"]{border-color:var(--err);background:var(--err-soft)}
+.ferr{font-weight:500;font-size:.8rem;color:var(--err);display:flex;gap:6px;align-items:center}
 textarea{min-height:110px;resize:vertical}
 fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;min-width:0}
-legend{font-size:.82rem;font-weight:600;margin-bottom:8px;padding:0}
-.seg{display:grid;grid-template-columns:1fr 1fr;background:var(--soft);border-radius:999px;padding:4px;gap:4px}
-.seg label{position:relative;flex-direction:row;justify-content:center;align-items:center;min-height:42px;border-radius:999px;font-weight:600;cursor:pointer;color:var(--muted);transition:background .15s,color .15s}
+legend{font-size:.84rem;font-weight:600;margin-bottom:8px;padding:0}
+.seg{display:grid;grid-auto-flow:column;grid-auto-columns:1fr;background:var(--soft);border-radius:var(--r-pill);padding:4px;gap:4px}
+.seg label{position:relative;flex-direction:row;justify-content:center;align-items:center;min-height:42px;border-radius:var(--r-pill);font-weight:600;cursor:pointer;color:var(--muted);transition:background var(--t-fast),color var(--t-fast);padding:0 8px;text-align:center}
 .seg input{position:absolute;opacity:0;width:1px;height:1px;min-height:0}
 .seg label:has(input:checked){background:var(--ink);color:var(--bg)}
 .seg label:has(input:focus-visible){outline:2px solid var(--ink);outline-offset:2px}
 .toggles{display:flex;flex-wrap:wrap;gap:8px}
-.tg{position:relative;flex-direction:row;align-items:center;gap:8px;min-height:42px;padding:0 14px;border:1.5px solid var(--line);border-radius:999px;font-weight:500;cursor:pointer;transition:all .15s}
+.tg{position:relative;flex-direction:row;align-items:center;gap:8px;min-height:44px;padding:0 14px;border:1.5px solid var(--line);border-radius:var(--r-pill);font-weight:500;cursor:pointer;transition:all var(--t-fast)}
 .tg input{position:absolute;opacity:0;width:1px;height:1px;min-height:0}
 .tg .box{width:18px;height:18px;border-radius:50%;border:1.5px solid var(--line);display:grid;place-items:center;flex:none}
 .tg .box svg{width:10px;height:10px;opacity:0}
@@ -197,21 +277,42 @@ legend{font-size:.82rem;font-weight:600;margin-bottom:8px;padding:0}
 .tg:has(input:checked) .box{background:var(--y);border-color:var(--y)}
 .tg:has(input:checked) .box svg{opacity:1}
 .tg:has(input:focus-visible){outline:2px solid var(--ink);outline-offset:2px}
+.stepper{display:grid;grid-template-columns:50px 1fr 50px;gap:6px}
+.stepper button{min-height:50px;border-radius:var(--r-sm);border:0;background:var(--soft);color:var(--ink);font:600 1.3rem var(--body);cursor:pointer}
+.stepper input{text-align:center}
+
+/* budget result */
 .total{display:flex;flex-direction:column;gap:6px}
 .total span{font-size:.82rem;color:var(--inv-muted)}
-.total b{font:700 clamp(1.6rem,7vw,2.2rem)/1.1 var(--display);color:var(--y);letter-spacing:-.02em}
+.total b{font:700 clamp(1.5rem,7vw,2.2rem)/1.1 var(--display);color:var(--y);letter-spacing:-.02em}
 .stack{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--inv-line);gap:2px;margin-top:8px}
-.stack i{display:block;height:100%}
+.stack i{display:block;height:100%;transition:width var(--t-slow) var(--ease)}
 .legend{display:flex;flex-direction:column;gap:10px;margin-top:6px}
 .lr{display:grid;grid-template-columns:10px 1fr auto;gap:10px;align-items:center;font-size:.86rem}
 .lr i{width:10px;height:10px;border-radius:50%}
 .lr .num{color:var(--inv-muted);font-size:.82rem}
 .kv{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.kv div{background:var(--soft);border-radius:var(--r-md);padding:14px}
+.kv div{background:var(--soft);border-radius:var(--r-md);padding:14px;min-width:0}
 .kv span{display:block;font-size:.74rem;color:var(--muted)}
 .kv b{font:600 1rem var(--display)}
 .note{font-size:.8rem;color:var(--muted)}
-.warn{font-size:.86rem;background:var(--soft);border-inline-start:3px solid var(--y);color:var(--ink);padding:12px 14px;border-radius:var(--r-sm)}
+.warn{font-size:.86rem;background:var(--y-soft);border-inline-start:3px solid var(--y);color:var(--ink);padding:12px 14px;border-radius:var(--r-sm)}
+.saved{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px}
+.saved li{display:flex;align-items:center;gap:12px;padding:12px 12px 12px 16px;border:1px solid var(--line);border-radius:var(--r-md);background:var(--surface)}
+[dir="rtl"] .saved li{padding:12px 16px 12px 12px}
+.saved .sv-main{flex:1;min-width:0;background:none;border:0;padding:0;text-align:start;color:inherit;font:inherit;cursor:pointer}
+.saved b{display:block;font:600 .95rem var(--display)}
+.saved small{color:var(--muted);font-size:.78rem}
+
+/* sticky total (mobile budget) */
+.peek{position:fixed;z-index:25;left:50%;transform:translateX(-50%);bottom:calc(var(--tab-h) + 20px + env(safe-area-inset-bottom,0px));width:min(480px,calc(100% - 24px));
+  background:var(--inv);color:var(--inv-ink);border:1px solid var(--inv-line);border-radius:var(--r-md);padding:10px 10px 10px 16px;display:flex;align-items:center;gap:12px;box-shadow:var(--sh-2);animation:toast var(--t-base) var(--ease);cursor:pointer;font:inherit;text-align:start}
+[dir="rtl"] .peek{padding:10px 16px 10px 10px}
+.peek span{flex:1;min-width:0;display:flex;flex-direction:column;font-size:.74rem;color:var(--inv-muted)}
+.peek b{font:700 1rem var(--display);color:var(--y);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.peek i{font-style:normal;background:var(--y);color:var(--y-ink);border-radius:var(--r-pill);font:600 .8rem var(--body);padding:8px 12px;white-space:nowrap}
+@media (min-width:760px){.peek{display:none!important}}
+body:has(#toastHost .toast) .peek{visibility:hidden}
 
 /* plans */
 .plans{display:flex;flex-direction:column;gap:12px}
@@ -225,44 +326,112 @@ legend{font-size:.82rem;font-weight:600;margin-bottom:8px;padding:0}
 .plan li svg{width:18px;height:18px;flex:none;margin-top:2px}
 .plan li svg circle{fill:var(--soft)} .plan li svg path{stroke:var(--ink)}
 .inv.plan li svg circle{fill:var(--y)} .inv.plan li svg path{stroke:var(--y-ink)}
+.trust{display:flex;flex-direction:column;gap:12px}
+.trust li{display:flex;gap:12px;align-items:flex-start}
+.trust ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:14px}
+.trust .ic{width:36px;height:36px;border-radius:50%;background:var(--soft);display:grid;place-items:center;flex:none}
+.trust p{font-size:.88rem;color:var(--muted)}
+.faq details{border-bottom:1px solid var(--line);padding:14px 0}
+.faq details:last-child{border-bottom:0}
+.faq summary{font-weight:600;cursor:pointer;list-style:none;display:flex;justify-content:space-between;gap:12px;align-items:center;min-height:32px}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"+";font:500 1.3rem var(--body);color:var(--muted);transition:transform var(--t-base)}
+.faq details[open] summary::after{transform:rotate(45deg)}
+.faq p{color:var(--muted);font-size:.9rem;padding-top:8px}
 
-/* request */
-.out{white-space:pre-wrap;font:400 .84rem/1.6 var(--body);background:var(--soft);border-radius:var(--r-md);padding:16px;overflow-x:auto}
-.sent{display:flex;flex-direction:column;gap:12px}
+/* request success */
+.success{display:flex;flex-direction:column;align-items:center;text-align:center;gap:14px;padding-top:20px}
+.tick{width:84px;height:84px;border-radius:50%;background:var(--y);display:grid;place-items:center;animation:pop .5s var(--ease)}
+.tick svg{width:40px;height:40px}
+.tick path{stroke-dasharray:40;stroke-dashoffset:40;animation:draw .5s .2s var(--ease) forwards}
+@keyframes draw{to{stroke-dashoffset:0}}
+.out{white-space:pre-wrap;font:400 .84rem/1.6 var(--body);background:var(--soft);border-radius:var(--r-md);padding:16px;overflow-x:auto;text-align:start;width:100%}
+.steps-next{width:100%;text-align:start}
+
+/* profile */
+.pf-head{display:flex;align-items:center;gap:16px}
+.pf-head h2{font-size:1.4rem}
+.list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:var(--r-lg);overflow:hidden;background:var(--surface)}
+.list>li+li{border-top:1px solid var(--line)}
+.row{display:flex;align-items:center;gap:14px;padding:14px 16px;min-height:60px;width:100%;background:none;border:0;color:var(--ink);font:inherit;text-align:start;cursor:pointer;text-decoration:none}
+.row .ic{width:36px;height:36px;border-radius:50%;background:var(--soft);display:grid;place-items:center;flex:none}
+.row .rt{flex:1;min-width:0;display:flex;flex-direction:column}
+.row .rt small{color:var(--muted);font-size:.8rem}
+.row .rv{color:var(--muted);font-size:.88rem}
+.row.danger,.row.danger .ic{color:var(--err)}
+.row.pref{flex-direction:column;align-items:stretch;gap:10px}
+.row.pref .lab{display:flex;align-items:center;gap:14px;font-weight:500}
+.row.pref .seg{width:100%}
+.list-label{font:600 .74rem var(--body);letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding-inline:4px}
+[dir="rtl"] .list-label{letter-spacing:0;font-size:.82rem}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+
+/* ===== Overlays: sheet, dialog, toast ===== */
+.scrim{position:fixed;inset:0;background:rgba(10,10,10,.5);z-index:60;animation:fade var(--t-base) var(--ease)}
+@keyframes fade{from{opacity:0}}
+.sheet{position:fixed;z-index:61;left:0;right:0;bottom:0;margin:0 auto;max-width:560px;max-height:92vh;overflow-y:auto;background:var(--bg);border-radius:var(--r-xl) var(--r-xl) 0 0;
+  padding:10px 20px calc(20px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:16px;animation:up var(--t-slow) var(--ease)}
+@keyframes up{from{transform:translateY(100%)}}
+.grab{width:40px;height:5px;border-radius:3px;background:var(--line);margin:0 auto 4px}
+.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.sum{display:flex;flex-direction:column;gap:10px;background:var(--soft);border-radius:var(--r-md);padding:16px}
+.sum div{display:flex;justify-content:space-between;gap:12px;font-size:.9rem}
+.sum div span{color:var(--muted)}
+.sum .tt{border-top:1px solid var(--line);padding-top:10px;font-weight:700;font-size:1rem}
+.sum .tt span{color:var(--ink)}
+.pay{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.pay div{border:1.5px solid var(--line);border-radius:var(--r-md);padding:12px;font-size:.84rem;color:var(--muted);display:flex;align-items:center;gap:8px;opacity:.6}
+.dlg{position:fixed;z-index:71;inset:0;margin:auto;width:min(calc(100% - 32px),400px);height:max-content;background:var(--bg);border-radius:var(--r-lg);padding:24px;display:flex;flex-direction:column;gap:12px;box-shadow:var(--sh-2);animation:zoom var(--t-base) var(--ease)}
+@keyframes zoom{from{opacity:0;transform:scale(.95)}}
+.dlg p{color:var(--muted)}
+.dlg .btns{flex-direction:column}
+.dlg-scrim{z-index:70}
+.toast{width:max-content;position:fixed;z-index:90;left:50%;bottom:calc(var(--tab-h) + 24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);max-width:calc(100% - 32px);
+  background:var(--ink);color:var(--bg);border-radius:var(--r-pill);padding:10px 10px 10px 18px;display:flex;align-items:center;gap:12px;font-size:.9rem;font-weight:500;box-shadow:var(--sh-2);animation:toast var(--t-base) var(--ease)}
+[dir="rtl"] .toast{padding:10px 18px 10px 10px}
+.toast .dot{width:8px;height:8px;border-radius:50%;background:var(--y);flex:none}
+.toast button{background:var(--y);color:var(--y-ink);border:0;border-radius:var(--r-pill);font:600 .82rem var(--body);padding:0 14px;min-height:34px;cursor:pointer}
+.toast:not(:has(button)){padding:12px 18px}
+@keyframes toast{from{opacity:0;transform:translate(-50%,10px)}}
+body.no-tabs .toast{bottom:calc(24px + env(safe-area-inset-bottom,0px))}
 
 /* ===== Tab bar ===== */
 .tabs{position:fixed;z-index:30;left:50%;transform:translateX(-50%);bottom:calc(12px + env(safe-area-inset-bottom,0px));
-  width:min(480px,calc(100% - 24px));height:var(--tab-h);background:#0A0A0A;border-radius:999px;display:grid;grid-template-columns:repeat(5,1fr);padding:6px;
-  box-shadow:0 10px 30px -10px rgba(0,0,0,.45)}
+  width:min(480px,calc(100% - 24px));height:var(--tab-h);background:#0A0A0A;border-radius:var(--r-pill);display:grid;grid-template-columns:repeat(5,1fr);padding:6px;box-shadow:var(--sh-2)}
 :root[data-theme="dark"] .tabs{border:1px solid #2C2C2C}
 @media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tabs{border:1px solid #2C2C2C}}
-.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#9A9A9A;text-decoration:none;border-radius:999px;font:500 .64rem var(--body);min-width:0;transition:color .15s,background .15s}
+.tab{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;color:#9A9A9A;text-decoration:none;border-radius:var(--r-pill);font:500 .64rem var(--body);min-width:0;transition:color var(--t-fast),background var(--t-base) var(--ease)}
 .tab svg{width:21px;height:21px}
 .tab span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:100%;padding-inline:2px}
 .tab[aria-current="page"]{background:var(--y);color:#0A0A0A;font-weight:600}
 [dir="rtl"] .tab{font-size:.68rem}
+@media (max-width:340px){.tab span{font-size:.58rem}}
 
 footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:center;display:flex;flex-direction:column;gap:4px;align-items:center}
 
+/* ===== Tablet / desktop ===== */
 @media (min-width:760px){
   .split{display:grid;grid-template-columns:1fr 1fr;gap:16px;align-items:start}
   .plans{display:grid;grid-template-columns:repeat(3,1fr)}
+  .home-grid{display:grid;grid-template-columns:1.1fr .9fr;gap:20px;align-items:start}
+  .quick{grid-template-columns:1fr 1fr}
+  .wrap{max-width:960px}
+  .sheet{bottom:auto;top:50%;transform:translateY(-50%);border-radius:var(--r-xl);animation:zoom var(--t-base) var(--ease)}
 }
-@media (prefers-reduced-motion:reduce){*,*::before{animation:none!important;transition:none!important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}.tick path{stroke-dashoffset:0}}
 </style>
 </head>
 <body>
 
+<!-- SPLASH -->
 <div class="splash" id="splash" role="presentation">
-  <video id="sv" muted playsinline autoplay preload="auto" poster="splash.jpg" aria-hidden="true">
-    <source src="splash.mp4" type="video/mp4">
-  </video>
+  <video id="sv" muted playsinline autoplay preload="auto" poster="splash.jpg" aria-hidden="true"><source src="splash.mp4" type="video/mp4"></video>
   <button type="button" class="skip" id="skip">Skip</button>
 </div>
 <script>
 (function(){
   var s=document.getElementById("splash"),v=document.getElementById("sv"),k=document.getElementById("skip"),gone=false;
-  try{if(localStorage.getItem("startup-lang")==="ar"){k.textContent="تخطي";}}catch(_){}
+  if(document.documentElement.lang==="ar")k.textContent="تخطي";
   function hide(){if(gone)return;gone=true;s.classList.add("out");try{v.pause()}catch(_){}try{sessionStorage.setItem("startup-splash","1")}catch(_){}setTimeout(function(){s.remove()},500)}
   var seen=false;try{seen=sessionStorage.getItem("startup-splash")==="1"}catch(_){}
   var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -275,77 +444,86 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
 })();
 </script>
 
+<!-- ONBOARDING (first launch) -->
+<div class="onb" id="onb" hidden role="dialog" aria-modal="true" aria-labelledby="onbTitle">
+  <div class="onb-in" id="onbIn"></div>
+</div>
+
+<div class="offline" id="offline" hidden role="status" data-t="offline"></div>
+
 <header class="top" id="top">
   <div class="wrap">
-    <a class="wordmark" href="#home" aria-label="Startup" dir="ltr">startup<i aria-hidden="true"></i></a>
+    <a class="wordmark" href="#home" aria-label="Startup" dir="ltr" id="brand">startup<i aria-hidden="true"></i></a>
+    <a class="back" href="#plans" id="backBtn" hidden><svg class="i flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg><span data-t="back"></span></a>
     <div class="top-actions">
-      <button type="button" id="install" class="install" hidden>Install</button>
-      <div class="lang" role="group" aria-label="Language">
-        <button type="button" id="l-en" aria-pressed="true">EN</button>
-        <button type="button" id="l-ar" aria-pressed="false">عربي</button>
-      </div>
+      <button type="button" id="install" class="install" hidden></button>
+      <a class="avatar" href="#profile" id="hdrAvatar" aria-label="Profile">S</a>
     </div>
   </div>
 </header>
 
-<main class="wrap">
+<main class="wrap" id="main">
 
   <!-- HOME -->
-  <section class="view" id="v-home" data-view="home">
+  <section class="view" id="v-home" hidden>
     <div class="head">
-      <p class="eyebrow" data-t="eyebrow"></p>
+      <p class="eyebrow" id="hello"></p>
       <h1><span data-t="h1a"></span><span class="mark" data-t="h1b"></span><span data-t="h1c"></span></h1>
-      <p class="slogan"><b aria-hidden="true"><svg viewBox="0 0 12 12" fill="none" stroke="#0A0A0A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 6.2l2.3 2.3 4.7-5"/></svg></b>Your brand in one click</p>
-      <p class="lead" style="color:var(--muted)" data-t="lead"></p>
+      <p class="muted" data-t="lead"></p>
     </div>
-    <div class="btns">
-      <a class="btn y" href="#budget"><span data-t="ctaEst"></span><svg class="dir" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10h12M11 5l5 5-5 5"/></svg></a>
-      <a class="btn o" href="#start" data-t="ctaStart"></a>
-    </div>
-
-    <div class="inv dash" aria-live="polite">
-      <div class="dash-top">
-        <div><h3 data-t="dTitle"></h3><small data-t="dSub"></small></div>
-        <span class="chip" id="dTag"></span>
-      </div>
-      <div class="prog">
-        <svg class="ring" viewBox="0 0 96 96" aria-hidden="true"><circle class="trk" cx="48" cy="48" r="40"/><circle class="val" id="ring" cx="48" cy="48" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" transform="rotate(-90 48 48)"/><text id="ringTxt" x="48" y="55" text-anchor="middle">0%</text></svg>
-        <div class="mini">
-          <div><b class="num" id="dDone">0/11</b><span data-t="dDone"></span></div>
-          <div><b class="num" id="dWeeks">26</b><span data-t="dWeeks"></span></div>
-          <div><b class="num" id="dBudget">–</b><span data-t="dBudget"></span></div>
-          <div><b class="num" id="dUnit">–</b><span data-t="dUnit"></span></div>
+    <div class="home-grid">
+      <div class="inv dash" aria-live="polite">
+        <div class="dash-top">
+          <div><h3 data-t="dTitle"></h3><small id="dSub"></small></div>
+          <span class="chip" id="dTag"></span>
         </div>
+        <div class="prog">
+          <svg class="ring" viewBox="0 0 96 96" role="img" aria-labelledby="ringTxt"><circle class="trk" cx="48" cy="48" r="40"/><circle class="val" id="ring" cx="48" cy="48" r="40" stroke-dasharray="251.3" stroke-dashoffset="251.3" transform="rotate(-90 48 48)"/><text id="ringTxt" x="48" y="55" text-anchor="middle">0%</text></svg>
+          <div class="mini">
+            <div><b class="num" id="dDone">0/11</b><span data-t="dDone"></span></div>
+            <div><b class="num" id="dWeeks">26</b><span data-t="dWeeks"></span></div>
+            <div><b class="num" id="dBudget">–</b><span data-t="dBudget"></span></div>
+            <div><b class="num" id="dUnit">–</b><span data-t="dUnit"></span></div>
+          </div>
+        </div>
+        <div class="bars" id="bars" aria-hidden="true"></div>
+        <button type="button" class="next" id="goNext"><span data-t="dNext"></span><b><span id="dNext"></span><svg class="i flip" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="width:16px;height:16px"><path d="M9 5l7 7-7 7"/></svg></b></button>
       </div>
-      <div class="bars" id="bars" aria-hidden="true"></div>
-      <button type="button" class="next" id="goNext"><span data-t="dNext"></span><b><span id="dNext"></span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 3l5 5-5 5"/></svg></b></button>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="quick">
+          <a class="qa y tap" href="#budget"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M14 11h2M8 15h2M14 15h2M8 18h2M14 18h2"/></svg><div><b data-t="qa1"></b><span data-t="qa1s"></span></div></a>
+          <a class="qa tap" href="#plans"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z"/><path d="M14 3v5h5M9 13h6M9 17h4"/></svg><div><b data-t="qa2"></b><span data-t="qa2s"></span></div></a>
+        </div>
+        <div id="homeSaved"></div>
+      </div>
     </div>
-
     <div class="kpis">
       <div class="kpi"><b class="num">11</b><span data-t="k1"></span></div>
-      <div class="kpi"><b>TR · IT</b><span data-t="k2"></span></div>
+      <div class="kpi"><b dir="ltr">TR · IT</b><span data-t="k2"></span></div>
       <div class="kpi"><b>GCC</b><span data-t="k3"></span></div>
     </div>
-
     <div class="card how">
-      <p class="eyebrow" data-t="hEye"></p>
+      <p class="eyebrow" data-t="hEye" style="margin-bottom:4px"></p>
       <ol id="how"></ol>
     </div>
   </section>
 
   <!-- ROADMAP -->
-  <section class="view" id="v-roadmap" data-view="roadmap" hidden>
+  <section class="view" id="v-roadmap" hidden>
     <div class="head">
       <p class="eyebrow" data-t="rEye"></p>
       <h2 data-t="rH"></h2>
       <p data-t="rP"></p>
     </div>
     <div class="phases" id="phases"></div>
+    <div class="search"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <label class="sr" for="msq" data-t="searchL"></label><input id="msq" type="search" autocomplete="off"></div>
+    <div class="filters" id="filters" role="group"></div>
     <ol class="ms" id="ms"></ol>
   </section>
 
   <!-- BUDGET -->
-  <section class="view" id="v-budget" data-view="budget" hidden>
+  <section class="view" id="v-budget" hidden>
     <div class="head">
       <p class="eyebrow" data-t="eEye"></p>
       <h2 data-t="eH"></h2>
@@ -353,21 +531,25 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
     </div>
     <div class="split">
       <form class="card fields" id="est" novalidate>
-        <div class="g2">
-          <label for="product"><span data-t="fProduct"></span><select id="product"></select></label>
-          <label for="qty"><span data-t="fQty"></span><input id="qty" type="number" min="1" step="1" value="150" inputmode="numeric"></label>
-        </div>
-        <div class="g2">
-          <label for="country"><span data-t="fCountry"></span><select id="country"></select></label>
-          <label for="pack"><span data-t="fPack"></span><select id="pack"></select></label>
+        <label for="product"><span data-t="fProduct"></span><select id="product"></select></label>
+        <div class="lbl"><span id="qtyL" data-t="fQty"></span>
+          <div class="stepper" role="group" aria-labelledby="qtyL">
+            <button type="button" id="qMinus" aria-label="−50">−</button>
+            <input id="qty" type="number" min="1" step="1" value="150" inputmode="numeric" aria-labelledby="qtyL">
+            <button type="button" id="qPlus" aria-label="+50">+</button>
+          </div>
         </div>
         <fieldset>
           <legend data-t="fOrigin"></legend>
           <div class="seg">
-            <label><input type="radio" name="origin" id="o-tr" value="TR" checked><span data-t="tr"></span></label>
-            <label><input type="radio" name="origin" id="o-it" value="IT"><span data-t="it"></span></label>
+            <label><input type="radio" name="origin" value="TR" checked><span data-t="tr"></span></label>
+            <label><input type="radio" name="origin" value="IT"><span data-t="it"></span></label>
           </div>
         </fieldset>
+        <div class="g2">
+          <label for="country"><span data-t="fCountry"></span><select id="country"></select></label>
+          <label for="pack"><span data-t="fPack"></span><select id="pack"></select></label>
+        </div>
         <fieldset>
           <legend data-t="fBrand"></legend>
           <div class="toggles">
@@ -378,7 +560,7 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
         </fieldset>
       </form>
       <div style="display:flex;flex-direction:column;gap:12px">
-        <div class="inv">
+        <div class="inv" aria-live="polite" id="resCard">
           <div class="total"><span id="tLabel"></span><b class="num" id="tVal"></b></div>
           <div class="stack" id="stack" aria-hidden="true"></div>
           <div class="legend" id="legend"></div>
@@ -388,14 +570,19 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
           <div><span data-t="retail"></span><b class="num" id="retail"></b></div>
         </div>
         <p class="warn" id="warn" hidden></p>
+        <div class="btns" style="display:grid;grid-template-columns:1fr 1fr">
+          <button class="btn g" type="button" id="saveEst" data-t="save"></button>
+          <a class="btn k" href="#plans" data-t="eCta"></a>
+        </div>
         <p class="note" data-t="eNote"></p>
-        <a class="btn k block" href="#plans" data-t="eCta"></a>
       </div>
     </div>
+    <div class="sec-title"><h3 data-t="savedH"></h3><span class="note" id="savedCt"></span></div>
+    <div id="savedList"></div>
   </section>
 
   <!-- PLANS -->
-  <section class="view" id="v-plans" data-view="plans" hidden>
+  <section class="view" id="v-plans" hidden>
     <div class="head">
       <p class="eyebrow" data-t="pEye"></p>
       <h2 data-t="pH"></h2>
@@ -405,78 +592,167 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
         <div class="plan-top"><h3 data-t="p1"></h3></div>
         <div class="price">0 <small>QAR</small></div>
         <ul id="p1l"></ul>
-        <a class="btn o block" href="#roadmap" data-t="p1Btn"></a>
+        <a class="btn o block" href="#budget" data-t="p1Btn"></a>
       </div>
       <div class="inv plan">
         <div class="plan-top"><h3 data-t="p2"></h3><span class="chip" data-t="pop"></span></div>
         <div class="price" style="color:var(--y)">19 <small>QAR</small></div>
         <ul id="p2l"></ul>
-        <a class="btn y block" href="#start" data-t="p2Btn"></a>
+        <button class="btn y block" type="button" data-plan="study" data-t="p2Btn"></button>
       </div>
       <div class="card plan">
         <div class="plan-top"><h3 data-t="p3"></h3></div>
-        <div class="price"><small data-t="p3price" style="font-size:1rem;color:var(--ink);font-weight:600"></small></div>
+        <div class="price" style="font-size:1.3rem" data-t="p3price"></div>
         <ul id="p3l"></ul>
-        <a class="btn o block" href="#start" data-t="p3Btn"></a>
+        <button class="btn o block" type="button" data-plan="launch" data-t="p3Btn"></button>
       </div>
     </div>
+    <div class="card trust"><p class="eyebrow" data-t="tEye"></p><ul id="trust"></ul></div>
+    <div class="card faq"><p class="eyebrow" data-t="fqEye" style="margin-bottom:4px"></p><div id="faq"></div></div>
   </section>
 
-  <!-- START -->
-  <section class="view" id="v-start" data-view="start" hidden>
+  <!-- REQUEST -->
+  <section class="view" id="v-request" hidden>
     <div class="head">
       <p class="eyebrow" data-t="sEye"></p>
       <h2 data-t="sH"></h2>
       <p data-t="sP"></p>
     </div>
     <form class="card fields" id="req" novalidate>
-      <label for="f-name"><span data-t="fName"></span><input id="f-name" autocomplete="name"></label>
-      <label for="f-contact"><span data-t="fContact"></span><input id="f-contact" autocomplete="email"></label>
-      <label for="f-brand"><span data-t="fBrandName"></span><input id="f-brand"></label>
-      <label for="f-idea"><span data-t="fIdea"></span><textarea id="f-idea"></textarea></label>
-      <p class="warn" id="f-err" hidden></p>
-      <button class="btn y block" type="submit" data-t="fSubmit"></button>
-      <button class="btn o block" type="button" disabled data-t="fPay"></button>
-      <div id="f-out" class="sent" hidden>
-        <p class="note" data-t="fReady"></p>
-        <div class="out" id="f-text"></div>
-        <button class="btn k block" type="button" id="f-copy" data-t="fCopy"></button>
-      </div>
+      <fieldset>
+        <legend data-t="fPlan"></legend>
+        <div class="seg" id="planSeg">
+          <label><input type="radio" name="plan" value="study" checked><span data-t="p2"></span></label>
+          <label><input type="radio" name="plan" value="launch"><span data-t="p3"></span></label>
+        </div>
+      </fieldset>
+      <label for="f-name"><span data-t="fName"></span><input id="f-name" autocomplete="name" aria-describedby="e-name"><span class="ferr" id="e-name" hidden></span></label>
+      <label for="f-contact"><span data-t="fContact"></span><input id="f-contact" autocomplete="tel" inputmode="email" aria-describedby="e-contact"><span class="ferr" id="e-contact" hidden></span></label>
+      <label for="f-brand"><span><span data-t="fBrandName"></span> <span class="hint" data-t="optional"></span></span><input id="f-brand"></label>
+      <label for="f-idea"><span data-t="fIdea"></span><textarea id="f-idea" aria-describedby="e-idea"></textarea><span class="ferr" id="e-idea" hidden></span></label>
+      <div class="sum" id="reqSum"></div>
+      <button class="btn y block" type="submit" id="reqSubmit" data-t="fSubmit"></button>
+      <p class="note" data-t="fPrivacy" style="text-align:center"></p>
     </form>
   </section>
 
-  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span></footer>
+  <!-- SUCCESS -->
+  <section class="view" id="v-sent" hidden>
+    <div class="success">
+      <div class="tick" aria-hidden="true"><svg viewBox="0 0 40 40" fill="none" stroke="#0A0A0A" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"><path d="M10 20.5l7 7 13-14"/></svg></div>
+      <h2 data-t="okH"></h2>
+      <p class="muted" id="okP"></p>
+      <div class="out" id="f-text"></div>
+      <div class="btns" style="width:100%;flex-direction:column">
+        <a class="btn y block" id="sendWa" target="_blank" rel="noopener" hidden><span data-t="sendWa"></span></a>
+        <button class="btn k block" type="button" id="shareReq" data-t="share" hidden></button>
+        <button class="btn o block" type="button" id="copyReq" data-t="fCopy"></button>
+      </div>
+      <div class="card steps-next how"><p class="eyebrow" data-t="nextEye" style="margin-bottom:4px"></p><ol id="nextSteps"></ol></div>
+      <a class="link" href="#home" data-t="backHome"></a>
+    </div>
+  </section>
+
+  <!-- PROFILE -->
+  <section class="view" id="v-profile" hidden>
+    <div class="pf-head">
+      <span class="avatar lg" id="pfAvatar">S</span>
+      <div><h2 id="pfName"></h2><p class="muted" id="pfMeta"></p></div>
+    </div>
+    <form class="card fields" id="pfForm" novalidate>
+      <label for="pf-name"><span data-t="pfNameL"></span><input id="pf-name" autocomplete="given-name"></label>
+      <div class="g2">
+        <label for="pf-country"><span data-t="fCountry"></span><select id="pf-country"></select></label>
+        <label for="pf-product"><span data-t="pfProd"></span><select id="pf-product"></select></label>
+      </div>
+      <button class="btn k" type="submit" data-t="saveProfile"></button>
+    </form>
+    <p class="list-label" data-t="prefs"></p>
+    <ul class="list">
+      <li><div class="row pref"><div class="lab"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg></span><span data-t="lang"></span></div>
+        <div class="seg"><label><input type="radio" name="lang" value="en"><span>EN</span></label><label><input type="radio" name="lang" value="ar"><span>عربي</span></label></div></div></li>
+      <li><div class="row pref"><div class="lab"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M12 3a9 9 0 1 0 9 9 7 7 0 0 1-9-9z"/></svg></span><span data-t="theme"></span></div>
+        <div class="seg"><label><input type="radio" name="theme" value="auto"><span data-t="thAuto"></span></label><label><input type="radio" name="theme" value="light"><span data-t="thLight"></span></label><label><input type="radio" name="theme" value="dark"><span data-t="thDark"></span></label></div></div></li>
+    </ul>
+    <p class="list-label" data-t="myProject"></p>
+    <ul class="list">
+      <li><a class="row" href="#roadmap"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8 6h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h7"/></svg></span><span class="rt"><span data-t="tRoad"></span><small id="pfProg"></small></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a></li>
+      <li><a class="row" href="#budget"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg></span><span class="rt"><span data-t="savedH"></span><small id="pfSaved"></small></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a></li>
+      <li><a class="row" href="#plans"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.8z"/></svg></span><span class="rt" data-t="tPlans"></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a></li>
+    </ul>
+    <p class="list-label" data-t="dataL"></p>
+    <ul class="list">
+      <li><button class="row" type="button" id="resetProg"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12a8 8 0 1 0 2.3-5.7L4 8.6M4 4v4.6h4.6"/></svg></span><span class="rt" data-t="resetProg"></span></button></li>
+      <li><button class="row danger" type="button" id="wipe"><span class="ic"><svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></span><span class="rt"><span data-t="wipe"></span><small data-t="wipeS"></small></span></button></li>
+    </ul>
+    <p class="note" data-t="localNote" style="text-align:center"></p>
+  </section>
+
+  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v2.0</span></footer>
 </main>
 
-<nav class="tabs" aria-label="Main">
+<nav class="tabs" id="tabs" aria-label="Main">
   <a class="tab" href="#home" data-tab="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.5L12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z"/></svg><span data-t="tHome"></span></a>
   <a class="tab" href="#roadmap" data-tab="roadmap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="18" r="2"/><path d="M8 6h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h7"/></svg><span data-t="tRoad"></span></a>
   <a class="tab" href="#budget" data-tab="budget"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h2M14 11h2M8 15h2M14 15h2M8 18h2M14 18h2"/></svg><span data-t="tBudget"></span></a>
   <a class="tab" href="#plans" data-tab="plans"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1 5.8L12 16.4 6.8 19.1l1-5.8L3.5 9.2l5.9-.8z"/></svg><span data-t="tPlans"></span></a>
-  <a class="tab" href="#start" data-tab="start"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg><span data-t="tStart"></span></a>
+  <a class="tab" href="#profile" data-tab="profile"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21a8 8 0 0 1 16 0"/></svg><span data-t="tProfile"></span></a>
 </nav>
 
+<button type="button" class="peek" id="peek" hidden><span><span id="peekL"></span><b class="num" id="peekV"></b></span><i data-t="seeDetails"></i></button>
+<div id="overlay"></div>
+<div id="toastHost" aria-live="polite" role="status"></div>
+
 <script>
+/* ===== Config ===== */
+const CONTACT_WA="";            // e.g. "97455555555" — WhatsApp number that receives requests (digits only)
+const STUDY_PRICE=19;
+
+/* ===== Copy (EN / AR) ===== */
 const T={
-en:{eyebrow:"Fashion & leather goods · GCC",h1a:"Launch your ",h1b:"fashion brand",h1c:". From business plan to finished product.",
-lead:"Startup runs your full project study: market test, legal setup, branding, factories in Turkey and Italy, prototype, costs, logistics and launch. Every step has a milestone, a budget and a deadline.",
-ctaEst:"Estimate my budget",ctaStart:"Start my project",k1:"milestones to launch",k2:"partner factories",k3:"6 countries covered",
-dTitle:"Your launch dashboard",dSub:"Tick milestones in the roadmap",dTag:"On track",dDone:"milestones done",dWeeks:"weeks to launch",dBudget:"total budget",dUnit:"cost per piece",dNext:"Next milestone",
-hEye:"How it works",how:[["Share your idea","Product, quantity and your country."],["Get your study","Real costs, matched factories and dates."],["Launch","We follow production until your brand is live."]],
-rEye:"The roadmap",rH:"11 milestones from idea to sales",rP:"Tap a milestone to see its checklist. Tick the circle when it is done.",
-eEye:"Budget estimator",eH:"What will your first collection cost?",eP:"Pick your product and quantity. The estimate updates instantly in your currency.",
+en:{h1a:"Launch your ",h1b:"fashion brand",h1c:". From business plan to finished product.",
+lead:"Your budget in 30 seconds, matched factories in Turkey and Italy, and an 11-step plan to your first sale.",
+hi:"Hello",hiName:"Hello, {n}",
+dTitle:"Your launch dashboard",dSub0:"Start with milestone 1",dSubN:"{d} of 11 milestones done",dTag:"On track",dTagNew:"New",dDone:"milestones done",dWeeks:"weeks to launch",dBudget:"estimated budget",dUnit:"cost per piece",dNext:"Next milestone",
+seeDetails:"Details",qa1:"Estimate my budget",qa1s:"30 seconds",qa2:"Get my study",qa2s:"19 QAR",
+k1:"milestones to launch",k2:"partner factories",k3:"6 countries covered",
+hEye:"How it works",how:[["Estimate","Product, quantity and factory country."],["Get your study","Real quotes, matched factories and dates."],["Launch","We follow production until your brand is live."]],
+rEye:"The roadmap",rH:"11 milestones from idea to sales",rP:"Tap a milestone to see its checklist. Tap the circle when it is done.",
+searchL:"Search milestones",searchP:"Search a milestone",fAll:"All",fTodo:"To do",fDone:"Done",
+emptyR:"No milestone matches",emptyRp:"Try another word or clear the filters.",clear:"Clear filters",emptyDone:"Nothing done yet",emptyDonep:"Tick your first milestone when you finish it.",
+eEye:"Budget estimator",eH:"What will your first collection cost?",eP:"Change any option. The estimate updates instantly in your currency.",
 fProduct:"Product",fQty:"Quantity (pieces)",fCountry:"Your country",fPack:"Packaging",fOrigin:"Factory",tr:"Turkey",it:"Italy",fBrand:"Branding on the product",bLabel:"Woven label",bTag:"Hang tag",bLogo:"Embroidered logo",
-perPiece:"Landed cost per piece",retail:"Suggested retail price",totalFor:"Total investment for",pcs:"pcs",eCta:"Get the detailed study",
-eNote:"Indicative ranges before VAT, based on typical factory prices. The paid study replaces them with real quotes.",
+perPiece:"Landed cost per piece",retail:"Suggested retail price",totalFor:"Total investment for {q} pcs",pcs:"pcs",eCta:"Get real quotes",save:"Save estimate",saved:"Estimate saved",removed:"Estimate removed",undo:"Undo",
+savedH:"Saved estimates",savedN:"{n} saved",emptyS:"No saved estimates yet",emptySp:"Save an estimate to compare products, quantities or factories later.",
+eNote:"Indicative ranges before VAT, based on typical factory prices. The study replaces them with real quotes.",
 warnMoq:"Most factories need 50 to 100 pieces per design. Below that, expect higher prices or a small workshop.",
 cProd:"Production",cBrand:"Branding",cPack:"Packaging",cShip:"Shipping & customs",cSample:"Samples & prototype",
 pEye:"Plans",pH:"Start free. Unlock the full study when you are ready.",p1:"Explore",p2:"Project study",p3:"Full launch",p3price:"On quote",pop:"Most chosen",
-p1Btn:"Use for free",p2Btn:"Get my study",p3Btn:"Talk to us",
+p1Btn:"Use for free",p2Btn:"Get my study",p3Btn:"Ask for a quote",
 p1l:["Budget estimator","11-milestone roadmap","Progress dashboard"],p2l:["Detailed cost study","Matched factories in Turkey or Italy","Milestone plan with dates","Retail price and margin"],p3l:["Factory contact and samples","Production follow-up and QC","Shipping to your GCC country","Launch plan"],
-sEye:"Start",sH:"Tell us about your brand",sP:"Your current estimate is attached to your request.",fName:"Your name",fContact:"WhatsApp or email",fBrandName:"Brand name (optional)",fIdea:"Your idea",
-fSubmit:"Prepare my request",fPay:"Pay 19 QAR · coming soon",fReady:"Your request is ready. Copy it and send it to the Startup team.",fCopy:"Copy my request",copied:"Copied ✓",selected:"Selected, copy it",
-errReq:"Add your name, a WhatsApp number or email, and your idea.",foot:"Doha · serving the GCC",week:"wk",free:"Free",pro:"Study",done:"Launch ready",
-tHome:"Home",tRoad:"Roadmap",tBudget:"Budget",tPlans:"Plans",tStart:"Start",skip:"Skip",install:"Install",
+tEye:"Why Startup",trust:[["Real factory prices","Quotes from factories we work with, not internet averages."],["Built for the GCC","Costs in your currency, 5% GCC duty and shipping included."],["You decide","Read your study first, then choose to continue or stop."]],
+fqEye:"Questions",faq:[["What do I get for 19 QAR?","A written study of your project: real costs per piece, matched factories, a dated milestone plan and your retail price and margin."],["How long does it take?","We confirm your request on WhatsApp within 48 hours and deliver the study within 5 working days."],["Do I have to continue after the study?","No. The study is yours. You choose whether to launch with us, alone, or not at all."],["What is the minimum quantity?","Most factories start at 50 to 100 pieces per design. The study tells you the exact minimum for your product."]],
+sheetH:"Project study",sheetP:"Your study is based on this estimate:",sumPlan:"Plan",sumProd:"Product",sumFact:"Factory",sumBud:"Estimated budget",sumTot:"To pay",payNote:"Online payment opens soon. Send your request now: we confirm on WhatsApp and send you a secure payment link.",payCard:"Card",payApple:"Apple Pay",soon:"soon",continue:"Continue",close:"Close",
+sheetH2:"Full launch",sheetP2:"We prepare a quote for your launch based on this estimate:",
+sEye:"Your request",sH:"Tell us about your brand",sP:"Your estimate is attached. We reply within 48 hours.",fPlan:"What do you need?",fName:"Your name",fContact:"WhatsApp or email",fBrandName:"Brand name",optional:"(optional)",fIdea:"Your idea",
+ideaP:"e.g. a linen abaya line in beige and olive for summer",
+fSubmit:"Send my request",fPrivacy:"Your details are only used to answer your request.",
+errName:"Add your name so we know who to answer.",errContact:"Add a WhatsApp number (8 digits or more) or an email.",errIdea:"Describe your idea in a few words.",errForm:"Check the highlighted fields.",
+okH:"Your request is ready",okWa:"Send it on WhatsApp to reach the Startup team.",okShare:"Send it to the Startup team, or copy it.",
+sendWa:"Send on WhatsApp",share:"Share my request",fCopy:"Copy my request",copied:"Request copied",selected:"Text selected, copy it",
+nextEye:"What happens next",nextSteps:[["We confirm","On WhatsApp, within 48 hours."],["You pay securely","19 QAR by payment link."],["You get your study","Within 5 working days."]],backHome:"Back to home",
+pfNameL:"First name",pfProd:"Main product",saveProfile:"Save changes",profileSaved:"Profile saved",prefs:"Preferences",lang:"Language",theme:"Appearance",thAuto:"Auto",thLight:"Light",thDark:"Dark",
+myProject:"My project",dataL:"Data",resetProg:"Reset my progress",wipe:"Delete all my data",wipeS:"Profile, progress and estimates",
+resetT:"Reset your progress?",resetB:"All 11 milestones go back to “to do”. Your profile and estimates stay.",resetOk:"Reset progress",progressReset:"Progress reset",
+wipeT:"Delete all your data?",wipeB:"Your profile, progress and saved estimates are removed from this phone. This cannot be undone.",wipeOk:"Delete everything",cancel:"Cancel",
+localNote:"Everything is saved on this phone only.",pfMeta:"{c} · {p}",pfProgV:"{d}/11 done",
+tHome:"Home",tRoad:"Roadmap",tBudget:"Budget",tPlans:"Plans",tProfile:"Profile",back:"Back",install:"Install",foot:"Doha · serving the GCC",offline:"You are offline. Your progress is still saved on this phone.",
+week:"wk",free:"Free",pro:"Study",done:"Launch ready",msDone:"Milestone done",
+o1t:"Your brand in one click",o1p:"Launch your fashion or leather brand in the GCC, from the first idea to the finished product.",
+o2t:"Know your budget in 30 seconds",o2p:"Pick a product and a quantity. See the real cost per piece, from Turkish or Italian factories.",
+o3t:"11 clear milestones",o3p:"From market test to launch day. Tick each step and always know what comes next.",
+o4t:"Let's set up your space",o4p:"Two questions so your estimates start in the right place.",
+next:"Next",start:"Get started",skipOnb:"Skip",createSpace:"Create my space",chooseLang:"Choose your language",
 phases:["Plan","Build","Produce","Launch"],
 products:{tshirt:"T-shirt",hoodie:"Hoodie",dress:"Dress",abaya:"Abaya",scarf:"Scarf / shayla",bag:"Leather bag",wallet:"Leather wallet"},
 packs:{poly:"Branded poly bag",box:"Printed box",premium:"Premium gift box"},
@@ -493,25 +769,49 @@ ms:[
 ["Production & quality","Follow the order and check every batch.",["Production schedule","Quality inspection","Final payment"]],
 ["Logistics & customs","Bring the goods to your country.",["Shipping mode","Customs clearance (5% GCC duty)","Storage"]],
 ["Launch & sales","Open your shop and get your first customers.",["Instagram and website","Online store","Launch campaign"]]]},
-ar:{eyebrow:"الأزياء والمنتجات الجلدية · دول الخليج",h1a:"أطلقي ",h1b:"علامتك التجارية",h1c:". من دراسة المشروع إلى المنتج النهائي.",
-lead:"يقوم Startup بدراسة مشروعك كاملة: اختبار السوق، الإجراءات القانونية، الهوية التجارية، المصانع في تركيا وإيطاليا، النموذج الأولي، التكاليف، الشحن والإطلاق. لكل مرحلة هدف وميزانية وموعد.",
-ctaEst:"احسبي ميزانيتي",ctaStart:"ابدئي مشروعي",k1:"مرحلة حتى الإطلاق",k2:"مصانع شريكة",k3:"6 دول مشمولة",
-dTitle:"لوحة متابعة الإطلاق",dSub:"ضعي علامة على المراحل في خارطة الطريق",dTag:"على المسار",dDone:"مراحل منجزة",dWeeks:"أسبوعًا حتى الإطلاق",dBudget:"الميزانية الإجمالية",dUnit:"تكلفة القطعة",dNext:"المرحلة التالية",
-hEye:"كيف يعمل",how:[["شاركي فكرتك","المنتج والكمية وبلدك."],["احصلي على دراستك","تكاليف حقيقية ومصانع مناسبة ومواعيد."],["انطلقي","نتابع الإنتاج حتى تصبح علامتك جاهزة."]],
-rEye:"خارطة الطريق",rH:"11 مرحلة من الفكرة إلى البيع",rP:"اضغطي على المرحلة لرؤية قائمة مهامها، وعلى الدائرة عند إنجازها.",
-eEye:"حاسبة الميزانية",eH:"كم ستكلف مجموعتك الأولى؟",eP:"اختاري المنتج والكمية، ويتحدث التقدير فورًا بعملة بلدك.",
+ar:{h1a:"أطلقي ",h1b:"علامتك التجارية",h1c:". من دراسة المشروع إلى المنتج النهائي.",
+lead:"ميزانيتك في 30 ثانية، مصانع مناسبة في تركيا وإيطاليا، وخطة من 11 مرحلة حتى أول عملية بيع.",
+hi:"مرحبًا",hiName:"مرحبًا {n}",
+dTitle:"لوحة متابعة الإطلاق",dSub0:"ابدئي بالمرحلة الأولى",dSubN:"{d} من 11 مرحلة منجزة",dTag:"على المسار",dTagNew:"جديد",dDone:"مراحل منجزة",dWeeks:"أسبوعًا حتى الإطلاق",dBudget:"الميزانية التقديرية",dUnit:"تكلفة القطعة",dNext:"المرحلة التالية",
+seeDetails:"التفاصيل",qa1:"احسبي ميزانيتي",qa1s:"30 ثانية",qa2:"احصلي على دراستي",qa2s:"19 ريال",
+k1:"مرحلة حتى الإطلاق",k2:"مصانع شريكة",k3:"6 دول مشمولة",
+hEye:"كيف يعمل",how:[["قدّري","المنتج والكمية وبلد المصنع."],["احصلي على دراستك","عروض أسعار حقيقية ومصانع مناسبة ومواعيد."],["انطلقي","نتابع الإنتاج حتى تصبح علامتك جاهزة."]],
+rEye:"خارطة الطريق",rH:"11 مرحلة من الفكرة إلى البيع",rP:"اضغطي على المرحلة لرؤية مهامها، وعلى الدائرة عند إنجازها.",
+searchL:"ابحثي في المراحل",searchP:"ابحثي عن مرحلة",fAll:"الكل",fTodo:"للإنجاز",fDone:"منجزة",
+emptyR:"لا توجد مرحلة مطابقة",emptyRp:"جربي كلمة أخرى أو امسحي الفلاتر.",clear:"مسح الفلاتر",emptyDone:"لم تُنجز أي مرحلة بعد",emptyDonep:"ضعي علامة على أول مرحلة عند إنجازها.",
+eEye:"حاسبة الميزانية",eH:"كم ستكلف مجموعتك الأولى؟",eP:"غيّري أي خيار، ويتحدث التقدير فورًا بعملة بلدك.",
 fProduct:"المنتج",fQty:"الكمية (قطعة)",fCountry:"بلدك",fPack:"التغليف",fOrigin:"المصنع",tr:"تركيا",it:"إيطاليا",fBrand:"العلامة على المنتج",bLabel:"ملصق منسوج",bTag:"بطاقة معلقة",bLogo:"شعار مطرز",
-perPiece:"تكلفة القطعة واصلة",retail:"سعر البيع المقترح",totalFor:"إجمالي الاستثمار لـ",pcs:"قطعة",eCta:"احصلي على الدراسة المفصلة",
-eNote:"نطاقات تقديرية قبل الضريبة حسب أسعار المصانع المعتادة. الدراسة المدفوعة تستبدلها بعروض أسعار حقيقية.",
+perPiece:"تكلفة القطعة واصلة",retail:"سعر البيع المقترح",totalFor:"إجمالي الاستثمار لـ {q} قطعة",pcs:"قطعة",eCta:"عروض أسعار حقيقية",save:"احفظي التقدير",saved:"تم حفظ التقدير",removed:"تم حذف التقدير",undo:"تراجع",
+savedH:"التقديرات المحفوظة",savedN:"{n} محفوظة",emptyS:"لا توجد تقديرات محفوظة بعد",emptySp:"احفظي تقديرًا لتقارني المنتجات أو الكميات أو المصانع لاحقًا.",
+eNote:"نطاقات تقديرية قبل الضريبة حسب أسعار المصانع المعتادة. الدراسة تستبدلها بعروض أسعار حقيقية.",
 warnMoq:"معظم المصانع تطلب 50 إلى 100 قطعة لكل تصميم. أقل من ذلك يعني أسعارًا أعلى أو ورشة صغيرة.",
 cProd:"الإنتاج",cBrand:"العلامة",cPack:"التغليف",cShip:"الشحن والجمارك",cSample:"العينات والنموذج",
 pEye:"الباقات",pH:"ابدئي مجانًا، وافتحي الدراسة الكاملة عندما تكونين جاهزة.",p1:"استكشاف",p2:"دراسة المشروع",p3:"إطلاق كامل",p3price:"حسب العرض",pop:"الأكثر طلبًا",
-p1Btn:"استخدمي مجانًا",p2Btn:"احصلي على دراستي",p3Btn:"تواصلي معنا",
+p1Btn:"استخدمي مجانًا",p2Btn:"احصلي على دراستي",p3Btn:"اطلبي عرض سعر",
 p1l:["حاسبة الميزانية","خارطة 11 مرحلة","لوحة متابعة التقدم"],p2l:["دراسة تكاليف مفصلة","مصانع مناسبة في تركيا أو إيطاليا","خطة مراحل بالتواريخ","سعر البيع والهامش"],p3l:["التواصل مع المصنع والعينات","متابعة الإنتاج والجودة","الشحن إلى بلدك الخليجي","خطة الإطلاق"],
-sEye:"ابدئي",sH:"أخبرينا عن علامتك",sP:"التقدير الحالي مرفق بطلبك.",fName:"اسمك",fContact:"واتساب أو بريد إلكتروني",fBrandName:"اسم العلامة (اختياري)",fIdea:"فكرتك",
-fSubmit:"جهّزي طلبي",fPay:"ادفعي 19 ريال · قريبًا",fReady:"طلبك جاهز. انسخيه وأرسليه لفريق Startup.",fCopy:"انسخي طلبي",copied:"تم النسخ ✓",selected:"تم التحديد، انسخيه",
-errReq:"أضيفي اسمك ورقم واتساب أو بريدًا إلكترونيًا وفكرتك.",foot:"الدوحة · نخدم دول الخليج",week:"أسبوع",free:"مجاني",pro:"الدراسة",done:"جاهز للإطلاق",
-tHome:"الرئيسية",tRoad:"المراحل",tBudget:"الميزانية",tPlans:"الباقات",tStart:"ابدئي",skip:"تخطي",install:"تثبيت",
+tEye:"لماذا Startup",trust:[["أسعار مصانع حقيقية","عروض من مصانع نتعامل معها، لا متوسطات من الإنترنت."],["مصمم للخليج","التكاليف بعملتك، مع الرسوم الجمركية الخليجية 5% والشحن."],["القرار لكِ","اقرئي دراستك أولًا، ثم قرري المتابعة أو التوقف."]],
+fqEye:"أسئلة",faq:[["ماذا أحصل مقابل 19 ريال؟","دراسة مكتوبة لمشروعك: التكاليف الحقيقية للقطعة، مصانع مناسبة، خطة مراحل بالتواريخ، وسعر البيع والهامش."],["كم تستغرق؟","نؤكد طلبك على واتساب خلال 48 ساعة ونسلّم الدراسة خلال 5 أيام عمل."],["هل يجب أن أكمل بعد الدراسة؟","لا. الدراسة لكِ، وتختارين الإطلاق معنا أو وحدك أو عدم الإطلاق."],["ما هو الحد الأدنى للكمية؟","تبدأ معظم المصانع من 50 إلى 100 قطعة لكل تصميم، والدراسة تحدد الحد الأدنى لمنتجك."]],
+sheetH:"دراسة المشروع",sheetP:"تُبنى دراستك على هذا التقدير:",sumPlan:"الباقة",sumProd:"المنتج",sumFact:"المصنع",sumBud:"الميزانية التقديرية",sumTot:"المبلغ",payNote:"الدفع الإلكتروني يفتح قريبًا. أرسلي طلبك الآن: نؤكد على واتساب ونرسل لك رابط دفع آمن.",payCard:"بطاقة",payApple:"Apple Pay",soon:"قريبًا",continue:"متابعة",close:"إغلاق",
+sheetH2:"إطلاق كامل",sheetP2:"نجهز عرض سعر لإطلاقك بناءً على هذا التقدير:",
+sEye:"طلبك",sH:"أخبرينا عن علامتك",sP:"تقديرك مرفق. نرد خلال 48 ساعة.",fPlan:"ماذا تحتاجين؟",fName:"اسمك",fContact:"واتساب أو بريد إلكتروني",fBrandName:"اسم العلامة",optional:"(اختياري)",fIdea:"فكرتك",
+ideaP:"مثال: مجموعة عبايات كتان بلون البيج والزيتي للصيف",
+fSubmit:"أرسلي طلبي",fPrivacy:"بياناتك تُستخدم فقط للرد على طلبك.",
+errName:"أضيفي اسمك لنعرف لمن نرد.",errContact:"أضيفي رقم واتساب (8 أرقام أو أكثر) أو بريدًا إلكترونيًا.",errIdea:"صفي فكرتك ببضع كلمات.",errForm:"تحققي من الحقول المحددة.",
+okH:"طلبك جاهز",okWa:"أرسليه على واتساب للتواصل مع فريق Startup.",okShare:"أرسليه لفريق Startup أو انسخيه.",
+sendWa:"أرسلي على واتساب",share:"شاركي طلبي",fCopy:"انسخي طلبي",copied:"تم نسخ الطلب",selected:"تم تحديد النص، انسخيه",
+nextEye:"ماذا بعد",nextSteps:[["نؤكد طلبك","على واتساب خلال 48 ساعة."],["تدفعين بأمان","19 ريال عبر رابط دفع."],["تستلمين دراستك","خلال 5 أيام عمل."]],backHome:"العودة للرئيسية",
+pfNameL:"الاسم",pfProd:"المنتج الرئيسي",saveProfile:"احفظي التغييرات",profileSaved:"تم حفظ الملف",prefs:"التفضيلات",lang:"اللغة",theme:"المظهر",thAuto:"تلقائي",thLight:"فاتح",thDark:"داكن",
+myProject:"مشروعي",dataL:"البيانات",resetProg:"إعادة تعيين التقدم",wipe:"حذف كل بياناتي",wipeS:"الملف والتقدم والتقديرات",
+resetT:"إعادة تعيين التقدم؟",resetB:"تعود المراحل الـ 11 إلى «للإنجاز». يبقى ملفك وتقديراتك.",resetOk:"إعادة التعيين",progressReset:"تمت إعادة التعيين",
+wipeT:"حذف كل بياناتك؟",wipeB:"سيُحذف ملفك وتقدمك وتقديراتك من هذا الهاتف. لا يمكن التراجع.",wipeOk:"حذف الكل",cancel:"إلغاء",
+localNote:"كل شيء محفوظ على هذا الهاتف فقط.",pfMeta:"{c} · {p}",pfProgV:"{d}/11 منجزة",
+tHome:"الرئيسية",tRoad:"المراحل",tBudget:"الميزانية",tPlans:"الباقات",tProfile:"حسابي",back:"رجوع",install:"تثبيت",foot:"الدوحة · نخدم دول الخليج",offline:"أنتِ غير متصلة. تقدمك ما زال محفوظًا على هذا الهاتف.",
+week:"أسبوع",free:"مجاني",pro:"الدراسة",done:"جاهز للإطلاق",msDone:"تم إنجاز المرحلة",
+o1t:"علامتك بضغطة واحدة",o1p:"أطلقي علامتك في الأزياء أو الجلود في الخليج، من الفكرة الأولى إلى المنتج النهائي.",
+o2t:"ميزانيتك في 30 ثانية",o2p:"اختاري المنتج والكمية، واعرفي التكلفة الحقيقية للقطعة من مصانع تركيا أو إيطاليا.",
+o3t:"11 مرحلة واضحة",o3p:"من اختبار السوق إلى يوم الإطلاق. ضعي علامة على كل مرحلة واعرفي دائمًا الخطوة التالية.",
+o4t:"لنجهز مساحتك",o4p:"سؤالان لتبدأ تقديراتك من المكان الصحيح.",
+next:"التالي",start:"ابدئي",skipOnb:"تخطي",createSpace:"أنشئي مساحتي",chooseLang:"اختاري لغتك",
 phases:["التخطيط","البناء","الإنتاج","الإطلاق"],
 products:{tshirt:"تيشيرت",hoodie:"هودي",dress:"فستان",abaya:"عباية",scarf:"شيلة / وشاح",bag:"حقيبة جلدية",wallet:"محفظة جلدية"},
 packs:{poly:"كيس بشعار",box:"علبة مطبوعة",premium:"علبة هدايا فاخرة"},
@@ -529,125 +829,361 @@ ms:[
 ["الشحن والجمارك","أوصلي البضاعة إلى بلدك.",["طريقة الشحن","التخليص الجمركي (5% رسوم الخليج)","التخزين"]],
 ["الإطلاق والبيع","افتحي متجرك واحصلي على أول العملاء.",["إنستغرام والموقع","متجر إلكتروني","حملة الإطلاق"]]]}};
 
-const MS=[{w:1,c:[0,0],f:1,ph:0},{w:2,c:[300,1500],f:1,ph:0},{w:2,c:[2500,6000],f:0,ph:0},{w:2,c:[1500,5000],f:0,ph:1},{w:2,c:[0,0],f:0,ph:1},{w:3,c:[0,0],f:0,ph:1},{w:2,c:[0,0],f:0,ph:1},{w:1,c:[0,0],f:0,ph:2},{w:6,c:[0,0],f:0,ph:2},{w:3,c:[0,0],f:0,ph:2},{w:2,c:[2000,8000],f:0,ph:3}];
+/* ===== Data ===== */
+const MS=[{w:1,f:1,ph:0},{w:2,f:1,ph:0},{w:2,f:0,ph:0},{w:2,f:0,ph:1},{w:2,f:0,ph:1},{w:3,f:0,ph:1},{w:2,f:0,ph:1},{w:1,f:0,ph:2},{w:6,f:0,ph:2},{w:3,f:0,ph:2},{w:2,f:0,ph:3}];
 const BASE={tshirt:[15,30],hoodie:[40,80],dress:[60,140],abaya:[70,180],scarf:[15,40],bag:[120,300],wallet:[35,90]};
 const ORIGIN={TR:[1,1],IT:[1.8,2.5]};const SHIP={TR:[5,9],IT:[7,13]};
 const PACK={poly:[1,2],box:[6,15],premium:[18,35]};
 const CUR={QA:["QAR",1],AE:["AED",1.009],SA:["SAR",1.03],KW:["KWD",.0843],BH:["BHD",.1033],OM:["OMR",.1058]};
-const VIEWS=["home","roadmap","budget","plans","start"];
-const ALIAS={estimate:"budget"};
+const TABS=["home","roadmap","budget","plans","profile"];
+const SUB={request:"plans",sent:"home"};
+const ALIAS={estimate:"budget",start:"request"};
+
+/* ===== Icons ===== */
 const CHECK='<svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 8.3l3 3 6-6.6"/></svg>';
 const CARET='<svg class="caret" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l5 5 5-5"/></svg>';
 const TICK='<svg viewBox="0 0 18 18"><circle cx="9" cy="9" r="9"/><path d="M5.5 9.2l2.3 2.3 4.7-5" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+const IC={
+ x:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>',
+ trash:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg>',
+ calc:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="5" y="3" width="14" height="18" rx="2"/><path d="M8 7h8M8 11h8M8 15h5"/></svg>',
+ search:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>',
+ flag:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4h11l-2 4 2 4H5"/></svg>',
+ factory:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21V10l6 4V10l6 4V5h6v16z"/></svg>',
+ globe:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"/></svg>',
+ check:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8 12.5l2.8 2.8L16 9.5"/></svg>',
+ card:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/></svg>',
+ phone:'<svg class="i" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="7" y="3" width="10" height="18" rx="2"/><path d="M11 18h2"/></svg>',
+ alert:'<svg viewBox="0 0 16 16" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="8" cy="8" r="6.5"/><path d="M8 4.8v3.6M8 11h0"/></svg>'
+};
+
+/* ===== State (saved on device) ===== */
+const KEY="startup-v2";
+let S={lang:"en",theme:"auto",onboarded:false,profile:{name:"",country:"QA",product:"abaya"},done:[],saved:[]};
+try{const raw=JSON.parse(localStorage.getItem(KEY)||"null");if(raw)S=Object.assign(S,raw)}catch(_){}
+try{ // migrate v1
+  if(!localStorage.getItem(KEY)){const d=JSON.parse(localStorage.getItem("startup-done")||"null");if(Array.isArray(d)){S.done=d;S.onboarded=true}
+  if(localStorage.getItem("startup-lang")==="ar")S.lang="ar"}
+}catch(_){}
+let L=S.lang,done=new Set(S.done),open=new Set(),est={},filter={ph:-1,st:"all",q:""},plan="study",lastReq="";
+function persist(){S.lang=L;S.done=[...done];try{localStorage.setItem(KEY,JSON.stringify(S))}catch(_){}}
+
+/* ===== Helpers ===== */
 const $=id=>document.getElementById(id);
 const esc=s=>String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
-let L="en",done=new Set([0,1,2]),open=new Set(),est={};
-try{const s=JSON.parse(localStorage.getItem("startup-done")||"null");if(Array.isArray(s))done=new Set(s)}catch(_){}
-try{const l=localStorage.getItem("startup-lang");if(l==="ar")L="ar"}catch(_){}
-
-const ISO=s=>"\u2066"+s+"\u2069";const plain=s=>s.replace(/[\u2066\u2069]/g,"");
+const fmt=(s,o)=>s.replace(/\{(\w)\}/g,(_,k)=>o[k]);
+const ISO=s=>"⁦"+s+"⁩";const plain=s=>s.replace(/[⁦⁩]/g,"");
 function amt(v,c){const x=v*CUR[c][1];return (x>=1000?Math.round(x/10)*10:Math.round(x)).toLocaleString("en-US")}
 function money(v,c){return ISO(amt(v,c)+" "+CUR[c][0])}
 function compact(v,c){const x=v*CUR[c][1];return '<bdi dir="ltr">'+(x>=10000?(x/1000).toFixed(1).replace(/\.0$/,"")+"K":amt(v,c))+' <small>'+CUR[c][0]+"</small></bdi>"}
 function rng(a,c){return ISO(amt(a[0],c)+" – "+amt(a[1],c)+" "+CUR[c][0])}
-function fillSelect(id,obj,keep){const s=$(id),v=s.value||keep;s.innerHTML="";for(const k in obj){const o=document.createElement("option");o.value=k;o.textContent=obj[k];s.appendChild(o)}s.value=v}
+const mid=x=>(x[0]+x[1])/2;
+function fillSelect(id,obj,val){const s=$(id);s.innerHTML="";for(const k in obj){const o=document.createElement("option");o.value=k;o.textContent=obj[k];s.appendChild(o)}s.value=val}
+function haptic(){try{navigator.vibrate&&navigator.vibrate(8)}catch(_){}}
 
+/* ===== Toast ===== */
+let toastT;
+function toast(msg,action){
+  const h=$("toastHost");clearTimeout(toastT);h.innerHTML="";
+  const d=document.createElement("div");d.className="toast";d.innerHTML='<span class="dot"></span><span>'+esc(msg)+'</span>';
+  if(action){const b=document.createElement("button");b.type="button";b.textContent=action.label;b.onclick=()=>{action.fn();h.innerHTML=""};d.appendChild(b)}
+  h.appendChild(d);toastT=setTimeout(()=>{h.innerHTML=""},action?5000:2400);
+}
+
+/* ===== Overlays (sheet + dialog) ===== */
+let lastFocus=null;
+function closeOverlay(){$("overlay").innerHTML="";document.body.classList.remove("locked");if(lastFocus)try{lastFocus.focus()}catch(_){}}
+function trap(box){
+  const f=()=>[...box.querySelectorAll('button,a[href],input,select,textarea')].filter(e=>!e.disabled);
+  box.addEventListener("keydown",e=>{
+    if(e.key==="Escape"){e.preventDefault();closeOverlay()}
+    if(e.key==="Tab"){const l=f();if(!l.length)return;const a=l[0],z=l[l.length-1];if(e.shiftKey&&document.activeElement===a){e.preventDefault();z.focus()}else if(!e.shiftKey&&document.activeElement===z){e.preventDefault();a.focus()}}
+  });
+  setTimeout(()=>{const l=f();(l[1]||l[0])&&(l[1]||l[0]).focus()},50);
+}
+function confirmDlg(title,body,okLabel,onOk){
+  const t=T[L];lastFocus=document.activeElement;document.body.classList.add("locked");
+  $("overlay").innerHTML=`<div class="scrim dlg-scrim"></div><div class="dlg" role="alertdialog" aria-modal="true" aria-labelledby="dlgT" aria-describedby="dlgB"><h3 id="dlgT" style="font-size:1.15rem">${esc(title)}</h3><p id="dlgB">${esc(body)}</p><div class="btns"><button type="button" class="btn danger block" id="dlgOk">${esc(okLabel)}</button><button type="button" class="btn g block" id="dlgNo">${esc(t.cancel)}</button></div></div>`;
+  $("dlgOk").onclick=()=>{closeOverlay();onOk()};$("dlgNo").onclick=closeOverlay;$("overlay").querySelector(".scrim").onclick=closeOverlay;
+  trap($("overlay").querySelector(".dlg"));
+}
+function checkout(kind){
+  const t=T[L];plan=kind;lastFocus=document.activeElement;document.body.classList.add("locked");
+  const isStudy=kind==="study";
+  $("overlay").innerHTML=`<div class="scrim"></div><div class="sheet" role="dialog" aria-modal="true" aria-labelledby="shT">
+    <div class="grab" aria-hidden="true"></div>
+    <div class="sheet-head"><h2 id="shT" style="font-size:1.4rem">${isStudy?t.sheetH:t.sheetH2}</h2><button type="button" class="icon-btn" id="shX" aria-label="${t.close}">${IC.x}</button></div>
+    <p class="muted">${isStudy?t.sheetP:t.sheetP2}</p>
+    <div class="sum">${sumRows(isStudy)}</div>
+    ${isStudy?`<div class="pay" aria-hidden="true"><div>${IC.card}${t.payCard} · ${t.soon}</div><div>${IC.phone}${t.payApple} · ${t.soon}</div></div><p class="note">${t.payNote}</p>`:""}
+    <button type="button" class="btn y block" id="shGo">${t.continue}</button></div>`;
+  $("shX").onclick=closeOverlay;$("overlay").querySelector(".scrim").onclick=closeOverlay;
+  $("shGo").onclick=()=>{closeOverlay();location.hash="#request"};
+  trap($("overlay").querySelector(".sheet"));
+}
+function sumRows(withPrice){
+  const t=T[L];const en=est;
+  let h=`<div><span>${t.sumPlan}</span><b>${plan==="study"?t.p2:t.p3}</b></div>
+  <div><span>${t.sumProd}</span><b>${t.products[en.p]} × <bdi dir="ltr">${en.q}</bdi></b></div>
+  <div><span>${t.sumFact}</span><b>${en.o==="TR"?t.tr:t.it}</b></div>
+  <div><span>${t.sumBud}</span><b class="num">${rng(en.tot,en.c)}</b></div>`;
+  if(withPrice&&plan==="study")h+=`<div class="tt"><span>${t.sumTot}</span><b class="num">${ISO(STUDY_PRICE+" QAR")}</b></div>`;
+  return h;
+}
+
+/* ===== Onboarding ===== */
+let ob=0;
+function renderOnb(){
+  const t=T[L],box=$("onbIn"),last=3;
+  const dots=`<div class="dots" aria-hidden="true">${[0,1,2,3].map(i=>`<i class="${i===ob?"on":""}"></i>`).join("")}</div>`;
+  let art="",body="";
+  if(ob===0)art=`<div class="art-mark" dir="ltr">startup<i></i></div>`;
+  if(ob===1)art=`<div class="inv art-card"><div class="total"><span>${fmt(t.totalFor,{q:150})}</span><b class="num">${ISO("14,550 – 36,700 QAR")}</b></div><div class="stack"><i style="width:62%;background:var(--y)"></i><i style="width:6%;background:#fff"></i><i style="width:10%;background:#A3A3A3"></i><i style="width:8%;background:#6B6B6B"></i><i style="width:14%;background:#3D3D3D"></i></div></div>`;
+  if(ob===2)art=`<div class="art-stack">${[0,1,2].map(i=>`<div class="card" style="padding:12px 14px;display:flex;align-items:center;gap:12px;${i===0?"background:var(--soft);border-color:transparent":""};transform:rotate(${i===1?1:-1}deg)"><span class="chk" style="${i===0?"background:var(--ink);border-color:var(--ink);color:var(--y)":""}">${i===0?CHECK:"0"+(i+1)}</span><b style="font:600 .95rem var(--display)">${t.ms[i][0]}</b></div>`).join("")}</div>`;
+  if(ob<3){
+    body=`<div class="onb-art">${art}</div><div class="onb-copy"><h1 id="onbTitle" style="font-size:clamp(1.8rem,8vw,2.4rem)">${[t.o1t,t.o2t,t.o3t][ob]}</h1><p>${[t.o1p,t.o2p,t.o3p][ob]}</p></div>
+      ${ob===0?`<div class="lbl"><span>${t.chooseLang}</span><div class="lang-pick"><button type="button" data-l="en" aria-pressed="${L==="en"}">English</button><button type="button" data-l="ar" aria-pressed="${L==="ar"}">العربية</button></div></div>`:""}
+      <div class="onb-foot"><button type="button" class="btn k block" id="obNext">${t.next}</button></div>`;
+  }else{
+    body=`<div class="onb-copy" style="margin-top:12px"><h1 id="onbTitle" style="font-size:clamp(1.8rem,8vw,2.4rem)">${t.o4t}</h1><p>${t.o4p}</p></div>
+      <form class="fields" id="obForm" novalidate>
+        <label for="ob-name"><span>${t.pfNameL} <span class="hint">${t.optional}</span></span><input id="ob-name" autocomplete="given-name" value="${esc(S.profile.name)}"></label>
+        <fieldset><legend>${t.fCountry}</legend><div class="chips" id="obC">${Object.keys(t.countries).map(k=>`<button type="button" class="fchip" data-v="${k}" aria-pressed="${S.profile.country===k}">${t.countries[k]}</button>`).join("")}</div></fieldset>
+        <fieldset><legend>${t.pfProd}</legend><div class="chips" id="obP">${Object.keys(t.products).map(k=>`<button type="button" class="fchip" data-v="${k}" aria-pressed="${S.profile.product===k}">${t.products[k]}</button>`).join("")}</div></fieldset>
+        <div class="onb-foot" style="margin-top:8px"><button type="submit" class="btn y block">${t.createSpace}</button></div>
+      </form>`;
+  }
+  box.innerHTML=`<div class="onb-top">${dots}${ob<last?`<button type="button" class="onb-skip" id="obSkip">${t.skipOnb}</button>`:""}</div><div class="slide" ${ob===3?'style="flex:0"':""}>${body}</div>`;
+  box.querySelectorAll("[data-l]").forEach(b=>b.onclick=()=>{setLang(b.dataset.l);renderOnb()});
+  if($("obNext"))$("obNext").onclick=()=>{ob++;renderOnb();$("onb").scrollTop=0};
+  if($("obSkip"))$("obSkip").onclick=()=>{ob=3;renderOnb()};
+  ["obC","obP"].forEach(id=>{const g=$(id);if(!g)return;g.querySelectorAll(".fchip").forEach(b=>b.onclick=()=>{g.querySelectorAll(".fchip").forEach(x=>x.setAttribute("aria-pressed",x===b));S.profile[id==="obC"?"country":"product"]=b.dataset.v})});
+  if($("obForm"))$("obForm").onsubmit=e=>{e.preventDefault();S.profile.name=$("ob-name").value.trim().slice(0,30);S.onboarded=true;persist();$("onb").hidden=true;document.body.classList.remove("locked");applyProfileDefaults();renderAll();location.hash="#home"};
+}
+
+/* ===== Render: static text ===== */
 function renderStatic(){
   const t=T[L];document.documentElement.lang=L;document.documentElement.dir=L==="ar"?"rtl":"ltr";
   document.querySelectorAll("[data-t]").forEach(el=>{const v=t[el.dataset.t];if(typeof v==="string")el.textContent=v});
-  $("l-en").setAttribute("aria-pressed",L==="en");$("l-ar").setAttribute("aria-pressed",L==="ar");
-  fillSelect("product",t.products,"abaya");fillSelect("pack",t.packs,"box");fillSelect("country",t.countries,"QA");
   ["p1l","p2l","p3l"].forEach(k=>{$(k).innerHTML=t[k].map(x=>"<li>"+TICK+"<span>"+x+"</span></li>").join("")});
   $("how").innerHTML=t.how.map((h,i)=>`<li><span class="n">${i+1}</span><div><h3>${h[0]}</h3><p>${h[1]}</p></div></li>`).join("");
-  $("f-idea").placeholder=L==="ar"?"مثال: مجموعة عبايات كتان بلون البيج والزيتي للصيف":"e.g. a linen abaya line in beige and olive for summer";
+  $("nextSteps").innerHTML=t.nextSteps.map((h,i)=>`<li><span class="n">${i+1}</span><div><h3>${h[0]}</h3><p>${h[1]}</p></div></li>`).join("");
+  const ti=[IC.factory,IC.globe,IC.check];
+  $("trust").innerHTML=t.trust.map((x,i)=>`<li><span class="ic">${ti[i]}</span><div><h3>${x[0]}</h3><p>${x[1]}</p></div></li>`).join("");
+  $("faq").innerHTML=t.faq.map(x=>`<details><summary>${x[0]}</summary><p>${x[1]}</p></details>`).join("");
+  $("f-idea").placeholder=t.ideaP;$("msq").placeholder=t.searchP;
   $("install").textContent=t.install;
+  ["product","country","pack"].forEach(id=>{const v=$(id).value;fillSelect(id,id==="product"?t.products:id==="country"?t.countries:t.packs,v||{product:S.profile.product,country:S.profile.country,pack:"box"}[id])});
+  fillSelect("pf-country",t.countries,S.profile.country);fillSelect("pf-product",t.products,S.profile.product);
+  document.querySelectorAll('input[name="lang"]').forEach(r=>r.checked=r.value===L);
+  document.querySelectorAll('input[name="theme"]').forEach(r=>r.checked=r.value===S.theme);
 }
 
-function save(){try{localStorage.setItem("startup-done",JSON.stringify([...done]))}catch(_){}}
+/* ===== Render: profile bits ===== */
+function initial(){return (S.profile.name||"S").trim().charAt(0).toUpperCase()||"S"}
+function renderProfile(){
+  const t=T[L];
+  $("hdrAvatar").textContent=initial();$("pfAvatar").textContent=initial();
+  $("pfName").textContent=S.profile.name||t.tProfile;
+  $("pfMeta").textContent=fmt(t.pfMeta,{c:t.countries[S.profile.country],p:t.products[S.profile.product]});
+  $("pf-name").value=S.profile.name;
+  $("pfProg").textContent=fmt(t.pfProgV,{d:done.size});
+  $("pfSaved").textContent=fmt(t.savedN,{n:S.saved.length});
+  $("hello").textContent=S.profile.name?fmt(t.hiName,{n:S.profile.name}):t.hi;
+}
+
+/* ===== Render: roadmap ===== */
 function renderMS(){
-  const t=T[L],ol=$("ms");ol.innerHTML="";
+  const t=T[L],ol=$("ms");
   $("phases").innerHTML=t.phases.map((p,i)=>{const idx=MS.map((m,j)=>m.ph===i?j:-1).filter(j=>j>=0);const d=idx.filter(j=>done.has(j)).length;
     return `<div class="phase${d===idx.length?" full":""}"><b>${p}</b><div class="meter"><i style="width:${d/idx.length*100}%"></i></div><span class="num">${d}/${idx.length}</span></div>`}).join("");
-  MS.forEach((m,i)=>{
-    const [h,d,list]=t.ms[i];const li=document.createElement("li");
-    li.className=(done.has(i)?"done ":"")+(open.has(i)?"open":"");
+  const cnt={all:11,todo:11-done.size,done:done.size};
+  $("filters").innerHTML=[["all",t.fAll],["todo",t.fTodo],["done",t.fDone]].map(([k,l])=>`<button type="button" class="fchip" data-st="${k}" aria-pressed="${filter.st===k}">${l} <span class="ct num">${cnt[k]}</span></button>`).join("")
+    +t.phases.map((p,i)=>`<button type="button" class="fchip" data-ph="${i}" aria-pressed="${filter.ph===i}">${p}</button>`).join("");
+  $("filters").querySelectorAll("[data-st]").forEach(b=>b.onclick=()=>{filter.st=b.dataset.st;renderMS()});
+  $("filters").querySelectorAll("[data-ph]").forEach(b=>b.onclick=()=>{const v=+b.dataset.ph;filter.ph=filter.ph===v?-1:v;renderMS()});
+  const q=filter.q.trim().toLowerCase();
+  const list=MS.map((m,i)=>i).filter(i=>{const m=MS[i];if(filter.ph>=0&&m.ph!==filter.ph)return false;if(filter.st==="todo"&&done.has(i))return false;if(filter.st==="done"&&!done.has(i))return false;
+    if(q){const [h,d,l]=t.ms[i];const hay=(h+" "+d+" "+l.join(" ")+" "+T.en.ms[i][0]).toLowerCase();if(!hay.includes(q))return false}return true});
+  ol.innerHTML="";
+  if(!list.length){
+    const onlyDone=filter.st==="done"&&!q&&filter.ph<0;
+    ol.innerHTML=`<li class="empty" style="border-style:dashed"><span class="ic">${onlyDone?IC.flag:IC.search}</span><h3>${onlyDone?t.emptyDone:t.emptyR}</h3><p>${onlyDone?t.emptyDonep:t.emptyRp}</p>${onlyDone?"":`<button type="button" class="btn g sm" id="clrF">${t.clear}</button>`}</li>`;
+    if($("clrF"))$("clrF").onclick=()=>{filter={ph:-1,st:"all",q:""};$("msq").value="";renderMS()};
+    return;
+  }
+  list.forEach(i=>{
+    const m=MS[i];const [h,d,l]=t.ms[i];const li=document.createElement("li");
+    li.className=(done.has(i)?"done ":"")+(open.has(i)?"open":"");li.id="ms-"+i;
     li.innerHTML=`<div class="ms-row" role="button" tabindex="0" aria-expanded="${open.has(i)}">
       <button type="button" class="chk" aria-pressed="${done.has(i)}" aria-label="${esc(h)}">${done.has(i)?CHECK:String(i+1).padStart(2,"0")}</button>
       <div class="ms-title"><h3>${h}</h3><small class="num">${t.phases[m.ph]} · ${m.w} ${t.week}</small></div>
       <span class="tag ${m.f?"":"pro"}">${m.f?t.free:t.pro}</span>${CARET}</div>
-      <div class="ms-body"${open.has(i)?"":" hidden"}><p>${d}</p><ul>${list.map(x=>"<li>"+x+"</li>").join("")}</ul></div>`;
-    li.querySelector(".chk").addEventListener("click",e=>{e.stopPropagation();done.has(i)?done.delete(i):done.add(i);save();renderMS();renderDash();if(navigator.vibrate)try{navigator.vibrate(8)}catch(_){}});
-    const row=li.querySelector(".ms-row");
-    const tog=()=>{open.has(i)?open.delete(i):open.add(i);renderMS()};
+      <div class="ms-body"${open.has(i)?"":" hidden"}><p>${d}</p><ul>${l.map(x=>"<li>"+x+"</li>").join("")}</ul></div>`;
+    li.querySelector(".chk").addEventListener("click",e=>{e.stopPropagation();const was=done.has(i);was?done.delete(i):done.add(i);persist();haptic();renderMS();renderDash();renderProfile();
+      const c=document.querySelector("#ms-"+i+" .chk");if(c){c.classList.add("pop");c.focus()}if(!was)toast(done.size===11?t.done+" 🎉":t.msDone)});
+    const row=li.querySelector(".ms-row");const tog=()=>{open.has(i)?open.delete(i):open.add(i);renderMS();const r=document.querySelector("#ms-"+i+" .ms-row");r&&r.focus()};
     row.addEventListener("click",tog);row.addEventListener("keydown",e=>{if(e.target===row&&(e.key==="Enter"||e.key===" ")){e.preventDefault();tog()}});
     ol.appendChild(li);
   });
 }
 
-function calc(){
-  const p=$("product").value,q=Math.max(1,parseInt($("qty").value,10)||1),c=$("country").value;
-  const o=document.querySelector('input[name="origin"]:checked').value;
-  const qf=q<100?1.25:q<300?1:.85;
-  const prod=[BASE[p][0]*ORIGIN[o][0]*qf,BASE[p][1]*ORIGIN[o][1]*qf];
-  const br=[0,0];if($("b-label").checked){br[0]+=1.5;br[1]+=3}if($("b-tag").checked){br[0]+=1;br[1]+=2}if($("b-logo").checked){br[0]+=4;br[1]+=10}
-  const pk=PACK[$("pack").value];
-  const ship=[SHIP[o][0]+prod[0]*.05,SHIP[o][1]+prod[1]*.05];
-  const sample=o==="IT"?[2500,6000]:[1500,4000];
+/* ===== Budget ===== */
+function readEst(){return{p:$("product").value,q:Math.max(1,Math.min(100000,parseInt($("qty").value,10)||1)),c:$("country").value,o:document.querySelector('input[name="origin"]:checked').value,pack:$("pack").value,b:[$("b-label").checked,$("b-tag").checked,$("b-logo").checked]}}
+function compute(x){
+  const qf=x.q<100?1.25:x.q<300?1:.85;
+  const prod=[BASE[x.p][0]*ORIGIN[x.o][0]*qf,BASE[x.p][1]*ORIGIN[x.o][1]*qf];
+  const br=[0,0];if(x.b[0]){br[0]+=1.5;br[1]+=3}if(x.b[1]){br[0]+=1;br[1]+=2}if(x.b[2]){br[0]+=4;br[1]+=10}
+  const pk=PACK[x.pack];const ship=[SHIP[x.o][0]+prod[0]*.05,SHIP[x.o][1]+prod[1]*.05];
+  const sample=x.o==="IT"?[2500,6000]:[1500,4000];
   const unit=[prod[0]+br[0]+pk[0]+ship[0],prod[1]+br[1]+pk[1]+ship[1]];
-  const parts=[["cProd",[prod[0]*q,prod[1]*q],"var(--y)"],["cBrand",[br[0]*q,br[1]*q],"#FFFFFF"],["cPack",[pk[0]*q,pk[1]*q],"#A3A3A3"],["cShip",[ship[0]*q,ship[1]*q],"#6B6B6B"],["cSample",sample,"#3D3D3D"]];
-  const tot=[0,0];parts.forEach(x=>{tot[0]+=x[1][0];tot[1]+=x[1][1]});
-  const t=T[L];
-  $("tLabel").textContent=`${t.totalFor} ${q.toLocaleString("en-US")} ${t.pcs}`;
-  $("tVal").textContent=rng(tot,c);
-  const mid=parts.map(x=>(x[1][0]+x[1][1])/2),ms=mid.reduce((a,b)=>a+b,0);
-  $("stack").innerHTML=parts.map((x,i)=>mid[i]>0?`<i style="width:${(mid[i]/ms*100).toFixed(1)}%;background:${x[2]}"></i>`:"").join("");
-  $("legend").innerHTML=parts.map(x=>`<div class="lr"><i style="background:${x[2]}"></i><span>${t[x[0]]}</span><span class="num">${rng(x[1],c)}</span></div>`).join("");
-  $("perPiece").textContent=rng(unit,c);
-  $("retail").textContent=rng([unit[0]*2.5,unit[1]*3],c);
-  const w=$("warn");if(q<50){w.textContent=t.warnMoq;w.hidden=false}else w.hidden=true;
-  est={p,q,c,o,tot,unit};renderDash();
+  const parts=[["cProd",[prod[0]*x.q,prod[1]*x.q],"var(--y)"],["cBrand",[br[0]*x.q,br[1]*x.q],"#FFFFFF"],["cPack",[pk[0]*x.q,pk[1]*x.q],"#A3A3A3"],["cShip",[ship[0]*x.q,ship[1]*x.q],"#6B6B6B"],["cSample",sample,"#3D3D3D"]];
+  const tot=[0,0];parts.forEach(p=>{tot[0]+=p[1][0];tot[1]+=p[1][1]});
+  return Object.assign({},x,{parts,tot,unit});
 }
+function calc(){
+  const t=T[L];est=compute(readEst());const c=est.c;
+  $("tLabel").textContent=fmt(t.totalFor,{q:est.q.toLocaleString("en-US")});
+  $("tVal").textContent=rng(est.tot,c);$("peekV").textContent=rng(est.tot,c);$("peekL").textContent=fmt(t.totalFor,{q:est.q.toLocaleString("en-US")});
+  const m=est.parts.map(x=>mid(x[1])),ms=m.reduce((a,b)=>a+b,0);
+  $("stack").innerHTML=est.parts.map((x,i)=>m[i]>0?`<i style="width:${(m[i]/ms*100).toFixed(1)}%;background:${x[2]}"></i>`:"").join("");
+  $("legend").innerHTML=est.parts.map(x=>`<div class="lr"><i style="background:${x[2]}"></i><span>${t[x[0]]}</span><span class="num">${rng(x[1],c)}</span></div>`).join("");
+  $("perPiece").textContent=rng(est.unit,c);$("retail").textContent=rng([est.unit[0]*2.5,est.unit[1]*3],c);
+  const w=$("warn");if(est.q<50){w.textContent=t.warnMoq;w.hidden=false}else w.hidden=true;
+  renderDash();
+}
+function savedItem(s,i,compactRow){
+  const t=T[L];const r=compute(s);
+  return `<li><button type="button" class="sv-main" data-load="${i}"><b>${t.products[s.p]} × <bdi dir="ltr">${s.q}</bdi> · ${s.o==="TR"?t.tr:t.it}</b><small class="num">${rng(r.tot,s.c)}</small></button>${compactRow?"":`<button type="button" class="icon-btn" data-del="${i}" aria-label="${t.cancel}: ${esc(t.products[s.p])}">${IC.trash}</button>`}</li>`;
+}
+function renderSaved(){
+  const t=T[L];
+  $("savedCt").textContent=S.saved.length?fmt(t.savedN,{n:S.saved.length}):"";
+  $("savedList").innerHTML=S.saved.length?`<ul class="saved">${S.saved.map((s,i)=>savedItem(s,i)).join("")}</ul>`
+    :`<div class="empty"><span class="ic">${IC.calc}</span><h3>${t.emptyS}</h3><p>${t.emptySp}</p></div>`;
+  $("savedList").querySelectorAll("[data-load]").forEach(b=>b.onclick=()=>{loadEst(S.saved[+b.dataset.load]);window.scrollTo({top:0,behavior:"smooth"})});
+  $("savedList").querySelectorAll("[data-del]").forEach(b=>b.onclick=()=>{const i=+b.dataset.del;const item=S.saved.splice(i,1)[0];persist();renderSaved();renderProfile();renderHomeSaved();
+    toast(t.removed,{label:t.undo,fn:()=>{S.saved.splice(i,0,item);persist();renderSaved();renderProfile();renderHomeSaved()}})});
+  renderHomeSaved();
+}
+function renderHomeSaved(){
+  const t=T[L],h=$("homeSaved");
+  if(!S.saved.length){h.innerHTML="";return}
+  h.innerHTML=`<div class="sec-title" style="margin-bottom:8px"><h3>${t.savedH}</h3><a class="link" href="#budget">${fmt(t.savedN,{n:S.saved.length})}</a></div><ul class="saved">${savedItem(S.saved[0],0,true)}</ul>`;
+  h.querySelector("[data-load]").onclick=()=>{loadEst(S.saved[0]);location.hash="#budget"};
+}
+function loadEst(s){$("product").value=s.p;$("qty").value=s.q;$("country").value=s.c;$("pack").value=s.pack;document.querySelector(`input[name="origin"][value="${s.o}"]`).checked=true;["b-label","b-tag","b-logo"].forEach((id,k)=>$(id).checked=s.b[k]);calc()}
+function applyProfileDefaults(){$("product").value=S.profile.product;$("country").value=S.profile.country}
 
+/* ===== Dashboard ===== */
 function renderDash(){
   const t=T[L],n=done.size,pct=Math.round(n/11*100);
   $("ring").setAttribute("stroke-dashoffset",(251.3*(1-n/11)).toFixed(1));$("ringTxt").textContent=pct+"%";
-  $("dDone").textContent=n+"/11";
-  $("dWeeks").textContent=MS.reduce((a,m,i)=>a+(done.has(i)?0:m.w),0);
-  if(est.tot){const mid=x=>(x[0]+x[1])/2;$("dBudget").innerHTML=compact(mid(est.tot),est.c);$("dUnit").innerHTML=compact(mid(est.unit),est.c)}
+  $("dDone").textContent=n+"/11";$("dWeeks").textContent=MS.reduce((a,m,i)=>a+(done.has(i)?0:m.w),0);
+  if(est.tot){$("dBudget").innerHTML=compact(mid(est.tot),est.c);$("dUnit").innerHTML=compact(mid(est.unit),est.c)}
   $("bars").innerHTML=MS.map((m,i)=>`<i class="${done.has(i)?"on":""}" style="height:${30+m.w*11}%"></i>`).join("");
   const nx=MS.findIndex((m,i)=>!done.has(i));$("dNext").textContent=nx<0?t.done:t.ms[nx][0];
-  $("dTag").textContent=nx<0?t.done:t.dTag;
+  $("dTag").textContent=nx<0?t.done:n===0?t.dTagNew:t.dTag;
+  $("dSub").textContent=n===0?t.dSub0:fmt(t.dSubN,{d:n});
 }
 
-/* router */
+/* ===== Request ===== */
+const validators={
+  "f-name":v=>v.trim().length>=2?"":"errName",
+  "f-contact":v=>{v=v.trim();if(/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v))return"";return (v.replace(/\D/g,"").length>=8&&!/[a-z@]/i.test(v))?"":"errContact"},
+  "f-idea":v=>v.trim().length>=4?"":"errIdea"};
+function setErr(id,key){const el=$(id),er=$("e-"+id.slice(2));if(key){el.setAttribute("aria-invalid","true");er.innerHTML=IC.alert+"<span>"+T[L][key]+"</span>";er.hidden=false}else{el.removeAttribute("aria-invalid");er.hidden=true}}
+Object.keys(validators).forEach(id=>{
+  $(id).addEventListener("blur",()=>{if($(id).value)setErr(id,validators[id]($(id).value))});
+  $(id).addEventListener("input",()=>{if($(id).getAttribute("aria-invalid")==="true"&&!validators[id]($(id).value))setErr(id,"")});
+});
+function renderReq(){
+  document.querySelectorAll('input[name="plan"]').forEach(r=>r.checked=r.value===plan);
+  if(!$("f-name").value&&S.profile.name)$("f-name").value=S.profile.name;
+  $("reqSum").innerHTML=sumRows(true);
+}
+document.querySelectorAll('input[name="plan"]').forEach(r=>r.addEventListener("change",()=>{plan=r.value;$("reqSum").innerHTML=sumRows(true)}));
+$("req").addEventListener("submit",e=>{
+  e.preventDefault();const t=T[L];let first=null;
+  Object.keys(validators).forEach(id=>{const k=validators[id]($(id).value);setErr(id,k);if(k&&!first)first=id});
+  if(first){$(first).focus();toast(t.errForm);return}
+  const b=$("reqSubmit");b.classList.add("loading");b.disabled=true;
+  setTimeout(()=>{
+    b.classList.remove("loading");b.disabled=false;
+    const en=T.en,brand=$("f-brand").value.trim();
+    lastReq=`STARTUP – ${plan==="study"?"Project study (19 QAR)":"Full launch quote"}\nName: ${$("f-name").value.trim()}\nContact: ${$("f-contact").value.trim()}${brand?"\nBrand: "+brand:""}\nIdea: ${$("f-idea").value.trim()}\n\nEstimate: ${en.products[est.p]} × ${est.q} pcs · ${est.o==="TR"?"Turkey":"Italy"} · ${en.countries[est.c]}\nBudget: ${plain(rng(est.tot,est.c))}\nPer piece: ${plain(rng(est.unit,est.c))}\nMilestones done: ${done.size}/11\nLanguage: ${L==="ar"?"Arabic":"English"}`;
+    location.hash="#sent";
+  },650);
+});
+function renderSent(){
+  const t=T[L];if(!lastReq){location.replace("#request");return}
+  $("f-text").textContent=lastReq;
+  const wa=$("sendWa");if(CONTACT_WA){wa.href="https://wa.me/"+CONTACT_WA+"?text="+encodeURIComponent(lastReq);wa.hidden=false}else wa.hidden=true;
+  $("shareReq").hidden=!navigator.share;
+  $("okP").textContent=CONTACT_WA?t.okWa:t.okShare;
+  $("copyReq").textContent=t.fCopy;
+}
+$("shareReq").onclick=()=>{navigator.share({title:"Startup",text:lastReq}).catch(()=>{})};
+$("copyReq").onclick=()=>{
+  const t=T[L];const sel=()=>{const r=document.createRange();r.selectNodeContents($("f-text"));const s=getSelection();s.removeAllRanges();s.addRange(r);toast(t.selected)};
+  try{navigator.clipboard.writeText(lastReq).then(()=>toast(t.copied),sel)}catch(_){sel()}
+};
+
+/* ===== Router ===== */
 function route(){
-  let v=(location.hash||"#home").slice(1);v=ALIAS[v]||v;if(!VIEWS.includes(v))v="home";
-  VIEWS.forEach(x=>{$("v-"+x).hidden=x!==v});
-  document.querySelectorAll(".tab").forEach(a=>{a.dataset.tab===v?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current")});
+  $("toastHost").innerHTML="";
+  let v=(location.hash||"#home").slice(1);v=ALIAS[v]||v;
+  if(![...TABS,...Object.keys(SUB)].includes(v))v="home";
+  if(v==="sent"&&!lastReq)v="request";
+  document.querySelectorAll(".view").forEach(s=>s.hidden=s.id!=="v-"+v);
+  const parent=SUB[v];const isSub=!!parent;
+  document.querySelectorAll(".tab").forEach(a=>{(a.dataset.tab===v||a.dataset.tab===parent)?a.setAttribute("aria-current","page"):a.removeAttribute("aria-current")});
+  $("tabs").hidden=isSub;document.body.classList.toggle("no-tabs",isSub);
+  $("brand").hidden=isSub;$("backBtn").hidden=!isSub;$("backBtn").href="#"+(v==="request"?"plans":"home");
+  if(v==="request")renderReq();
+  if(v==="sent")renderSent();
   window.scrollTo(0,0);
+  const h=$("v-"+v).querySelector("h1,h2");if(h&&document.activeElement&&document.activeElement.closest&&document.activeElement.closest(".tabs")){h.setAttribute("tabindex","-1");h.focus({preventScroll:true})}
 }
 addEventListener("hashchange",route);
-$("goNext").addEventListener("click",()=>{const nx=MS.findIndex((m,i)=>!done.has(i));if(nx>=0)open.add(nx);renderMS();location.hash="#roadmap"});
+
+/* ===== Peek bar ===== */
+let resVisible=true;
+if("IntersectionObserver" in window){new IntersectionObserver(es=>{resVisible=es[0].isIntersecting;updPeek()},{threshold:.15}).observe($("resCard"))}
+function updPeek(){$("peek").hidden=$("v-budget").hidden||resVisible}
+$("peek").onclick=()=>$("resCard").scrollIntoView({behavior:"smooth",block:"center"});
+addEventListener("hashchange",()=>setTimeout(updPeek,50));
+
+/* ===== Events ===== */
+$("goNext").onclick=()=>{const nx=MS.findIndex((m,i)=>!done.has(i));filter={ph:-1,st:"all",q:""};$("msq").value="";if(nx>=0)open.add(nx);renderMS();location.hash="#roadmap";setTimeout(()=>{const el=$("ms-"+nx);el&&el.scrollIntoView({block:"center",behavior:"smooth"})},80)};
 addEventListener("scroll",()=>{$("top").classList.toggle("scrolled",scrollY>4)},{passive:true});
-
-function setLang(l){L=l;try{localStorage.setItem("startup-lang",l)}catch(_){}renderStatic();renderMS();calc()}
-$("l-en").addEventListener("click",()=>setLang("en"));$("l-ar").addEventListener("click",()=>setLang("ar"));
+$("msq").addEventListener("input",e=>{filter.q=e.target.value;renderMS()});
 $("est").addEventListener("input",calc);$("est").addEventListener("change",calc);$("est").addEventListener("submit",e=>e.preventDefault());
+const step=d=>{const q=$("qty");q.value=Math.max(1,(parseInt(q.value,10)||0)+d);calc();haptic()};
+$("qMinus").onclick=()=>step(-50);$("qPlus").onclick=()=>step(50);
+$("saveEst").onclick=()=>{const t=T[L];const x=readEst();if(S.saved.length&&JSON.stringify(S.saved[0])===JSON.stringify(x)){toast(t.saved);return}S.saved.unshift(x);S.saved=S.saved.slice(0,10);persist();renderSaved();renderProfile();haptic();toast(t.saved)};
+document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=()=>checkout(b.dataset.plan));
+$("pfForm").onsubmit=e=>{e.preventDefault();S.profile.name=$("pf-name").value.trim().slice(0,30);S.profile.country=$("pf-country").value;S.profile.product=$("pf-product").value;persist();applyProfileDefaults();calc();renderProfile();toast(T[L].profileSaved)};
+document.querySelectorAll('input[name="lang"]').forEach(r=>r.addEventListener("change",()=>setLang(r.value)));
+document.querySelectorAll('input[name="theme"]').forEach(r=>r.addEventListener("change",()=>{S.theme=r.value;persist();applyTheme()}));
+$("resetProg").onclick=()=>{const t=T[L];confirmDlg(t.resetT,t.resetB,t.resetOk,()=>{done.clear();persist();renderAll();toast(t.progressReset)})};
+$("wipe").onclick=()=>{const t=T[L];confirmDlg(t.wipeT,t.wipeB,t.wipeOk,()=>{try{localStorage.removeItem(KEY);localStorage.removeItem("startup-done");localStorage.removeItem("startup-lang")}catch(_){}location.hash="";location.reload()})};
+function applyTheme(){
+  if(S.theme==="auto")delete document.documentElement.dataset.theme;else document.documentElement.dataset.theme=S.theme;
+  const dark=S.theme==="dark"||(S.theme==="auto"&&matchMedia("(prefers-color-scheme: dark)").matches);
+  $("themeColor").content=dark?"#0B0B0B":"#FFFFFF";
+}
+matchMedia("(prefers-color-scheme: dark)").addEventListener&&matchMedia("(prefers-color-scheme: dark)").addEventListener("change",applyTheme);
+function setLang(l){L=l;persist();renderAll()}
+function updateOnline(){$("offline").hidden=navigator.onLine!==false}
+addEventListener("online",updateOnline);addEventListener("offline",updateOnline);
 
-$("req").addEventListener("submit",e=>{
-  e.preventDefault();const t=T[L];
-  const name=$("f-name").value.trim(),c=$("f-contact").value.trim(),idea=$("f-idea").value.trim(),err=$("f-err");
-  if(!name||!c||!idea){err.textContent=t.errReq;err.hidden=false;return}err.hidden=true;
-  const brand=$("f-brand").value.trim(),en=T.en;
-  $("f-text").textContent=`STARTUP – new project request\nName: ${name}\nContact: ${c}${brand?"\nBrand: "+brand:""}\nIdea: ${idea}\n\nEstimate: ${en.products[est.p]} × ${est.q} pcs · ${est.o==="TR"?"Turkey":"Italy"} · ${en.countries[est.c]}\nTotal: ${plain(rng(est.tot,est.c))}\nPer piece: ${plain(rng(est.unit,est.c))}\nMilestones done: ${done.size}/11`;
-  $("f-out").hidden=false;$("f-copy").textContent=t.fCopy;$("f-out").scrollIntoView({behavior:"smooth",block:"nearest"});
-});
-$("f-copy").addEventListener("click",()=>{
-  const b=$("f-copy"),t=T[L];
-  const sel=()=>{const r=document.createRange();r.selectNodeContents($("f-text"));const s=getSelection();s.removeAllRanges();s.addRange(r);b.textContent=t.selected};
-  try{navigator.clipboard.writeText($("f-text").textContent).then(()=>{b.textContent=t.copied},sel)}catch(_){sel()}
-});
-renderStatic();renderMS();calc();route();
+function renderAll(){renderStatic();renderProfile();renderMS();calc();renderSaved();if(!$("v-request").hidden)renderReq();if(!$("v-sent").hidden)renderSent()}
+
+/* ===== Boot ===== */
+applyTheme();updateOnline();
+renderStatic();applyProfileDefaults();renderAll();route();
+if(!S.onboarded){$("onb").hidden=false;document.body.classList.add("locked");renderOnb()}
 </script>
 
 <script>
