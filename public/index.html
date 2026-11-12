@@ -78,7 +78,8 @@ svg.i{width:20px;height:20px;flex:none}
 .splash video{position:relative;width:min(100vw,80vh);aspect-ratio:4/5;height:auto;object-fit:cover;display:block;-webkit-mask-image:linear-gradient(transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(transparent,#000 8%,#000 92%,transparent)}
 .splash.out{opacity:0;visibility:hidden}
 .skip{position:absolute;left:50%;transform:translateX(-50%);bottom:calc(40px + env(safe-area-inset-bottom,0px));
-  font:600 1rem var(--body);color:#fff;background:#0A0A0A;border:0;border-radius:var(--r-pill);padding:0 36px;min-height:54px;min-width:200px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.18)}
+  font:700 1.05rem var(--body);color:#0A0A0A;background:var(--y,#FFD400);border:0;border-radius:var(--r-pill);padding:0 32px;min-height:56px;min-width:210px;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.15);display:inline-flex;align-items:center;justify-content:center;gap:10px}
+[dir="rtl"] .skip svg{transform:scaleX(-1)}
 
 /* ===== Onboarding ===== */
 .onb{position:fixed;inset:0;z-index:80;background:var(--bg);display:flex;flex-direction:column;
@@ -440,12 +441,12 @@ footer{padding-block:28px 8px;font-size:.8rem;color:var(--muted);text-align:cent
 <!-- SPLASH -->
 <div class="splash" id="splash" role="presentation">
   <video id="sv" muted playsinline autoplay preload="auto" poster="splash.jpg" aria-hidden="true"><source src="splash.mp4" type="video/mp4"></video>
-  <button type="button" class="skip" id="skip">Let's start</button>
+  <button type="button" class="skip" id="skip"><span id="skipT">Let's start</span><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg></button>
 </div>
 <script>
 (function(){
   var s=document.getElementById("splash"),v=document.getElementById("sv"),k=document.getElementById("skip"),gone=false;
-  if(document.documentElement.lang==="ar")k.textContent="لنبدأ";
+  if(document.documentElement.lang==="ar")document.getElementById("skipT").textContent="لنبدأ";
   function hide(){if(gone)return;gone=true;s.classList.add("out");try{v.pause()}catch(_){}try{sessionStorage.setItem("startup-splash","1")}catch(_){}setTimeout(function(){s.remove()},500)}
   var seen=false;try{seen=sessionStorage.getItem("startup-splash")==="1"}catch(_){}
   var rm=window.matchMedia&&matchMedia("(prefers-reduced-motion: reduce)").matches;
