@@ -1296,7 +1296,7 @@ details.more>.in{display:flex;flex-direction:column;gap:16px;padding-top:4px}
     <p class="note" data-t="localNote" style="text-align:center"></p>
   </section>
 
-  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v5.5</span></footer>
+  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v5.6</span></footer>
 </main>
 
 <nav class="tabs" id="tabs" aria-label="Main">
@@ -1742,9 +1742,9 @@ Object.assign(BASE,{wtrousers:[30,80]});
 Object.assign(MAT_GROUP,{wtrousers:"wpants",trousers:"mpants"});
 MAT.wpants={crepe:[1,1],viscose:[.9,1],gabardine:[1,1],denim:[1,1],stretch:[.95,1],linen:[1.1,2],satin:[1.2,2],wool:[1.6,3]};
 MAT.mpants={gabardine:[1,1],chino:[.9,1],denim:[1,1],blend:[.8,1],linen:[1.15,2],wool:[1.7,3]};
-const CUTS={wtrousers:["highwaist","flare","wide","palazzo","straight","cigarette","skinny","mom","barrel","culotte","cargo","jogger"],trousers:["straight","slim","chino","tailored","pleated","wide","cargo","jogger"]};
+const CUTS={wtrousers:["highwaist","flare","wide","palazzo","straight","cigarette","skinny","mom","barrel","culotte","cargo","jogger","custom"],trousers:["straight","slim","chino","tailored","pleated","wide","cargo","jogger","custom"]};
 const CUT_SHAPE={straight:[4,5,5,3.5,5,3.5,21,3],slim:[4,5,4.2,3,3.6,2.4,21,3],skinny:[4,4.8,3.8,2.6,3,1.8,21,3],cigarette:[4,4.8,4,2.8,3.4,2.2,19,3],flare:[4,4.8,4,2.8,7,5,21,3],wide:[4,5.5,6.5,5,7.5,6,21,3],palazzo:[4,6.5,8,6.5,9.5,8.5,21,3],highwaist:[4,5,4.6,3.2,4.4,3,21,1.2],culotte:[4,5.8,7,5.5,7.5,6,15.5,3],cargo:[4,5.2,5.2,3.8,5,3.6,21,3],jogger:[4,5.2,4.4,3.2,3,2.4,21,3],mom:[4,5.6,5,3.6,4,3,19.5,1.6],barrel:[4,5,7,5.6,4,3,20,2],chino:[4,5,4.5,3.2,4,2.8,21,3],tailored:[4,5,5,3.5,5,3.5,21,3],pleated:[4.2,5.6,5.2,3.8,4.6,3.2,21,3]};
-function cutIcon(c){const [wa,h,k,kw,e,ew,L,top]=CUT_SHAPE[c]||CUT_SHAPE.straight,ky=(10+L)/2,f=n=>n.toFixed(1);
+function cutIcon(c){if(c==="custom")return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4-1L19 8l-3-3L5 16z"/><path d="M14 7l3 3"/><path d="M4 20h16" stroke-dasharray="2 2"/></svg>';const [wa,h,k,kw,e,ew,L,top]=CUT_SHAPE[c]||CUT_SHAPE.straight,ky=(10+L)/2,f=n=>n.toFixed(1);
   const R=[[12+h,10],[12+k,ky],[12+e,L],[12+e-ew,L],[12+k-kw,ky]],Lf=R.map(([x,y])=>[24-x,y]).reverse();
   let d=`M${f(12-wa)} ${top}L${f(12+wa)} ${top}`+R.map(([x,y])=>`L${f(x)} ${f(y)}`).join("")+"L12 11.5"+Lf.map(([x,y])=>`L${f(x)} ${f(y)}`).join("")+"Z";
   let x=`<path d="M${f(12-wa)} ${f(top+1.6)}H${f(12+wa)}"/>`;
@@ -1762,11 +1762,11 @@ heroFree:"Free to try · no account needed",
 why:[["Factories in Turkey & Italy","We find the right one for your product"],["Your budget in seconds","Cost per piece and total, before you pay anything"],["A real person on WhatsApp","We answer your questions fast"]],
 newProd:"+ Start another product",delProj:"Delete this project",delProjS:"Products, estimates, progress and logo",delProjT:"Delete this project?",delProjB:"Your products, estimates, progress and logo will be removed from this phone. This cannot be undone.",delProjOk:"Delete project",projDeleted:"Project deleted",
 stOf:"Step {a} of {b}",moreOpt:"More options",moreProfit:"Calculate my profit",moreOpt2:"Add WhatsApp & brand name (optional)",moreStyle:"Style & colour",allSteps:"See all 4 stages",lessSteps:"Show less",advanced:"Advanced",st1H:"What do you want to make?",stProdH:"Which one?",stMatH:"Which material?",stCraftH:"How is it made?",stLogoH:"Do you have a logo?",rec:"Recommended",stNext:"Continue",crMachineS:"Lower price · faster",crHandS:"Premium · higher price",stItems:"{n} choices",
-grp:{women:"Women",men:"Men",kids:"Kids",shoes:"Shoes",bags:"Bags",acc:"Accessories",basic:"Everyday basics",sport:"Sport & tracksuits"},stCutH:"Which cut?",fCut:"Cut",cuts:{highwaist:"High waist",flare:"Flare",wide:"Wide leg",palazzo:"Palazzo",straight:"Straight",cigarette:"Cigarette",skinny:"Skinny",mom:"Mom fit",barrel:"Barrel",culotte:"Culotte",cargo:"Cargo",jogger:"Jogger",slim:"Slim",chino:"Chino",tailored:"Tailored (suit)",pleated:"Pleated"},
+grp:{women:"Women",men:"Men",kids:"Kids",shoes:"Shoes",bags:"Bags",acc:"Accessories",basic:"Everyday basics",sport:"Sport & tracksuits"},stCutH:"Which cut?",fCut:"Cut",cuts:{highwaist:"High waist",flare:"Flare",wide:"Wide leg",palazzo:"Palazzo",straight:"Straight",cigarette:"Cigarette",skinny:"Skinny",mom:"Mom fit",barrel:"Barrel",culotte:"Culotte",cargo:"Cargo",jogger:"Jogger",slim:"Slim",chino:"Chino",tailored:"Tailored (suit)",pleated:"Pleated",custom:"My own design"},apxH:"This price is approximate",apxB:"Every design is different. Your final price depends on your own model: the cut, the details and the fabric. Send us a photo or a sketch of your design and we confirm the real price.",apxCustom:"You chose your own design: the price above is only a starting point.",apxWa:"Send my design on WhatsApp",apxMsg:"Hello Startup, here is my design for: {p}. Can you confirm the price?",
 moqL:"min. {n} pcs",st2H:"Your product details",change:"Change",
 stQty:"How many pieces?",moqHint:"Factories usually start at about {n} pieces for this product.",moqLow:"Below {n} pieces, prices go up. Your study finds the right workshop.",
 stFactory:"Which factory?",stLogo:"Your logo",stSee:"See my budget",
-st3H:"Your estimated budget",stTotal:"Total for {q} pieces",stUnit:"Per piece, delivered",stMoq:"Minimum order",stMoqV:"about {n} pcs",
+st3H:"Your estimated budget",stTotal:"Approx. total for {q} pieces",stUnit:"Per piece, delivered",stMoq:"Minimum order",stMoqV:"about {n} pcs",
 stStudyBtn:"Get my full study · 99 QAR",stQuoteN:"Get my quotation · {n} products · 99 QAR",stAdd:"+ Add another product",stAdded:"Added to your project",stCartH:"Your project · {n} products",stCartTot:"Total for all products",stThis:"New",stInProj:"In your project:",stReset:"Start a new project",stResetT:"Start from zero?",stResetB:"All products in this project will be removed.",stResetOk:"Start over",stRm:"Remove",stProds:"Products",stSave:"Save and see my dashboard",stLogoRow:"Your logo design · 250 QAR",stLogoGo:"Request it on WhatsApp",
 warnMoq2:"Factories usually need about {n} pieces of this product. Below that, expect higher prices or a small workshop.",
 eCta:"Get my full study",langTo:"العربية",stagesH:"Your 4 stages",stagesAll:"Full roadmap"});
@@ -1775,11 +1775,11 @@ heroFree:"مجاني للتجربة · بدون حساب",
 why:[["مصانع في تركيا وإيطاليا","نلقى لك المصنع المناسب لمنتجك"],["ميزانيتك في ثواني","تكلفة القطعة والإجمالي قبل ما تدفعين أي شي"],["شخص حقيقي على الواتساب","نرد على أسئلتك بسرعة"]],
 newProd:"+ ابدئي منتج ثاني",delProj:"احذفي هذا المشروع",delProjS:"المنتجات والتقديرات والتقدم والشعار",delProjT:"تحذفين هذا المشروع؟",delProjB:"راح تنحذف منتجاتك وتقديراتك وتقدمك وشعارك من هالتلفون. ما تقدرين ترجعينها.",delProjOk:"احذفي المشروع",projDeleted:"تم حذف المشروع",
 stOf:"الخطوة {a} من {b}",moreOpt:"خيارات أكثر",moreProfit:"احسبي ربحك",moreOpt2:"أضيفي الواتساب واسم الماركة (اختياري)",moreStyle:"الستايل واللون",allSteps:"شوفي المراحل الأربع",lessSteps:"أقل",advanced:"متقدم",st1H:"شو تبين تصنعين؟",stProdH:"أي واحد؟",stMatH:"أي خامة؟",stCraftH:"كيف تنصنع؟",stLogoH:"عندك شعار؟",rec:"ننصح فيه",stNext:"كمّلي",crMachineS:"سعر أقل · أسرع",crHandS:"فاخر · سعر أعلى",stItems:"{n} اختيارات",
-grp:{women:"نساء",men:"رجال",kids:"أطفال",shoes:"أحذية",bags:"شنط",acc:"إكسسوارات",basic:"ملابس يومية",sport:"رياضي وترينج"},stCutH:"أي موديل؟",fCut:"الموديل",cuts:{highwaist:"خصر عالي",flare:"فلير (واسع من تحت)",wide:"واسع",palazzo:"بالاتزو",straight:"مستقيم",cigarette:"سيجارة",skinny:"سكيني (ضيق)",mom:"موم فيت",barrel:"باريل",culotte:"كولوت (قصير)",cargo:"كارجو (بجيوب)",jogger:"جوغر",slim:"سليم",chino:"تشينو",tailored:"كلاسيك (بدلة)",pleated:"بكسرات"},
+grp:{women:"نساء",men:"رجال",kids:"أطفال",shoes:"أحذية",bags:"شنط",acc:"إكسسوارات",basic:"ملابس يومية",sport:"رياضي وترينج"},stCutH:"أي موديل؟",fCut:"الموديل",cuts:{highwaist:"خصر عالي",flare:"فلير (واسع من تحت)",wide:"واسع",palazzo:"بالاتزو",straight:"مستقيم",cigarette:"سيجارة",skinny:"سكيني (ضيق)",mom:"موم فيت",barrel:"باريل",culotte:"كولوت (قصير)",cargo:"كارجو (بجيوب)",jogger:"جوغر",slim:"سليم",chino:"تشينو",tailored:"كلاسيك (بدلة)",pleated:"بكسرات",custom:"موديلي الخاص"},apxH:"هذا السعر تقريبي",apxB:"كل موديل يختلف. سعرك النهائي يعتمد على الموديل اللي عندك: القصة والتفاصيل والقماش. أرسلي لنا صورة أو رسمة لموديلك ونأكد لك السعر الحقيقي.",apxCustom:"اخترتي موديلك الخاص: السعر فوق بس نقطة بداية.",apxWa:"أرسلي موديلي على الواتساب",apxMsg:"مرحبا Startup، هذا موديلي لـ: {p}. ممكن تأكدون لي السعر؟",
 moqL:"أقل كمية {n} قطعة",st2H:"تفاصيل منتجك",change:"تغيير",
 stQty:"كم قطعة؟",moqHint:"المصانع عادة تبدأ من حوالي {n} قطعة لهالمنتج.",moqLow:"أقل من {n} قطعة السعر يرتفع. دراستك تلقى لك الورشة المناسبة.",
 stFactory:"أي مصنع؟",stLogo:"شعارك",stSee:"شوفي ميزانيتي",
-st3H:"ميزانيتك التقديرية",stTotal:"الإجمالي لـ {q} قطعة",stUnit:"تكلفة القطعة واصلة",stMoq:"أقل كمية",stMoqV:"حوالي {n} قطعة",
+st3H:"ميزانيتك التقديرية",stTotal:"الإجمالي التقريبي لـ {q} قطعة",stUnit:"تكلفة القطعة واصلة",stMoq:"أقل كمية",stMoqV:"حوالي {n} قطعة",
 stStudyBtn:"احصلي على دراستي الكاملة · 99 ريال",stQuoteN:"احصلي على عرض السعر · {n} منتجات · 99 ريال",stAdd:"+ أضيفي منتج آخر",stAdded:"انضاف لمشروعك",stCartH:"مشروعك · {n} منتجات",stCartTot:"المجموع لكل المنتجات",stThis:"جديد",stInProj:"في مشروعك:",stReset:"ابدئي مشروع جديد",stResetT:"تبين تبدين من الصفر؟",stResetB:"راح تنحذف كل المنتجات اللي في هالمشروع.",stResetOk:"ابدئي من جديد",stRm:"حذف",stProds:"المنتجات",stSave:"احفظي وشوفي مشروعي",stLogoRow:"تصميم شعارك · 250 ريال",stLogoGo:"اطلبيه على الواتساب",
 warnMoq2:"المصانع عادة تطلب حوالي {n} قطعة من هالمنتج. أقل من كذا يعني أسعار أعلى أو ورشة صغيرة.",
 eCta:"احصلي على دراستي",langTo:"English",stagesH:"مراحلك الأربع",stagesAll:"الخطة كاملة"});
@@ -1880,6 +1880,12 @@ function renderStart(){
     <li><span>${t.sumFact}</span><b>${w.o==="TR"?t.tr:t.it}</b></li>
     <li><span>${t.stMoq}</span><b>${fmt(t.stMoqV,{n:moq(w.p,w.o)})}</b></li>
   </ul></div>
+  <div class="card" style="border:1.5px solid var(--y);display:flex;flex-direction:column;gap:8px">
+    <h3 style="font-size:1rem;margin:0;display:flex;align-items:center;gap:8px"><span aria-hidden="true">≈</span>${t.apxH}</h3>
+    ${w.cut==="custom"?`<p style="margin:0;font-weight:600">${t.apxCustom}</p>`:""}
+    <p class="muted" style="margin:0;font-size:.9rem">${t.apxB}</p>
+    ${waLink("")?`<a class="who tap" href="${waLink(fmt(t.apxMsg,{p:t.products[w.p]+(w.cut?" · "+t.cuts[w.cut]:"")+" · "+t.mats[w.m]+" · "+w.q}))}" target="_blank" rel="noopener" style="padding:10px 0"><span class="ic">${IC.wa}</span><span class="tx"><b>${t.apxWa}</b></span></a>`:""}
+  </div>
   ${projCard}
   <button type="button" class="btn y block hero-go" id="stStudy">${n2>1?fmt(t.stQuoteN,{n:n2}):t.stStudyBtn}</button>
   <button type="button" class="btn g block" id="stAdd">${t.stAdd}</button>
