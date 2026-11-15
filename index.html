@@ -1296,7 +1296,7 @@ details.more>.in{display:flex;flex-direction:column;gap:16px;padding-top:4px}
     <p class="note" data-t="localNote" style="text-align:center"></p>
   </section>
 
-  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v5.4</span></footer>
+  <footer><span dir="ltr" class="wordmark" style="font-size:1rem">startup<i></i></span><span data-t="foot"></span><span class="note">v5.5</span></footer>
 </main>
 
 <nav class="tabs" id="tabs" aria-label="Main">
@@ -1680,7 +1680,7 @@ exEye:"Example",exH:"An abaya brand, ready to launch",exLine:"{q} pieces · {o} 
 stCardH:"Your full study · 99 QAR",stCardS:"Market, factory, budget and the 11 launch steps",
 myH:"My project",
 fMat:"Material",fCraft:"Making",crMachine:"Machine",crHand:"Handmade",
-mats:{genuine:"Genuine leather",semi:"Semi-leather",canvas:"Canvas / fabric",crepe:"Crepe",nida:"Nida",linen:"Linen",silk:"Silk",cotton:"Cotton",satin:"Satin",chiffon:"Chiffon",organic:"Organic cotton",blend:"Cotton blend",jersey:"Jersey",perf:"Stretch sport fabric",nylon:"Premium nylon stretch",fleece:"Brushed fleece"},
+mats:{genuine:"Genuine leather",semi:"Semi-leather",canvas:"Canvas / fabric",crepe:"Crepe",nida:"Nida",linen:"Linen",silk:"Silk",cotton:"Cotton",satin:"Satin",chiffon:"Chiffon",organic:"Organic cotton",blend:"Cotton blend",jersey:"Jersey",perf:"Stretch sport fabric",viscose:"Viscose",gabardine:"Gabardine",denim:"Denim (jeans)",stretch:"Stretch fabric",wool:"Wool suiting",chino:"Cotton twill (chino)",nylon:"Premium nylon stretch",fleece:"Brushed fleece"},
 bkEye:"Make your brand",bkH:"Your logo",bkP:"Have a logo? Upload it. No logo? Pick a style and a colour, we make it for you.",
 bkStyles:{classic:"Elegant",modern:"Business",bold:"Bold",soft:"Soft"},
 bkOwnUp:"Upload my logo",bkOwnHint:"PNG or JPG. It stays on your phone.",bkOwnTap:"Tap to change",bkOwnRemove:"Remove logo",bkLogoSaved:"Logo saved",bkLogoErr:"This file could not be read. Try a PNG or JPG.",
@@ -1700,7 +1700,7 @@ exEye:"مثال",exH:"علامة عبايات جاهزة للإطلاق",exLine:
 stCardH:"دراستك الكاملة · 99 ريال",stCardS:"السوق، المصنع، الميزانية و11 خطوة للإطلاق",
 myH:"مشروعي",
 fMat:"الخامة",fCraft:"الصنعة",crMachine:"ماكينة",crHand:"يدوي (هاند ميد)",
-mats:{genuine:"جلد طبيعي",semi:"سمي ليذر",canvas:"قماش / كانفس",crepe:"كريب",nida:"ندى",linen:"كتان",silk:"حرير",cotton:"قطن",satin:"ساتان",chiffon:"شيفون",organic:"قطن عضوي",blend:"قطن مخلوط",jersey:"جيرسي",perf:"قماش رياضي مطاطي",nylon:"نايلون مطاطي فاخر",fleece:"قطن مبطّن (فليس)"},
+mats:{genuine:"جلد طبيعي",semi:"سمي ليذر",canvas:"قماش / كانفس",crepe:"كريب",nida:"ندى",linen:"كتان",silk:"حرير",cotton:"قطن",satin:"ساتان",chiffon:"شيفون",organic:"قطن عضوي",blend:"قطن مخلوط",jersey:"جيرسي",perf:"قماش رياضي مطاطي",viscose:"فيسكوز",gabardine:"جبردين",denim:"جينز (دنيم)",stretch:"قماش مطاطي (ستريتش)",wool:"صوف بدلات",chino:"قطن تويل (تشينو)",nylon:"نايلون مطاطي فاخر",fleece:"قطن مبطّن (فليس)"},
 bkEye:"اصنعي علامتك",bkH:"شعارك",bkP:"عندك شعار؟ ارفعيه. ما عندك؟ اختاري الستايل واللون ونصممه لك.",
 bkStyles:{classic:"أنيق",modern:"بزنس",bold:"جريء",soft:"ناعم"},
 bkOwnUp:"ارفعي شعاري",bkOwnHint:"PNG أو JPG. يبقى على تلفونك.",bkOwnTap:"اضغطي للتغيير",bkOwnRemove:"احذفي الشعار",bkLogoSaved:"تم حفظ الشعار",bkLogoErr:"ما قدرنا نقرا الملف. جربي PNG أو JPG.",
@@ -1726,7 +1726,7 @@ MAT.men={cotton:[1,1],linen:[1.2,2],blend:[.8,1]};
 // Approximate minimum order per design: [Turkey, Italy]. Confirmed in the full study.
 const MOQ={shoes:[300,150],bag:[100,50],wallet:[200,100],belt:[200,100],tshirt:[200,300],hoodie:[150,200]};
 function moq(p,o){const m=MOQ[p]||[100,100];return o==="IT"?m[1]:m[0]}
-const GROUPS=[["women",["abaya","jalabiya","kaftan","dress","evening"]],["men",["thobe","mshirt","trousers"]],["kids",["kidsdress","kidsset"]],["shoes",["shoes"]],["bags",["bag","wallet"]],["acc",["belt","scarf"]],["basic",["tshirt","hoodie"]],["sport",["active","tracksuit"]]];
+const GROUPS=[["women",["abaya","jalabiya","kaftan","dress","evening","wtrousers"]],["men",["thobe","mshirt","trousers"]],["kids",["kidsdress","kidsset"]],["shoes",["shoes"]],["bags",["bag","wallet"]],["acc",["belt","scarf"]],["basic",["tshirt","hoodie"]],["sport",["active","tracksuit"]]];
 P_ICON.shirt='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 3l4 3 4-3 5 4-3 3-2-1v12H8V9l-2 1-3-3z"/></svg>';
 P_ICON.belt='<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="9" width="20" height="6" rx="1"/><rect x="7" y="7.5" width="6" height="9" rx="1"/><path d="M10 12h5"/></svg>';
 const G_ICON={women:"abaya",men:"shirt",kids:"kidsdress",shoes:"shoes",bags:"bag",acc:"belt",basic:"shirt",sport:"active"};
@@ -1737,15 +1737,32 @@ Object.assign(MAT_GROUP,{active:"sport",tracksuit:"lounge"});
 MAT.sport={perf:[1,1],nylon:[1.3,2],cotton:[.9,1]};
 MAT.lounge={cotton:[1,1],fleece:[1.15,1],blend:[.8,1]};
 Object.assign(MOQ,{active:[200,150],tracksuit:[150,150]});
+/* ===== v5.5: trousers for women & men, cut styles, fabrics ===== */
+Object.assign(BASE,{wtrousers:[30,80]});
+Object.assign(MAT_GROUP,{wtrousers:"wpants",trousers:"mpants"});
+MAT.wpants={crepe:[1,1],viscose:[.9,1],gabardine:[1,1],denim:[1,1],stretch:[.95,1],linen:[1.1,2],satin:[1.2,2],wool:[1.6,3]};
+MAT.mpants={gabardine:[1,1],chino:[.9,1],denim:[1,1],blend:[.8,1],linen:[1.15,2],wool:[1.7,3]};
+const CUTS={wtrousers:["highwaist","flare","wide","palazzo","straight","cigarette","skinny","mom","barrel","culotte","cargo","jogger"],trousers:["straight","slim","chino","tailored","pleated","wide","cargo","jogger"]};
+const CUT_SHAPE={straight:[4,5,5,3.5,5,3.5,21,3],slim:[4,5,4.2,3,3.6,2.4,21,3],skinny:[4,4.8,3.8,2.6,3,1.8,21,3],cigarette:[4,4.8,4,2.8,3.4,2.2,19,3],flare:[4,4.8,4,2.8,7,5,21,3],wide:[4,5.5,6.5,5,7.5,6,21,3],palazzo:[4,6.5,8,6.5,9.5,8.5,21,3],highwaist:[4,5,4.6,3.2,4.4,3,21,1.2],culotte:[4,5.8,7,5.5,7.5,6,15.5,3],cargo:[4,5.2,5.2,3.8,5,3.6,21,3],jogger:[4,5.2,4.4,3.2,3,2.4,21,3],mom:[4,5.6,5,3.6,4,3,19.5,1.6],barrel:[4,5,7,5.6,4,3,20,2],chino:[4,5,4.5,3.2,4,2.8,21,3],tailored:[4,5,5,3.5,5,3.5,21,3],pleated:[4.2,5.6,5.2,3.8,4.6,3.2,21,3]};
+function cutIcon(c){const [wa,h,k,kw,e,ew,L,top]=CUT_SHAPE[c]||CUT_SHAPE.straight,ky=(10+L)/2,f=n=>n.toFixed(1);
+  const R=[[12+h,10],[12+k,ky],[12+e,L],[12+e-ew,L],[12+k-kw,ky]],Lf=R.map(([x,y])=>[24-x,y]).reverse();
+  let d=`M${f(12-wa)} ${top}L${f(12+wa)} ${top}`+R.map(([x,y])=>`L${f(x)} ${f(y)}`).join("")+"L12 11.5"+Lf.map(([x,y])=>`L${f(x)} ${f(y)}`).join("")+"Z";
+  let x=`<path d="M${f(12-wa)} ${f(top+1.6)}H${f(12+wa)}"/>`;
+  if(c==="cargo")x+=`<rect x="${f(12+h-3.4)}" y="12.5" width="2.2" height="2.6" rx=".4"/><rect x="${f(12-h+1.2)}" y="12.5" width="2.2" height="2.6" rx=".4"/>`;
+  if(c==="jogger")x+=`<path d="M${f(12+e-ew)} ${L-1.4}H${f(12+e)}M${f(12-e)} ${L-1.4}H${f(12-e+ew)}"/>`;
+  if(c==="pleated")x+=`<path d="M10.5 ${top+1.6}v3M13.5 ${top+1.6}v3"/>`;
+  if(c==="tailored")x+=`<path d="M${f(12+k-kw/2)} 11v${L-12}M${f(12-k+kw/2)} 11v${L-12}"/>`;
+  return `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linejoin="round" stroke-linecap="round"><path d="${d}"/>${x}</svg>`}
+P_ICON.wtrousers=cutIcon("wide");P_ICON.trousers=cutIcon("straight");
 function pIcon(p){if(P_ICON[p])return P_ICON[p];const g=GROUPS.find(x=>x[1].includes(p));return P_ICON[G_ICON[g?g[0]:"women"]]}
-Object.assign(T.en.products,{active:"Sportswear",tracksuit:"Tracksuit",thobe:"Thobe",mshirt:"Men's shirt",trousers:"Trousers",belt:"Leather belt",kidsset:"Kids set"});
-Object.assign(T.ar.products,{active:"ملابس رياضية",tracksuit:"ترينج",thobe:"ثوب",mshirt:"قميص رجالي",trousers:"بنطلون",belt:"حزام جلد",kidsset:"طقم أطفال"});
+Object.assign(T.en.products,{wtrousers:"Women's trousers",trousers:"Men's trousers",active:"Sportswear",tracksuit:"Tracksuit",thobe:"Thobe",mshirt:"Men's shirt",belt:"Leather belt",kidsset:"Kids set"});
+Object.assign(T.ar.products,{wtrousers:"سروال نسائي",trousers:"سروال رجالي",active:"ملابس رياضية",tracksuit:"ترينج",thobe:"ثوب",mshirt:"قميص رجالي",belt:"حزام جلد",kidsset:"طقم أطفال"});
 Object.assign(T.en,{
 heroFree:"Free to try · no account needed",
 why:[["Factories in Turkey & Italy","We find the right one for your product"],["Your budget in seconds","Cost per piece and total, before you pay anything"],["A real person on WhatsApp","We answer your questions fast"]],
 newProd:"+ Start another product",delProj:"Delete this project",delProjS:"Products, estimates, progress and logo",delProjT:"Delete this project?",delProjB:"Your products, estimates, progress and logo will be removed from this phone. This cannot be undone.",delProjOk:"Delete project",projDeleted:"Project deleted",
 stOf:"Step {a} of {b}",moreOpt:"More options",moreProfit:"Calculate my profit",moreOpt2:"Add WhatsApp & brand name (optional)",moreStyle:"Style & colour",allSteps:"See all 4 stages",lessSteps:"Show less",advanced:"Advanced",st1H:"What do you want to make?",stProdH:"Which one?",stMatH:"Which material?",stCraftH:"How is it made?",stLogoH:"Do you have a logo?",rec:"Recommended",stNext:"Continue",crMachineS:"Lower price · faster",crHandS:"Premium · higher price",stItems:"{n} choices",
-grp:{women:"Women",men:"Men",kids:"Kids",shoes:"Shoes",bags:"Bags",acc:"Accessories",basic:"Everyday basics",sport:"Sport & tracksuits"},
+grp:{women:"Women",men:"Men",kids:"Kids",shoes:"Shoes",bags:"Bags",acc:"Accessories",basic:"Everyday basics",sport:"Sport & tracksuits"},stCutH:"Which cut?",fCut:"Cut",cuts:{highwaist:"High waist",flare:"Flare",wide:"Wide leg",palazzo:"Palazzo",straight:"Straight",cigarette:"Cigarette",skinny:"Skinny",mom:"Mom fit",barrel:"Barrel",culotte:"Culotte",cargo:"Cargo",jogger:"Jogger",slim:"Slim",chino:"Chino",tailored:"Tailored (suit)",pleated:"Pleated"},
 moqL:"min. {n} pcs",st2H:"Your product details",change:"Change",
 stQty:"How many pieces?",moqHint:"Factories usually start at about {n} pieces for this product.",moqLow:"Below {n} pieces, prices go up. Your study finds the right workshop.",
 stFactory:"Which factory?",stLogo:"Your logo",stSee:"See my budget",
@@ -1758,7 +1775,7 @@ heroFree:"مجاني للتجربة · بدون حساب",
 why:[["مصانع في تركيا وإيطاليا","نلقى لك المصنع المناسب لمنتجك"],["ميزانيتك في ثواني","تكلفة القطعة والإجمالي قبل ما تدفعين أي شي"],["شخص حقيقي على الواتساب","نرد على أسئلتك بسرعة"]],
 newProd:"+ ابدئي منتج ثاني",delProj:"احذفي هذا المشروع",delProjS:"المنتجات والتقديرات والتقدم والشعار",delProjT:"تحذفين هذا المشروع؟",delProjB:"راح تنحذف منتجاتك وتقديراتك وتقدمك وشعارك من هالتلفون. ما تقدرين ترجعينها.",delProjOk:"احذفي المشروع",projDeleted:"تم حذف المشروع",
 stOf:"الخطوة {a} من {b}",moreOpt:"خيارات أكثر",moreProfit:"احسبي ربحك",moreOpt2:"أضيفي الواتساب واسم الماركة (اختياري)",moreStyle:"الستايل واللون",allSteps:"شوفي المراحل الأربع",lessSteps:"أقل",advanced:"متقدم",st1H:"شو تبين تصنعين؟",stProdH:"أي واحد؟",stMatH:"أي خامة؟",stCraftH:"كيف تنصنع؟",stLogoH:"عندك شعار؟",rec:"ننصح فيه",stNext:"كمّلي",crMachineS:"سعر أقل · أسرع",crHandS:"فاخر · سعر أعلى",stItems:"{n} اختيارات",
-grp:{women:"نساء",men:"رجال",kids:"أطفال",shoes:"أحذية",bags:"شنط",acc:"إكسسوارات",basic:"ملابس يومية",sport:"رياضي وترينج"},
+grp:{women:"نساء",men:"رجال",kids:"أطفال",shoes:"أحذية",bags:"شنط",acc:"إكسسوارات",basic:"ملابس يومية",sport:"رياضي وترينج"},stCutH:"أي موديل؟",fCut:"الموديل",cuts:{highwaist:"خصر عالي",flare:"فلير (واسع من تحت)",wide:"واسع",palazzo:"بالاتزو",straight:"مستقيم",cigarette:"سيجارة",skinny:"سكيني (ضيق)",mom:"موم فيت",barrel:"باريل",culotte:"كولوت (قصير)",cargo:"كارجو (بجيوب)",jogger:"جوغر",slim:"سليم",chino:"تشينو",tailored:"كلاسيك (بدلة)",pleated:"بكسرات"},
 moqL:"أقل كمية {n} قطعة",st2H:"تفاصيل منتجك",change:"تغيير",
 stQty:"كم قطعة؟",moqHint:"المصانع عادة تبدأ من حوالي {n} قطعة لهالمنتج.",moqLow:"أقل من {n} قطعة السعر يرتفع. دراستك تلقى لك الورشة المناسبة.",
 stFactory:"أي مصنع؟",stLogo:"شعارك",stSee:"شوفي ميزانيتي",
@@ -1779,12 +1796,12 @@ $("langTg").onclick=()=>{haptic();setLang(L==="en"?"ar":"en")};
 let sf={s:0,w:null};
 function stDefault(){const p=S.profile.product&&BASE[S.profile.product]?S.profile.product:"abaya";return{p,m:cheapMat(p),h:"machine",q:moq(p,"TR"),c:S.profile.country,o:"TR",pack:"box",b:[true,true,false],logo:S.logo?"own":"make"}}
 function stGo(n){sf.s=n;renderStart();window.scrollTo(0,0)}
-function stPick(p,soft){const w=sf.w;if(w.p!==p){w.p=p;w.m=cheapMat(p);w.q=moq(p,w.o)}if(!soft)sf.picked=true}
+function stPick(p,soft){const w=sf.w;if(w.p!==p){w.p=p;w.m=cheapMat(p);w.q=moq(p,w.o)}if(CUTS[p]){if(!CUTS[p].includes(w.cut))w.cut=CUTS[p][0]}else delete w.cut;if(!soft)sf.picked=true}
 function stChips(key,obj,val){return `<div class="chips">${Object.keys(obj).map(k=>`<button type="button" class="fchip" data-k="${key}" data-v="${k}" aria-pressed="${val===k}">${obj[k]}</button>`).join("")}</div>`}
 function stQtyHint(){const t=T[L],w=sf.w,n=moq(w.p,w.o),h=$("stQh");if(!h)return;const low=w.q<n;h.className="hint"+(low?" bad":"");h.textContent=fmt(low?t.moqLow:t.moqHint,{n})}
 /* Hick's law: one decision per screen, few options, best choice marked, one tap moves on */
-const ST_STEPS=["cat","prod","mat","craft","fac","qty","logo","res"];
-function stSteps(){const w=sf.w,g=GROUPS.find(x=>x[0]===sf.g)||GROUPS.find(x=>x[1].includes(w.p));return ST_STEPS.filter(k=>(k!=="prod"||!g||g[1].length>1)&&(k!=="logo"||!S.cart.length))}
+const ST_STEPS=["cat","prod","cut","mat","craft","fac","qty","logo","res"];
+function stSteps(){const w=sf.w,g=GROUPS.find(x=>x[0]===sf.g)||GROUPS.find(x=>x[1].includes(w.p));return ST_STEPS.filter(k=>(k!=="prod"||!g||g[1].length>1)&&(k!=="cut"||!!CUTS[w.p])&&(k!=="logo"||!S.cart.length))}
 function stTile(attr,on,icon,title,sub,rec,dk){const t=T[L];return `<button type="button" class="card tile tap${dk?" dk":""}" ${attr} aria-pressed="${on}"><span class="ti" aria-hidden="true">${icon}</span><b>${title}</b>${sub?`<small>${sub}</small>`:""}${rec?`<span class="pill">${t.rec}</span>`:""}</button>`}
 function stFresh(){const w=stDefault();if(S.cart.length)w.logo=S.cart[0].logo||w.logo;sf={s:0,w,picked:false,g:null}}
 function stReset(){delProject()}
@@ -1812,6 +1829,12 @@ function renderStart(){
     box.innerHTML=`<h2>${t.stProdH}</h2><div class="pgrid">${ps.map(p=>{const r=compute({p,q:moq(p,"TR"),c,o:"TR",pack:"poly",b:[false,false,false],m:cheapMat(p),h:"machine"});
       return `<button type="button" class="card tile tap" data-p="${p}" aria-pressed="${w.p===p&&!!sf.picked}"><span class="ti">${pIcon(p)}</span><b>${t.products[p]}</b><small>${fmt(t.pgFrom,{v:money(r.unit[0],c)})}</small><span class="moq">${fmt(t.moqL,{n:moq(p,"TR")})}</span></button>`}).join("")}</div>${back}`;
     box.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{press("[data-p]",b);stPick(b.dataset.p);next()});
+    return wire();
+  }
+  if(k==="cut"){
+    const cs=CUTS[w.p]||[];if(!cs.includes(w.cut))w.cut=cs[0];
+    box.innerHTML=`<h2>${t.stCutH}</h2><p class="qz-sub">${t.products[w.p]}</p><div class="pgrid">${cs.map(c=>stTile(`data-cut="${c}"`,w.cut===c,cutIcon(c),t.cuts[c],"",false,false)).join("")}</div>${back}`;
+    box.querySelectorAll("[data-cut]").forEach(b=>b.onclick=()=>{press("[data-cut]",b);w.cut=b.dataset.cut;next()});
     return wire();
   }
   if(k==="mat"){
@@ -1852,7 +1875,7 @@ function renderStart(){
   <div class="inv" style="display:flex;flex-direction:column;gap:12px" aria-live="polite"><div class="total"><span>${fmt(t.stTotal,{q:"<bdi dir=ltr>"+w.q.toLocaleString("en-US")+"</bdi>"})}</span><b class="num">${rng(r.tot,c)}</b></div><div class="stack" aria-hidden="true">${r.parts.map((x,i)=>m[i]>0?`<i style="width:${(m[i]/sum*100).toFixed(1)}%;background:${x[2]}"></i>`:"").join("")}</div></div>
   <div class="card"><ul class="st-facts">
     <li><span>${t.stUnit}</span><b class="num">${rng(r.unit,c)}</b></li>
-    <li><span>${t.sumProd}</span><b>${t.products[w.p]}</b></li>
+    <li><span>${t.sumProd}</span><b>${t.products[w.p]}</b></li>${w.cut?`<li><span>${t.fCut}</span><b>${t.cuts[w.cut]}</b></li>`:""}
     <li><span>${t.fMat}</span><b>${t.mats[w.m]} · ${w.h==="hand"?t.crHand:t.crMachine}</b></li>
     <li><span>${t.sumFact}</span><b>${w.o==="TR"?t.tr:t.it}</b></li>
     <li><span>${t.stMoq}</span><b>${fmt(t.stMoqV,{n:moq(w.p,w.o)})}</b></li>
@@ -1874,7 +1897,7 @@ function renderStart(){
   if($("stLogo"))$("stLogo").onclick=()=>{stCommit();bkMode="make"};
 }
 function stCommit(){
-  const w=sf.w;loadEst(w);const x=readEst();
+  const w=sf.w;loadEst(w);const x=readEst();if(w.cut)x.cut=w.cut;
   if(!(S.saved.length&&JSON.stringify(S.saved[0])===JSON.stringify(x))){S.saved.unshift(x);S.saved=S.saved.slice(0,10)}
   S.profile.product=w.p;if(w.logo==="own")bkMode="own";persist();
   renderSaved();renderProfile();renderDash();
@@ -2166,7 +2189,7 @@ $("req").addEventListener("submit",e=>{
     const en=T.en,brand=$("f-brand").value.trim();
     S.study=true;S.profile.email=$("f-email").value.trim();persist();
     const wa=$("f-contact").value.trim();
-    lastReq=`STARTUP – ${plan==="study"?"Project study (99 QAR)":"Full launch quote"}\nName: ${$("f-name").value.trim()}\nEmail: ${$("f-email").value.trim()}${wa?"\nWhatsApp: "+wa:""}${brand?"\nBrand: "+brand:""}\nIdea: ${$("f-idea").value.trim()}${proj&&proj.length>1?"\n\nPROJECT – "+proj.length+" products:\n"+proj.map((x,i)=>`${i+1}. ${en.products[x.p]} × ${x.q} pcs · ${x.o==="TR"?"Turkey":"Italy"} · ${en.mats[x.m]||"-"} · ${x.h==="hand"?"Handmade":"Machine"} · ${plain(rng(x.tot,x.c))}`).join("\n")+"\nTOTAL: "+plain(rng(projTot(),proj[0].c)):""}\n\nEstimate: ${en.products[est.p]} × ${est.q} pcs · ${est.o==="TR"?"Turkey":"Italy"} · ${en.countries[est.c]}\nMaterial: ${en.mats[est.m]||"-"} · ${est.h==="hand"?"Handmade":"Machine"}\nLogo: ${S.logo?"Has own logo":S.brandReq?"Requested brand identity (250 QAR)":"Not yet"}\nBudget: ${plain(rng(est.tot,est.c))}\nPer piece: ${plain(rng(est.unit,est.c))}\nMilestones done: ${done.size}/11\nLanguage: ${L==="ar"?"Arabic":"English"}`;
+    lastReq=`STARTUP – ${plan==="study"?"Project study (99 QAR)":"Full launch quote"}\nName: ${$("f-name").value.trim()}\nEmail: ${$("f-email").value.trim()}${wa?"\nWhatsApp: "+wa:""}${brand?"\nBrand: "+brand:""}\nIdea: ${$("f-idea").value.trim()}${proj&&proj.length>1?"\n\nPROJECT – "+proj.length+" products:\n"+proj.map((x,i)=>`${i+1}. ${en.products[x.p]}${x.cut?" ("+en.cuts[x.cut]+")":""} × ${x.q} pcs · ${x.o==="TR"?"Turkey":"Italy"} · ${en.mats[x.m]||"-"} · ${x.h==="hand"?"Handmade":"Machine"} · ${plain(rng(x.tot,x.c))}`).join("\n")+"\nTOTAL: "+plain(rng(projTot(),proj[0].c)):""}\n\nEstimate: ${en.products[est.p]}${est.cut?" ("+en.cuts[est.cut]+")":""} × ${est.q} pcs · ${est.o==="TR"?"Turkey":"Italy"} · ${en.countries[est.c]}\nMaterial: ${en.mats[est.m]||"-"} · ${est.h==="hand"?"Handmade":"Machine"}\nLogo: ${S.logo?"Has own logo":S.brandReq?"Requested brand identity (250 QAR)":"Not yet"}\nBudget: ${plain(rng(est.tot,est.c))}\nPer piece: ${plain(rng(est.unit,est.c))}\nMilestones done: ${done.size}/11\nLanguage: ${L==="ar"?"Arabic":"English"}`;
     location.hash="#sent";
   },650);
 });
