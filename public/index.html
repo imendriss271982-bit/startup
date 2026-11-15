@@ -1521,8 +1521,9 @@ const IC={
 
 /* ===== State (saved on device) ===== */
 const KEY="startup-v2";
-let S={lang:"en",theme:"auto",onboarded:false,profile:{name:"",country:"QA",product:"abaya"},done:[],saved:[],brand:null,season:"any",study:false,project:null};
+let S={lang:"en",theme:"auto",onboarded:false,profile:{name:"",country:"QA",product:"abaya"},done:[],saved:[],brand:null,season:"any",study:false,project:null,cart:[]};
 try{const raw=JSON.parse(localStorage.getItem(KEY)||"null");if(raw)S=Object.assign(S,raw)}catch(_){}
+if(!Array.isArray(S.cart))S.cart=[];let proj=null;
 try{ // migrate v1
   if(!localStorage.getItem(KEY)){const d=JSON.parse(localStorage.getItem("startup-done")||"null");if(Array.isArray(d)){S.done=d;S.onboarded=true}
   if(localStorage.getItem("startup-lang")==="ar")S.lang="ar"}
@@ -1583,12 +1584,14 @@ function checkout(kind){
   $("shGo").onclick=()=>{closeOverlay();location.hash="#request"};
   trap($("overlay").querySelector(".sheet"));
 }
+function projTot(){const g=[0,0];(proj||[]).forEach(x=>{g[0]+=x.tot[0];g[1]+=x.tot[1]});return g}
 function sumRows(withPrice){
   const t=T[L];const en=est;
   let h=`<div><span>${t.sumPlan}</span><b>${plan==="study"?t.p2:t.p3}</b></div>
-  <div><span>${t.sumProd}</span><b>${t.products[en.p]} × <bdi dir="ltr">${en.q}</bdi></b></div>
+  ${proj&&proj.length>1?proj.map(x=>`<div><span>${t.products[x.p]} × <bdi dir="ltr">${x.q}</bdi> · ${x.o==="TR"?t.tr:t.it}</span><b class="num">${rng(x.tot,x.c)}</b></div>`).join("")+`<div><span>${t.stCartTot}</span><b class="num">${rng(projTot(),proj[0].c)}</b></div>`
+  :`<div><span>${t.sumProd}</span><b>${t.products[en.p]} × <bdi dir="ltr">${en.q}</bdi></b></div>
   <div><span>${t.sumFact}</span><b>${en.o==="TR"?t.tr:t.it}</b></div>
-  <div><span>${t.sumBud}</span><b class="num">${rng(en.tot,en.c)}</b></div>`;
+  <div><span>${t.sumBud}</span><b class="num">${rng(en.tot,en.c)}</b></div>`}`;
   if(withPrice&&plan==="study")h+=`<div class="tt"><span>${t.sumTot}</span><b class="num">${ISO(STUDY_PRICE+" QAR")}</b></div>`;
   return h;
 }
@@ -1737,7 +1740,7 @@ moqL:"min. {n} pcs",st2H:"Your product details",change:"Change",
 stQty:"How many pieces?",moqHint:"Factories usually start at about {n} pieces for this product.",moqLow:"Below {n} pieces, prices go up. Your study finds the right workshop.",
 stFactory:"Which factory?",stLogo:"Your logo",stSee:"See my budget",
 st3H:"Your estimated budget",stTotal:"Total for {q} pieces",stUnit:"Per piece, delivered",stMoq:"Minimum order",stMoqV:"about {n} pcs",
-stStudyBtn:"Get my full study · 99 QAR",stSave:"Save and see my dashboard",stLogoRow:"Your logo design · 250 QAR",stLogoGo:"Request it on WhatsApp",
+stStudyBtn:"Get my full study · 99 QAR",stQuoteN:"Get my quotation · {n} products · 99 QAR",stAdd:"+ Add another product",stAdded:"Added to your project",stCartH:"Your project · {n} products",stCartTot:"Total for all products",stThis:"New",stInProj:"In your project:",stReset:"Start a new project",stResetT:"Start from zero?",stResetB:"All products in this project will be removed.",stResetOk:"Start over",stRm:"Remove",stProds:"Products",stSave:"Save and see my dashboard",stLogoRow:"Your logo design · 250 QAR",stLogoGo:"Request it on WhatsApp",
 warnMoq2:"Factories usually need about {n} pieces of this product. Below that, expect higher prices or a small workshop.",
 eCta:"Get my full study",langTo:"العربية",stagesH:"Your 4 stages",stagesAll:"Full roadmap"});
 Object.assign(T.ar,{
@@ -1750,7 +1753,7 @@ moqL:"أقل كمية {n} قطعة",st2H:"تفاصيل منتجك",change:"تغ�
 stQty:"كم قطعة؟",moqHint:"المصانع عادة تبدأ من حوالي {n} قطعة لهالمنتج.",moqLow:"أقل من {n} قطعة السعر يرتفع. دراستك تلقى لك الورشة المناسبة.",
 stFactory:"أي مصنع؟",stLogo:"شعارك",stSee:"شوفي ميزانيتي",
 st3H:"ميزانيتك التقديرية",stTotal:"الإجمالي لـ {q} قطعة",stUnit:"تكلفة القطعة واصلة",stMoq:"أقل كمية",stMoqV:"حوالي {n} قطعة",
-stStudyBtn:"احصلي على دراستي الكاملة · 99 ريال",stSave:"احفظي وشوفي مشروعي",stLogoRow:"تصميم شعارك · 250 ريال",stLogoGo:"اطلبيه على الواتساب",
+stStudyBtn:"احصلي على دراستي الكاملة · 99 ريال",stQuoteN:"احصلي على عرض السعر · {n} منتجات · 99 ريال",stAdd:"+ أضيفي منتج آخر",stAdded:"انضاف لمشروعك",stCartH:"مشروعك · {n} منتجات",stCartTot:"المجموع لكل المنتجات",stThis:"جديد",stInProj:"في مشروعك:",stReset:"ابدئي مشروع جديد",stResetT:"تبين تبدين من الصفر؟",stResetB:"راح تنحذف كل المنتجات اللي في هالمشروع.",stResetOk:"ابدئي من جديد",stRm:"حذف",stProds:"المنتجات",stSave:"احفظي وشوفي مشروعي",stLogoRow:"تصميم شعارك · 250 ريال",stLogoGo:"اطلبيه على الواتساب",
 warnMoq2:"المصانع عادة تطلب حوالي {n} قطعة من هالمنتج. أقل من كذا يعني أسعار أعلى أو ورشة صغيرة.",
 eCta:"احصلي على دراستي",langTo:"English",stagesH:"مراحلك الأربع",stagesAll:"الخطة كاملة"});
 
@@ -1771,8 +1774,11 @@ function stChips(key,obj,val){return `<div class="chips">${Object.keys(obj).map(
 function stQtyHint(){const t=T[L],w=sf.w,n=moq(w.p,w.o),h=$("stQh");if(!h)return;const low=w.q<n;h.className="hint"+(low?" bad":"");h.textContent=fmt(low?t.moqLow:t.moqHint,{n})}
 /* Hick's law: one decision per screen, few options, best choice marked, one tap moves on */
 const ST_STEPS=["cat","prod","mat","craft","fac","qty","logo","res"];
-function stSteps(){const w=sf.w,g=GROUPS.find(x=>x[0]===sf.g)||GROUPS.find(x=>x[1].includes(w.p));return ST_STEPS.filter(k=>k!=="prod"||!g||g[1].length>1)}
+function stSteps(){const w=sf.w,g=GROUPS.find(x=>x[0]===sf.g)||GROUPS.find(x=>x[1].includes(w.p));return ST_STEPS.filter(k=>(k!=="prod"||!g||g[1].length>1)&&(k!=="logo"||!S.cart.length))}
 function stTile(attr,on,icon,title,sub,rec,dk){const t=T[L];return `<button type="button" class="card tile tap${dk?" dk":""}" ${attr} aria-pressed="${on}"><span class="ti" aria-hidden="true">${icon}</span><b>${title}</b>${sub?`<small>${sub}</small>`:""}${rec?`<span class="pill">${t.rec}</span>`:""}</button>`}
+function stFresh(){const w=stDefault();if(S.cart.length)w.logo=S.cart[0].logo||w.logo;sf={s:0,w,picked:false,g:null}}
+function stReset(){const t=T[L];confirmDlg(t.stResetT,t.stResetB,t.stResetOk,()=>{S.cart=[];proj=null;persist();stFresh();renderStart();window.scrollTo(0,0)})}
+function stCartBar(){const t=T[L];if(!S.cart.length)return"";return `<div class="card" style="display:flex;flex-wrap:wrap;align-items:center;gap:8px;padding:10px 14px;font-size:.9rem"><span class="muted">${t.stInProj}</span><b>${S.cart.map(x=>esc(t.products[x.p])).join(" · ")}</b><button type="button" class="link" id="stRs" style="background:none;border:0;cursor:pointer;margin-inline-start:auto">${t.stReset}</button></div>`}
 function renderStart(){
   const t=T[L],w=sf.w||(sf.w=stDefault()),c=w.c,box=$("stBody"),steps=stSteps();
   if(sf.s>=steps.length)sf.s=steps.length-1;
@@ -1784,9 +1790,10 @@ function renderStart(){
   const press=(sel,b)=>box.querySelectorAll(sel).forEach(x=>x.setAttribute("aria-pressed",x===b));
   const wire=()=>{const bb=$("stB");if(bb)bb.onclick=()=>stGo(Math.max(0,sf.s-1))};
   if(k==="cat"){
-    box.innerHTML=`<h2>${t.st1H}</h2><div class="pgrid">${GROUPS.map(([g,ps])=>stTile(`data-g="${g}"`,sf.g===g,pIcon(ps[0]),t.grp[g],ps.length>1?fmt(t.stItems,{n:ps.length}):"",false)).join("")}</div>`;
+    box.innerHTML=`${stCartBar()}<h2>${t.st1H}</h2><div class="pgrid">${GROUPS.map(([g,ps])=>stTile(`data-g="${g}"`,sf.g===g,pIcon(ps[0]),t.grp[g],ps.length>1?fmt(t.stItems,{n:ps.length}):"",false)).join("")}</div>`;
     box.querySelectorAll("[data-g]").forEach(b=>b.onclick=()=>{press("[data-g]",b);sf.g=b.dataset.g;const ps=GROUPS.find(x=>x[0]===sf.g)[1];
       if(ps.length===1)stPick(ps[0]);else if(!ps.includes(w.p))stPick(ps[0],true);next()});
+    if($("stRs"))$("stRs").onclick=stReset;
     return;
   }
   if(k==="prod"){
@@ -1828,6 +1835,8 @@ function renderStart(){
     return wire();
   }
   const r=compute(w),m=r.parts.map(x=>mid(x[1])),sum=m.reduce((a,b)=>a+b,0);
+  const all=S.cart.concat([w]),n2=all.length,rs=all.map(x=>compute(x)),gt=[0,0];rs.forEach(x=>{gt[0]+=x.tot[0];gt[1]+=x.tot[1]});
+  const projCard=n2>1?`<div class="card"><h3 style="font-size:1rem;margin:0 0 10px">${fmt(t.stCartH,{n:n2})}</h3><ul class="st-facts">${rs.map((x,i)=>`<li style="align-items:center"><span>${esc(t.products[x.p])} × <bdi dir="ltr">${x.q.toLocaleString("en-US")}</bdi>${i===n2-1?` <span class="pill">${t.stThis}</span>`:""}</span><span style="display:flex;align-items:center;gap:6px"><b class="num" style="white-space:nowrap;font-size:.85rem">${rng(x.tot,c)}</b>${i<n2-1?`<button type="button" class="icon-btn" data-rm="${i}" aria-label="${t.stRm}: ${esc(t.products[x.p])}">${IC.trash}</button>`:""}</span></li>`).join("")}</ul><div style="display:flex;justify-content:space-between;align-items:center;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line,rgba(0,0,0,.12))"><span style="font-weight:600">${t.stCartTot}</span><b class="num" style="font-size:1.15rem;white-space:nowrap">${rng(gt,c)}</b></div></div>`:"";
   box.innerHTML=`<h2>${t.st3H}</h2>
   <div class="inv" style="display:flex;flex-direction:column;gap:12px" aria-live="polite"><div class="total"><span>${fmt(t.stTotal,{q:"<bdi dir=ltr>"+w.q.toLocaleString("en-US")+"</bdi>"})}</span><b class="num">${rng(r.tot,c)}</b></div><div class="stack" aria-hidden="true">${r.parts.map((x,i)=>m[i]>0?`<i style="width:${(m[i]/sum*100).toFixed(1)}%;background:${x[2]}"></i>`:"").join("")}</div></div>
   <div class="card"><ul class="st-facts">
@@ -1837,13 +1846,19 @@ function renderStart(){
     <li><span>${t.sumFact}</span><b>${w.o==="TR"?t.tr:t.it}</b></li>
     <li><span>${t.stMoq}</span><b>${fmt(t.stMoqV,{n:moq(w.p,w.o)})}</b></li>
   </ul></div>
-  <button type="button" class="btn y block hero-go" id="stStudy">${t.stStudyBtn}</button>
+  ${projCard}
+  <button type="button" class="btn y block hero-go" id="stStudy">${n2>1?fmt(t.stQuoteN,{n:n2}):t.stStudyBtn}</button>
+  <button type="button" class="btn g block" id="stAdd">${t.stAdd}</button>
   ${w.logo==="make"?`<a class="who tap" href="#brand" id="stLogo"><span class="ic">✦</span><span class="tx"><b>${t.stLogoRow}</b><span>${t.stLogoGo}</span></span><svg class="i flip muted" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M9 5l7 7-7 7"/></svg></a>`:""}
   <button type="button" class="link" id="stSave" style="background:none;border:0;cursor:pointer;align-self:center;font-weight:600">${t.stSave}</button>
   <p class="note" style="text-align:center">${t.fxNote}</p>
-  <button type="button" class="link" id="stB" style="background:none;border:0;cursor:pointer;align-self:center">${t.qzBack}</button>`;
+  <button type="button" class="link" id="stB" style="background:none;border:0;cursor:pointer;align-self:center">${t.qzBack}</button>
+  ${S.cart.length?`<button type="button" class="link" id="stRs" style="background:none;border:0;cursor:pointer;align-self:center;color:var(--muted)">${t.stReset}</button>`:""}`;
   $("stB").onclick=()=>stGo(sf.s-1);
-  $("stStudy").onclick=()=>{haptic();stCommit();checkout("study")};
+  $("stStudy").onclick=()=>{haptic();stCommit();proj=rs;checkout("study")};
+  $("stAdd").onclick=()=>{haptic();S.cart.push(JSON.parse(JSON.stringify(w)));persist();stFresh();renderStart();window.scrollTo(0,0);toast(t.stAdded)};
+  box.querySelectorAll("[data-rm]").forEach(b=>b.onclick=()=>{haptic();S.cart.splice(+b.dataset.rm,1);persist();renderStart()});
+  if($("stRs"))$("stRs").onclick=stReset;
   $("stSave").onclick=()=>{haptic();stCommit();toast(t.saved);location.hash="#home"};
   if($("stLogo"))$("stLogo").onclick=()=>{stCommit();bkMode="make"};
 }
@@ -2140,7 +2155,7 @@ $("req").addEventListener("submit",e=>{
     const en=T.en,brand=$("f-brand").value.trim();
     S.study=true;S.profile.email=$("f-email").value.trim();persist();
     const wa=$("f-contact").value.trim();
-    lastReq=`STARTUP – ${plan==="study"?"Project study (99 QAR)":"Full launch quote"}\nName: ${$("f-name").value.trim()}\nEmail: ${$("f-email").value.trim()}${wa?"\nWhatsApp: "+wa:""}${brand?"\nBrand: "+brand:""}\nIdea: ${$("f-idea").value.trim()}\n\nEstimate: ${en.products[est.p]} × ${est.q} pcs · ${est.o==="TR"?"Turkey":"Italy"} · ${en.countries[est.c]}\nMaterial: ${en.mats[est.m]||"-"} · ${est.h==="hand"?"Handmade":"Machine"}\nLogo: ${S.logo?"Has own logo":S.brandReq?"Requested brand identity (250 QAR)":"Not yet"}\nBudget: ${plain(rng(est.tot,est.c))}\nPer piece: ${plain(rng(est.unit,est.c))}\nMilestones done: ${done.size}/11\nLanguage: ${L==="ar"?"Arabic":"English"}`;
+    lastReq=`STARTUP – ${plan==="study"?"Project study (99 QAR)":"Full launch quote"}\nName: ${$("f-name").value.trim()}\nEmail: ${$("f-email").value.trim()}${wa?"\nWhatsApp: "+wa:""}${brand?"\nBrand: "+brand:""}\nIdea: ${$("f-idea").value.trim()}${proj&&proj.length>1?"\n\nPROJECT – "+proj.length+" products:\n"+proj.map((x,i)=>`${i+1}. ${en.products[x.p]} × ${x.q} pcs · ${x.o==="TR"?"Turkey":"Italy"} · ${en.mats[x.m]||"-"} · ${x.h==="hand"?"Handmade":"Machine"} · ${plain(rng(x.tot,x.c))}`).join("\n")+"\nTOTAL: "+plain(rng(projTot(),proj[0].c)):""}\n\nEstimate: ${en.products[est.p]} × ${est.q} pcs · ${est.o==="TR"?"Turkey":"Italy"} · ${en.countries[est.c]}\nMaterial: ${en.mats[est.m]||"-"} · ${est.h==="hand"?"Handmade":"Machine"}\nLogo: ${S.logo?"Has own logo":S.brandReq?"Requested brand identity (250 QAR)":"Not yet"}\nBudget: ${plain(rng(est.tot,est.c))}\nPer piece: ${plain(rng(est.unit,est.c))}\nMilestones done: ${done.size}/11\nLanguage: ${L==="ar"?"Arabic":"English"}`;
     location.hash="#sent";
   },650);
 });
@@ -2173,7 +2188,7 @@ function route(){
   if(v==="study")renderIncl();
   if(v==="brand")renderBrandMode();
   if(v==="home")renderHome();
-  if(v==="start"){sf={s:0,w:stDefault(),picked:false,g:null};renderStart()}
+  if(v==="start"){stFresh();renderStart()}
   if(v==="request")renderReq();
   if(v==="sent")renderSent();
   window.scrollTo(0,0);
@@ -2217,7 +2232,7 @@ $("bk-name").addEventListener("input",e=>{bk.name=e.target.value.slice(0,18);dra
 $("bkSug").onclick=suggestNames;
 $("bkSave").onclick=()=>{const t=T[L];bk.name=($("bk-name").value||"").trim();if(!bk.name){suggestNames();$("bk-name").focus();return}S.brand=Object.assign({},bk);persist();haptic();renderPath();toast(t.bkSaved);if(!$("f-brand").value)$("f-brand").value=bk.name};
 $("saveEst").onclick=()=>{const t=T[L];const x=readEst();if(S.saved.length&&JSON.stringify(S.saved[0])===JSON.stringify(x)){toast(t.saved);return}const first=!S.saved.length;S.saved.unshift(x);S.saved=S.saved.slice(0,10);persist();renderSaved();renderProfile();renderDash();haptic();toast(t.saved,{label:t.seeDash,fn:()=>{location.hash="#home"}});if(first)setTimeout(()=>{location.hash="#home"},900)};
-document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=()=>checkout(b.dataset.plan));
+document.querySelectorAll("[data-plan]").forEach(b=>b.onclick=()=>{proj=null;checkout(b.dataset.plan)});
 $("pfForm").onsubmit=e=>{e.preventDefault();S.profile.name=$("pf-name").value.trim().slice(0,30);S.profile.country=$("pf-country").value;S.profile.product=$("pf-product").value;persist();applyProfileDefaults();calc();renderProfile();toast(T[L].profileSaved)};
 document.querySelectorAll('input[name="lang"]').forEach(r=>r.addEventListener("change",()=>setLang(r.value)));
 document.querySelectorAll('input[name="theme"]').forEach(r=>r.addEventListener("change",()=>{S.theme=r.value;persist();applyTheme()}));
